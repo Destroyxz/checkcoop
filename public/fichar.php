@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../src/db.php';
 session_start();
 include('includes/header.php');
-
+//Vemos si esta iniciada
 if (!isset($_SESSION['usuario'])) {
     header("Location: index.php");
     exit;
