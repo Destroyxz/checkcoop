@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
 
+export class DashboardComponent {
+  pene: string ='pene';
 }

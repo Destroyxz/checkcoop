@@ -1,0 +1,41 @@
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .app-header {
+    background: #007bff;
+    padding: 0.5rem 1rem;
+    color: #fff;
+  
+    .nav-list {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+  
+      li {
+        margin-right: 1rem;
+  
+        a {
+          color: #fff;
+          text-decoration: none;
+          &.active {
+            font-weight: bold;
+            text-decoration: underline;
+          }
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+  
+  .app-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  
