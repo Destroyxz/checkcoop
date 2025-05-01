@@ -1,38 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+// login.component.ts
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { take } from 'rxjs/operators';
+
+import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-    loginForm!: FormGroup;
-    errorMessage: string = '';
+export class LoginComponent {
+  username = '';
+  password = '';
+  loading = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
-
-  onSubmit(): void {
-    if (this.loginForm.invalid) {
+  onSubmit(form: NgForm) {
+    if (form.invalid) {
       return;
     }
-    const { username, password } = this.loginForm.value;
-    this.authService.login(username, password).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: err => this.errorMessage = err.error?.message || 'Error en el login'
+
+    this.loading = true;
+
+    this.auth.login(this.username, this.password).subscribe({
+      next: () => {
+        this.loading = false;
+
+        // Obtenemos el user decodificado suscribiéndonos una sola vez
+        this.auth.currentUser$.pipe(take(1)).subscribe((user: User | null) => {
+          const name = user?.sub ?? this.username;
+
+          Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido!',
+            text: `Hola ${name}, has iniciado sesión correctamente.`,
+            timer: 2000,
+            showConfirmButton: false
+          });
+
+          // aquí podrías redirigir, ej:
+          // this.router.navigate(['/dashboard']);
+        });
+      },
+      error: err => {
+        this.loading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de autenticación',
+          text:
+            err.status === 401
+              ? 'Usuario o contraseña incorrectos.'
+              : 'Ha ocurrido un error, inténtalo de nuevo.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     });
   }
 }
