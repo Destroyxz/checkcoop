@@ -1,7 +1,7 @@
 // src/app/app.module.ts
 import { NgModule }                from '@angular/core';
 import { BrowserModule }           from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule }        from './app-routing.module';
 
