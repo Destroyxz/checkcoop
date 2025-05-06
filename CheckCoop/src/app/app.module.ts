@@ -7,6 +7,8 @@ import { AppRoutingModule }        from './app-routing.module';
 
 import { AppComponent }            from './app.component';
 import { LoginComponent } from './components/Login/login.component';
+import { RegistroComponent } from './components/Registro/registro.component';
+
 import { HeaderComponent }         from './shared/header/header.component';
 import { FooterComponent }         from './shared/footer/footer.component';
 import { DashboardComponent } from './components/Dashboard/dashboard.component';
@@ -17,6 +19,7 @@ import { AuthInterceptor }         from './interceptor/auth.interceptor';
   declarations: [
     AppComponent,
     LoginComponent,
+    RegistroComponent,
     DashboardComponent,
 
   ],
