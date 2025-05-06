@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { AuthService, User } from '../../services/auth.service';
 
@@ -9,7 +9,6 @@ import { AuthService, User } from '../../services/auth.service';
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
-
 export class RegistroComponent {
   formData = {
     username: '',
@@ -20,14 +19,14 @@ export class RegistroComponent {
 
   loading = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private auth: AuthService) {} // ← también corriges aquí
 
   onSubmit(form: NgForm) {
     if (form.invalid) return;
 
     this.loading = true;
 
-    this.http.post('http://localhost:3000/auth/register', this.formData).subscribe({
+    this.auth.register(this.formData).subscribe({
       next: () => {
         this.loading = false;
         Swal.fire({
@@ -38,13 +37,17 @@ export class RegistroComponent {
           showConfirmButton: false
         });
         form.resetForm();
+        // this.router.navigate(['/login']);
       },
-      error: () => {
+      error: (err: HttpErrorResponse) => {
         this.loading = false;
         Swal.fire({
           icon: 'error',
-          title: 'Error',
-          text: 'No se pudo completar el registro',
+          title: 'Error en el registro',
+          text:
+            err.status === 409
+              ? 'Este correo o usuario ya está registrado.'
+              : 'No se pudo completar el registro. Inténtalo más tarde.',
           confirmButtonText: 'Aceptar'
         });
       }

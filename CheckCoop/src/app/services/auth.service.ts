@@ -43,16 +43,19 @@ export class AuthService {
 
   /** Envía credenciales y almacena token si es válido */
   login(username: string, password: string): Observable<void> {
-    return this.http.post<{ token: string }>('/auth/login', { username, password })
+    return this.http.post<{ token: string }>('http://localhost:3000', { username, password })
       .pipe(
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);
-          this._currentUser$.next(this.getUserFromToken());
+          this._currentUser$.next(this.getUserFromToken()); 
         }),
         map(() => void 0)
       );
   }
-
+  register(userData: { username: string; surname: string; email: string; password: string }): Observable<any> {
+    return this.http.post('http://localhost:3000/auth/register', userData);
+  }
+  
   /** Elimina token y reinicia estado */
   logout(): void {
     localStorage.removeItem(this.tokenKey);
