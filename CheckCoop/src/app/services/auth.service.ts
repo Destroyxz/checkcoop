@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { environment } from '../../environment/environment';
 
 export interface User {
   sub: string;       // username or user id
@@ -43,7 +44,7 @@ export class AuthService {
 
   /** Envía credenciales y almacena token si es válido */
   login(username: string, password: string): Observable<void> {
-    return this.http.post<{ token: string }>('/auth/login', { username, password })
+    return this.http.post<{ token: string }>(`${environment.apiUrl}/auth/login`, { username, password })
       .pipe(
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);

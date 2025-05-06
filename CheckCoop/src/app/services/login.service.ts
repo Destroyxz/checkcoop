@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environment/environment';
 
 export interface UserPayload {
   id: number;
@@ -20,7 +21,7 @@ export interface AuthResult {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:3000'; // Ajusta según tu entorno
+  private baseUrl = environment.apiUrl; // Ajusta según tu entorno
 
   constructor(private http: HttpClient) {}
 

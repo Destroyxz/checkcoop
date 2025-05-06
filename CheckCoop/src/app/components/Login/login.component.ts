@@ -24,19 +24,18 @@ export class LoginComponent {
     }
 
     this.loading = true;
-
+    console.log(this.username, ' ',this.password)
     this.auth.login(this.username, this.password).subscribe({
       next: () => {
         this.loading = false;
 
         // Obtenemos el user decodificado suscribiéndonos una sola vez
         this.auth.currentUser$.pipe(take(1)).subscribe((user: User | null) => {
-          const name = user?.sub ?? this.username;
 
           Swal.fire({
             icon: 'success',
             title: '¡Bienvenido!',
-            text: `Hola ${name}, has iniciado sesión correctamente.`,
+            text: `Hola Peter, has iniciado sesión correctamente.`,
             timer: 2000,
             showConfirmButton: false
           });
