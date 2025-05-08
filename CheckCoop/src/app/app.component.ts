@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -7,10 +8,17 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private authService: AuthService) {}
-  
+  constructor(
+    private authService: AuthService,
+    public router: Router
+  ) {}
+
   onLogout(): void {
     this.authService.logout();
   }
-}
 
+  // ✅ Devuelve true si NO estás en login o register
+  shouldShowLayout(): boolean {
+    return !['/login', '/register'].includes(this.router.url);
+  }
+}
