@@ -3,23 +3,25 @@
     <h2>Iniciar sesión</h2>
 
     <div class="form-group">
-      <label for="username">Usuario</label>
+      <label for="email">Usuario</label>
       <input
-        id="username"
-        name="username"
+        id="email"
+        name="email"
         type="text"
         class="form-control"
-        [(ngModel)]="username"
-        #userCtrl="ngModel"
+        [(ngModel)]="email"
+        #emailCtrl="ngModel"
+
         required
         minlength="3"
       />
-      <div *ngIf="userCtrl.invalid && userCtrl.touched" class="error">
-        <small *ngIf="userCtrl.errors?.['required']">El usuario es obligatorio.</small>
-        <small *ngIf="userCtrl.errors?.['minlength']">
+      <div *ngIf="emailCtrl.invalid && emailCtrl.touched" class="error">
+        <small *ngIf="emailCtrl.errors?.['required']">El usuario es obligatorio.</small>
+        <small *ngIf="emailCtrl.errors?.['minlength']">
           Debe tener al menos 3 caracteres.
         </small>
       </div>
+      
     </div>
 
     <div class="form-group">

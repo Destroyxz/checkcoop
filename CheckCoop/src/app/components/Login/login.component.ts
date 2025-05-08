@@ -12,7 +12,7 @@ import { AuthService, User } from '../../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  username = '';
+  email = '';
   password = '';
   loading = false;
 
@@ -24,8 +24,8 @@ export class LoginComponent {
     }
 
     this.loading = true;
-    console.log(this.username, ' ',this.password)
-    this.auth.login(this.username, this.password).subscribe({
+    console.log(this.email, ' ',this.password)
+    this.auth.login(this.email, this.password).subscribe({
       next: () => {
         this.loading = false;
 
