@@ -1,8 +1,8 @@
-// login.component.ts
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { AuthService, User } from '../../services/auth.service';
 
@@ -16,7 +16,10 @@ export class LoginComponent {
   password = '';
   loading = false;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   onSubmit(form: NgForm) {
     if (form.invalid) {
@@ -24,24 +27,23 @@ export class LoginComponent {
     }
 
     this.loading = true;
-    console.log(this.email, ' ',this.password)
+
     this.auth.login(this.email, this.password).subscribe({
       next: () => {
         this.loading = false;
 
-        // Obtenemos el user decodificado suscribiéndonos una sola vez
         this.auth.currentUser$.pipe(take(1)).subscribe((user: User | null) => {
+          const name = user?.["name"] || this.email;
 
           Swal.fire({
             icon: 'success',
             title: '¡Bienvenido!',
-            text: `Hola Peter, has iniciado sesión correctamente.`,
+            text: `Hola ${name}, has iniciado sesión correctamente.`,
             timer: 2000,
             showConfirmButton: false
           });
 
-          // aquí podrías redirigir, ej:
-          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard']); // ✅ Redirección activa
         });
       },
       error: err => {
