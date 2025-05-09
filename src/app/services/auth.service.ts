@@ -70,16 +70,50 @@ export class AuthService {
 
   /** Decodifica JWT y retorna el payload */
   private getUserFromToken(): User | null {
-    const token = this.getToken();
-    if (!token) return null;
+    let token = this.getToken();
+  
+    // Si no existe un token, generamos uno de prueba
+    if (!token) {
+      console.log('No se encontró el token en localStorage. Generando un token de prueba.');
+      token = this.generateFakeToken(); // Generamos un token de prueba
+      localStorage.setItem(this.tokenKey, token); // Guardamos el token en localStorage
+    }
+  
     try {
-      const payload = token.split('.')[1];
+      const tokenParts = token.split('.');
+      if (tokenParts.length !== 3) {
+        console.error('Token JWT inválido. No tiene la estructura esperada.');
+        return null;
+      }
+  
+      const payload = tokenParts[1];
       const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
       const obj = JSON.parse(decoded);
       return obj;
     } catch (e) {
-      console.error('Token inválido', e);
+      console.error('Error al decodificar el token:', e);
       return null;
     }
   }
+
+  /** Genera un token falso (solo para pruebas) */
+private generateFakeToken(): string {
+  const payload = {
+    sub: 'testUser',
+    iat: Math.floor(Date.now() / 1000),  // Timestamp actual
+    exp: Math.floor(Date.now() / 1000) + (60 * 60),  // 1 hora de expiración
+    name: 'Test User'
+  };
+  
+  // Generamos un JWT simple con el payload
+  const base64Url = this.base64UrlEncode(JSON.stringify(payload));
+  const signature = 'dummy_signature';  // Esta es una firma dummy solo para pruebas
+  return `header.${base64Url}.${signature}`;
+}
+
+/** Codifica el payload en base64Url */
+private base64UrlEncode(str: string): string {
+  const base64 = btoa(str); // Convierte a base64
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');  // Convierte a base64Url
+}
 }
