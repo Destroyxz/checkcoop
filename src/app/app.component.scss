@@ -39,3 +39,22 @@
     padding: 1rem;
   }
   
+
+  .sidebar.collapsed + .app-wrapper {
+  margin-left: 60px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Margen cuando el sidebar está expandido */
+.sidebar:not(.collapsed) + .app-wrapper {
+  margin-left: 240px;
+}
+
+.layout.collapsed .app-wrapper {
+  margin-left: 60px;
+  transition: margin-left 0.3s ease;
+}
+.layout.expanded .app-wrapper {
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}

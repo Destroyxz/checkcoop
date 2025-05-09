@@ -7,18 +7,23 @@ import { AppRoutingModule }        from './app-routing.module';
 import { AppComponent }            from './app.component';
 import { LoginComponent } from './components/Login/login.component';
 import { JornadaComponent } from './components/Jornada/jornada.component'; 
-import { HeaderComponent }         from './shared/header/header.component';
-import { FooterComponent }         from './shared/footer/footer.component';
+
 import { DashboardComponent } from './components/Dashboard/dashboard.component';
 import { AuthGuard }               from './guards/auth.guard';
 import { AuthInterceptor }         from './interceptor/auth.interceptor';
 
+
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { headerComponent } from './shared/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    JornadaComponent
+    JornadaComponent,
+
+    SidebarComponent,
+    headerComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,8 +31,6 @@ import { AuthInterceptor }         from './interceptor/auth.interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    HeaderComponent,
-    FooterComponent
   ],
   providers: [
     AuthGuard,

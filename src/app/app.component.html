@@ -1,5 +1,31 @@
 <ng-container *ngIf="shouldShowLayout()">
-  <div class="app-wrapper">
+  <!-- Contenedor principal con clases dinámicas -->
+   <app-header></app-header>
+  <div class="d-flex layout" 
+       [class.collapsed]="!expanded" 
+       [class.expanded]="expanded">
+    
+    <!-- Sidebar sincronizado con el estado `expanded` -->
+    <app-sidebar [(expanded)]="expanded"></app-sidebar>
+    
+    <!-- Contenido principal que se desplaza según el sidebar -->
+    <div class="app-wrapper flex-grow-1">
+      <main class="app-content">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+
+  </div>
+</ng-container>
+
+<!-- Sólo login / register, sin sidebar -->
+<ng-container *ngIf="!shouldShowLayout()">
+  <router-outlet></router-outlet>
+</ng-container>
+
+
+
+<!-- 
     <header class="app-header">
       <nav>
         <ul class="nav-list">
@@ -13,14 +39,4 @@
         </ul>
       </nav>
     </header>
-
-    <main class="app-content">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
-</ng-container>
-
-<!-- SOLO se muestra cuando estás en login o register -->
-<ng-container *ngIf="!shouldShowLayout()">
-  <router-outlet></router-outlet>
-</ng-container>
+-->

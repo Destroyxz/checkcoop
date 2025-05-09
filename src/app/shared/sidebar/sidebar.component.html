@@ -1,0 +1,39 @@
+<nav
+  class="sidebar bg-light position-fixed h-100"
+  [class.collapsed]="!expanded"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <!-- Logo / toggle -->
+  <div class="sidebar-logo text-center py-2">
+    <!-- Icono pequeño cuando está colapsado -->
+    <img
+      *ngIf="!expanded"
+      src="assets/logo-icon.png"
+      alt="Logo"
+      class="logo-small"
+    />
+    <!-- Logo grande cuando está expandido -->
+    <img
+      *ngIf="expanded"
+      src="assets/logo-full.png"
+      alt="Logo completo"
+      class="logo-large"
+    />
+  </div>
+
+  <!-- Menú -->
+  <ul class="nav flex-column mt-3 px-2">
+    <li class="nav-item mb-2" *ngFor="let item of menuItems">
+      <a
+        class="nav-link d-flex flex-column align-items-center justify-content-center"
+        [routerLink]="item.path"
+        routerLinkActive="active"
+      >
+        <i [class]="item.icon"></i>
+        <span class="link-text mt-1" *ngIf="expanded">{{ item.label }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
