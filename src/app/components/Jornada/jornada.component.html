@@ -1,0 +1,44 @@
+<div class="container my-5">
+    <div class="card text-center shadow">
+      <div class="card-body">
+        <!-- Icono del reloj -->
+        <div class="mb-3 text-primary">
+          <i class="bi bi-clock-history fs-1"></i>
+        </div>
+  
+        <!-- Hora y fecha actual -->
+        <h2 class="fw-bold">{{ horaActual }}</h2>
+        <p class="text-muted">{{ fechaActual }}</p>
+  
+        <!-- Estado inicial -->
+        <p *ngIf="!jornadaIniciada && !horaSalida" class="text-muted">
+          No has iniciado tu jornada laboral
+        </p>
+  
+        <!-- Botón iniciar -->
+        <button *ngIf="!jornadaIniciada && !horaEntrada"
+                (click)="iniciarJornada()"
+                class="btn btn-primary btn-lg w-100 mt-3">
+          <i class="bi bi-play-circle"></i> Iniciar Jornada
+        </button>
+  
+        <!-- Mostrar hora de entrada y botón terminar -->
+        <div *ngIf="jornadaIniciada && horaEntrada" class="mt-4">
+          <p class="fw-semibold text-success mb-2">
+            Entrada: {{ horaEntrada | date:'shortTime' }}
+          </p>
+          <button (click)="terminarJornada()"
+                  class="btn btn-danger btn-lg w-100">
+            <i class="bi bi-stop-circle"></i> Terminar Jornada
+          </button>
+        </div>
+  
+        <!-- Mostrar salida y duración -->
+        <div *ngIf="horaSalida && duracion" class="mt-4">
+          <p class="fw-semibold text-danger">Salida: {{ horaSalida | date:'shortTime' }}</p>
+          <p class="fw-bold">Has trabajado: {{ duracion }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

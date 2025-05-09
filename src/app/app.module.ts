@@ -4,10 +4,9 @@ import { BrowserModule }           from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule }        from './app-routing.module';
-
 import { AppComponent }            from './app.component';
 import { LoginComponent } from './components/Login/login.component';
-
+import { JornadaComponent } from './components/Jornada/jornada.component'; 
 import { HeaderComponent }         from './shared/header/header.component';
 import { FooterComponent }         from './shared/footer/footer.component';
 import { DashboardComponent } from './components/Dashboard/dashboard.component';
@@ -19,7 +18,7 @@ import { AuthInterceptor }         from './interceptor/auth.interceptor';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-
+    JornadaComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +26,6 @@ import { AuthInterceptor }         from './interceptor/auth.interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-
     HeaderComponent,
     FooterComponent
   ],
