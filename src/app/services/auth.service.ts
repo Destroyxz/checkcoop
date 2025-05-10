@@ -7,7 +7,7 @@ import { tap, map } from 'rxjs/operators';
 import { environment } from '../../environment/environment';
 
 export interface User {
-  sub: string;       // username or user id
+  sub: string;       //ID de Usuario
   iat: number;
   exp: number;
   [key: string]: any;
