@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
-import { AuthService } from '../../services/login.service'; // Para obtener usuario_id
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-jornada',
@@ -13,34 +13,24 @@ export class JornadaComponent implements OnInit {
   horaEntrada: Date | null = null;
   horaSalida: Date | null = null;
   duracion: string = '';
-  usuario_id: number | null = null;
-
-  // 🕘 Horarios esperados (pueden venir de BD más adelante)
-  horaInicio1: string = '09:00';
-  horaFin2: string = '17:00';
-
-  // ✅ Estado para mostrar visualmente
   llegoTarde: boolean | null = null;
   cumplioJornada: boolean | null = null;
+  horaInicio1: string = '09:00';
+  horaFin2: string = '17:00';
+  horasTrabajadas: number = 0;
+  tramos: { inicio: string; fin: string | null }[] = [];
+  esPartida: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(
-    private jornadaService: JornadaService,
-    private auth: AuthService
-  ) {}
+  constructor(private jornadaService: JornadaService) {}
 
-  ngOnInit() {
-    const user = 6; // this.auth.getUser();
-    if (!user) {
-      console.error('Usuario no autenticado. Redirigiendo...');
-      return;
-    }
-
-    this.usuario_id = 6;
+  ngOnInit(): void {
     this.actualizarReloj();
     setInterval(() => this.actualizarReloj(), 1000);
+    this.cargarDatosJornada();
   }
 
-  actualizarReloj() {
+  actualizarReloj(): void {
     const ahora = new Date();
     this.horaActual = ahora.toLocaleTimeString();
     this.fechaActual = ahora.toLocaleDateString('es-ES', {
@@ -51,53 +41,74 @@ export class JornadaComponent implements OnInit {
     });
   }
 
-  iniciarJornada() {
-    this.horaEntrada = new Date();
-    this.jornadaIniciada = true;
+  private cargarDatosJornada(): void {
+    this.isLoading = true;
+    this.jornadaService.obtenerJornadaDeHoy().subscribe({
+      next: (data) => {
+        if (data?.tramos?.length) {
+          this.tramos = data.tramos;
+          const ultimo = this.tramos[this.tramos.length - 1];
+
+          this.horaEntrada = new Date(this.tramos[0].inicio);
+          this.horaSalida = ultimo.fin ? new Date(ultimo.fin) : null;
+          this.duracion = `${data.horasTrabajadas}h`;
+          this.horasTrabajadas = data.horasTrabajadas;
+          this.cumplioJornada = data.completa;
+          this.llegoTarde = new Date(this.tramos[0].inicio).getHours() > 9;
+          this.esPartida = data.partida;
+          this.jornadaIniciada = !ultimo.fin;
+        } else {
+          this.tramos = [];
+          this.jornadaIniciada = false;
+          this.horaEntrada = null;
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al obtener jornada:', err);
+        this.jornadaIniciada = false;
+        this.horaEntrada = null;
+        this.isLoading = false;
+      }
+    });
   }
 
-  terminarJornada() {
-    this.horaSalida = new Date();
+  iniciarJornada(): void {
+    this.isLoading = true;
+    this.jornadaService.iniciarJornada().subscribe({
+      next: () => this.cargarDatosJornada(),
+      error: (err) => {
+        console.error('Error al iniciar jornada:', err);
+        this.isLoading = false;
+      }
+    });
+  }
 
-    if (this.horaEntrada && this.horaSalida) {
-      const ms = this.horaSalida.getTime() - this.horaEntrada.getTime();
-      const horas = Math.floor(ms / (1000 * 60 * 60));
-      const minutos = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-      this.duracion = `${horas}h ${minutos}m`;
+  terminarJornada(): void {
+    this.isLoading = true;
+    this.jornadaService.finalizarTramo().subscribe({
+      next: () => this.cargarDatosJornada(),
+      error: (err) => {
+        console.error('Error al finalizar jornada:', err);
+        this.isLoading = false;
+      }
+    });
+  }
 
-      // ✅ Calcular si llegó tarde
-      const entradaStr = this.horaEntrada.toTimeString().slice(0, 8);
-      const referencia = this.horaInicio1 + ':00';
-      this.llegoTarde = entradaStr > referencia;
+  calcularDuracionTramo(inicio: string, fin: string): string {
+    const ini = new Date(inicio);
+    const f = new Date(fin);
+    const ms = f.getTime() - ini.getTime();
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    return `${h}h ${m}m`;
+  }
 
-      // ✅ Calcular si cumplió jornada
-      const horasTrabajadas = ms / 3600000; // ms a horas
-      this.cumplioJornada = horasTrabajadas >= 7;
-
-      const payload = {
-        usuario_id: this.usuario_id,
-        horaEntrada: this.formatearFecha(this.horaEntrada),
-        horaSalida: this.formatearFecha(this.horaSalida)
-      };
-
-      this.jornadaService.guardarJornada(payload).subscribe({
-        next: () => console.log('Jornada guardada'),
-        error: err => console.error('Error al guardar jornada:', err)
-      });
+  openModal(): void {
+    const modalEl = document.getElementById('detalleJornadaModal');
+    if (modalEl) {
+      const modal = new Modal(modalEl);
+      modal.show();
     }
-
-    this.jornadaIniciada = false;
-  }
-
-  formatearFecha(fecha: Date | null): string {
-    if (!fecha) return '';
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    const y = fecha.getFullYear();
-    const m = pad(fecha.getMonth() + 1);
-    const d = pad(fecha.getDate());
-    const h = pad(fecha.getHours());
-    const min = pad(fecha.getMinutes());
-    const s = pad(fecha.getSeconds());
-    return `${y}-${m}-${d} ${h}:${min}:${s}`;
   }
 }

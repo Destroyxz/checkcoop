@@ -1,59 +1,126 @@
 <div class="container my-5">
-  <div class="card text-center shadow">
-    <div class="card-body">
-      <!-- Icono -->
-      <div class="mb-3 text-primary">
-        <i class="bi bi-clock-history fs-1"></i>
+  <div class="card shadow-lg">
+    <div class="card-body text-center">
+      
+      <!-- Spinner de carga -->
+      <div *ngIf="isLoading" class="text-center py-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
       </div>
 
-      <!-- Hora y fecha -->
-      <h2 class="fw-bold">{{ horaActual }}</h2>
-      <p class="text-muted">{{ fechaActual }}</p>
+      <!-- Contenido principal -->
+      <div *ngIf="!isLoading">
+        <!-- Hora y fecha -->
+        <h2 class="fw-bold mb-1">{{ horaActual }}</h2>
+        <p class="text-muted">{{ fechaActual }}</p>
 
-      <!-- Mensaje inicial -->
-      <p *ngIf="!jornadaIniciada && !horaSalida" class="text-muted">
-        No has iniciado tu jornada laboral
-      </p>
-
-      <!-- Botón iniciar -->
-      <button *ngIf="!jornadaIniciada && !horaEntrada"
-              (click)="iniciarJornada()"
-              class="btn btn-primary btn-lg w-100 mt-3">
-        <i class="bi bi-play-circle"></i> Iniciar Jornada
-      </button>
-
-      <!-- Info entrada + botón terminar -->
-      <div *ngIf="jornadaIniciada && horaEntrada" class="mt-4">
-        <p class="fw-semibold text-success mb-2">
-          Entrada: {{ horaEntrada | date:'shortTime' }}
+        <!-- Estado inicial -->
+        <p *ngIf="!jornadaIniciada && !horaEntrada" class="text-secondary">
+          Tu jornada aún no ha comenzado.
         </p>
-        <p class="text-muted">
-          Horario esperado: {{ horaInicio1 }} - {{ horaFin2 }}
-        </p>
-        <button (click)="terminarJornada()" class="btn btn-danger btn-lg w-100">
-          <i class="bi bi-stop-circle"></i> Terminar Jornada
+
+        <!-- Botón Iniciar Jornada -->
+        <button *ngIf="!jornadaIniciada && !horaEntrada"
+                (click)="iniciarJornada()"
+                [disabled]="isLoading"
+                class="btn btn-primary btn-lg w-100 mt-3">
+          <i class="bi bi-play-circle"></i> Iniciar Jornada
         </button>
+
+        <!-- Jornada Activa -->
+        <div *ngIf="jornadaIniciada" class="mt-4">
+          <div class="alert alert-info">
+            <strong>Jornada en curso</strong><br>
+            Entrada: {{ horaEntrada | date:'shortTime' }} <br>
+            Horario previsto: {{ horaInicio1 }} - {{ horaFin2 }}
+          </div>
+          <button (click)="terminarJornada()"
+                  [disabled]="isLoading"
+                  class="btn btn-danger btn-lg w-100">
+            <i class="bi bi-stop-circle"></i> Terminar Jornada
+          </button>
+        </div>
+
+        <!-- Información post-jornada -->
+        <div *ngIf="horaSalida" class="mt-4 text-start">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</p>
+              <p><strong>Salida:</strong> {{ horaSalida | date:'shortTime' }}</p>
+              <p><strong>Duración total:</strong> {{ duracion }}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Jornada completa:</strong>
+                <span [class]="cumplioJornada ? 'text-success' : 'text-warning'">
+                  {{ cumplioJornada ? 'Sí' : 'No' }}
+                </span>
+              </p>
+              <p><strong>Llegó tarde:</strong>
+                <span [class]="llegoTarde ? 'text-danger' : 'text-success'">
+                  {{ llegoTarde ? 'Sí' : 'No' }}
+                </span>
+              </p>
+              <p><strong>Partida:</strong>
+                <span [class]="esPartida ? 'text-info' : 'text-muted'">
+                  {{ esPartida ? 'Sí' : 'No' }}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Barra de progreso -->
+          <div class="progress mt-3" style="height: 20px;">
+            <div class="progress-bar"
+                [ngClass]="cumplioJornada ? 'bg-success' : 'bg-warning'"
+                role="progressbar"
+                [style.width.%]="(horasTrabajadas / 7) * 100"
+                attr.aria-valuenow="{{ horasTrabajadas }}"
+                attr.aria-valuemin="0"
+                attr.aria-valuemax="7">
+              {{ horasTrabajadas }}h / 7h
+            </div>
+          </div>
+
+          <!-- Botón para abrir modal -->
+          <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#detalleJornadaModal">
+            Ver Detalles Completos
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Info salida y duración -->
-      <div *ngIf="horaSalida && duracion" class="mt-4">
-        <p class="fw-semibold text-danger">Salida: {{ horaSalida | date:'shortTime' }}</p>
-        <p class="fw-bold">Has trabajado: {{ duracion }}</p>
-
-        <!-- Resultado jornada -->
-        <div *ngIf="llegoTarde === true" class="alert alert-danger mt-3" role="alert">
-          Llegaste tarde hoy.
-        </div>
-        <div *ngIf="llegoTarde === false" class="alert alert-success mt-3" role="alert">
-          Jornada iniciada a tiempo.
-        </div>
-
-        <div *ngIf="cumplioJornada === true" class="alert alert-success mt-2" role="alert">
-          ¡Has cumplido tu jornada laboral!
-        </div>
-        <div *ngIf="cumplioJornada === false" class="alert alert-warning mt-2" role="alert">
-          Jornada incompleta.
-        </div>
+<!-- Modal Detalles Jornada -->
+<div class="modal fade" id="detalleJornadaModal" tabindex="-1" aria-labelledby="detalleJornadaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detalleJornadaLabel">Detalles de la jornada</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-start">
+        <p><strong>Fecha:</strong> {{ fechaActual }}</p>
+        <p><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</p>
+        <p><strong>Salida:</strong> {{ horaSalida | date:'shortTime' }}</p>
+        <p><strong>Duración total:</strong> {{ duracion }}</p>
+        <p><strong>Jornada completa:</strong> {{ cumplioJornada ? 'Sí' : 'No' }}</p>
+        <p><strong>Llegó tarde:</strong> {{ llegoTarde ? 'Sí' : 'No' }}</p>
+        <p><strong>Jornada partida:</strong> {{ esPartida ? 'Sí' : 'No' }}</p>
+        <hr>
+        <h6>Tramos trabajados</h6>
+        <ul class="list-group">
+          <li *ngFor="let tramo of tramos" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ tramo.inicio | date:'shortTime' }} - {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
+            <span *ngIf="tramo.fin" class="badge bg-secondary">
+              {{ calcularDuracionTramo(tramo.inicio, tramo.fin) }}
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
