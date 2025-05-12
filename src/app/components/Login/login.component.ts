@@ -43,24 +43,38 @@ export class LoginComponent {
         }
     
         // El token se guarda en el servicio de autenticación y se actualiza el estado del usuario.
-        this.auth.currentUser$.pipe(take(1)).subscribe((user: User | null) => {
-          console.log('Usuario recuperado:', user);  // Log para ver el usuario recuperado
-    
-          // Si no hay usuario en el payload, se asume que el email es el nombre
-          const name = user?.["name"] || this.email;
-    
-          // Mostrar un mensaje de bienvenida usando Swal
-          Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido!',
-            text: `Hola ${name}, has iniciado sesión correctamente.`,
-            timer: 2000,
-            showConfirmButton: false
-          });
-    
-          // Redirigir al dashboard una vez autenticado
-          this.router.navigate(['/dashboard']);
-        });
+this.auth.currentUser$.pipe(take(1)).subscribe((user: User | null) => {
+  console.log('Usuario recuperado:', user);  // Log para ver el usuario recuperado
+
+  // Si no hay usuario en el payload, se asume que el email es el nombre
+  const name = user?.["name"] || this.email;
+
+  // Guardar los datos del usuario en el localStorage
+  if (user) {
+    localStorage.setItem('user', JSON.stringify({
+      exp_Token: user?.["exp"],
+      nombre: user?.["nombre"],
+      apellidos: user?.["apellidos"],
+      rol: user?.["rol"],
+      //ID: user?.["sub"],
+      //ID_EMPRESA: user?.["empresa_id"],
+    }));
+  }
+
+  // Mostrar un mensaje de bienvenida usando Swal
+  Swal.fire({
+    icon: 'success',
+    title: '¡Bienvenido!',
+    text: `Hola ${name}, has iniciado sesión correctamente.`,
+    timer: 2000,
+    showConfirmButton: false
+  });
+
+  // Redirigir al dashboard una vez autenticado
+  this.router.navigate(['/dashboard']);
+});
+
+
       },
       error: err => {
         this.loading = false;

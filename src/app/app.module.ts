@@ -14,7 +14,7 @@ import { AuthInterceptor }         from './interceptor/auth.interceptor';
 
 
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { headerComponent } from './shared/header/header.component';
+import { HeaderComponent } from './shared/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +23,7 @@ import { headerComponent } from './shared/header/header.component';
     JornadaComponent,
 
     SidebarComponent,
-    headerComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,15 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
- @Component ({
-
-    selector: 'app-header',
+@Component({
+  selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
- })
+})
+export class HeaderComponent {
+  dropdownVisible: boolean = false;
 
-export class headerComponent {}
+  // Método para alternar la visibilidad del dropdown
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+}
