@@ -9,6 +9,7 @@ import { environment } from '../../environment/environment';
 export interface User {
   sub: string;       //ID de Usuario
   iat: number;
+  rol: string;
   exp: number;
   [key: string]: any;
 }
@@ -116,4 +117,9 @@ private base64UrlEncode(str: string): string {
   const base64 = btoa(str); // Convierte a base64
   return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');  // Convierte a base64Url
 }
+/** Devuelve el usuario actual decodificado del token */
+getUser(): User | null {
+  return this._currentUser$.value;
+}
+
 }

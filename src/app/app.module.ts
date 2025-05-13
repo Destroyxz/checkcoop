@@ -7,6 +7,7 @@ import { AppRoutingModule }        from './app-routing.module';
 import { AppComponent }            from './app.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { AdminJornadasComponent } from './components/AdminJornadas/admin-jornadas.component';
 
 import { LoginComponent } from './components/Login/login.component';
 import { JornadaComponent } from './components/Jornada/jornada.component'; 
@@ -30,6 +31,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
     SidebarComponent,
     HeaderComponent,
+    AdminJornadasComponent 
   ],
   imports: [
     BrowserModule,

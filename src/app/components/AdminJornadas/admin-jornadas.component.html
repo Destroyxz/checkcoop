@@ -1,0 +1,107 @@
+<div class="container mt-4">
+  <h2>Gestión de Jornadas</h2>
+
+  <!-- Filtros -->
+  <div class="row g-3 align-items-end mb-3">
+    <div class="col-md-4">
+      <label class="form-label">Filtrar por trabajador</label>
+      <select class="form-select" [(ngModel)]="filtroTrabajador" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option *ngFor="let user of trabajadores" [value]="user.id">{{ user.nombre }}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Seleccionar fecha</label>
+      <input type="date" class="form-control" [(ngModel)]="filtroFecha" (change)="filtrar()" />
+    </div>
+  </div>
+
+  <!-- Tabla -->
+ <!-- Tabla -->
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Trabajador</th>
+      <th>Fecha</th>
+      <th>Entrada</th>
+      <th>Salida</th>
+      <th>Tipo</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let j of jornadasFiltradas">
+      <td>{{ j.nombre }}</td>
+      <td>{{ j.fecha }}</td>
+      <td>{{ j.hora_entrada }}</td>
+      <td>{{ j.hora_salida }}</td>
+      <td>{{ j.tipo_jornada }}</td>
+      <td>
+        <span class="badge"
+              [ngClass]="{
+                'bg-success': j.estado === 'Completada',
+                'bg-danger': j.estado === 'Incompleta',
+                'bg-warning': j.estado === 'Con retraso'
+              }">{{ j.estado }}</span>
+      </td>
+      <td>
+        <button class="btn btn-outline-info btn-sm me-1" (click)="verTramos(j)">
+          <i class="bi bi-list-ul"></i>
+        </button>
+        <button class="btn btn-outline-secondary btn-sm me-1" (click)="editarJornada(j)">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <button class="btn btn-outline-danger btn-sm" (click)="eliminarJornada(j.id)">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- Modal Detalle Jornada -->
+<div class="modal fade" id="modalDetalleJornada" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetalleLabel">Detalles de la Jornada</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" *ngIf="jornadaSeleccionada">
+        <p><strong>Trabajador:</strong> {{ jornadaSeleccionada.nombre }}</p>
+        <p><strong>Fecha:</strong> {{ jornadaSeleccionada.fecha }}</p>
+        <p><strong>Tipo de Jornada:</strong> {{ jornadaSeleccionada.tipo_jornada }}</p>
+        <p><strong>Entrada:</strong> {{ jornadaSeleccionada.hora_entrada || 'No registrada' }}</p>
+        <p><strong>Salida:</strong> {{ jornadaSeleccionada.hora_salida || 'En curso' }}</p>
+        <p><strong>Estado:</strong> {{ jornadaSeleccionada.estado }}</p>
+
+        <hr />
+        <h6>Tramos trabajados</h6>
+        <ul class="list-group mb-3">
+          <li *ngFor="let t of tramosSeleccionados" class="list-group-item d-flex justify-content-between">
+            <span>
+              {{ t.inicio | date:'shortTime' }} - 
+              {{ t.fin ? (t.fin | date:'shortTime') : 'En curso' }}
+            </span>
+            <span *ngIf="t.fin" class="badge bg-secondary">
+              {{ calcularDuracionTramo(t.inicio, t.fin) }}
+            </span>
+          </li>
+        </ul>
+
+        <ng-container *ngIf="!tramosSeleccionados.length">
+          <p class="text-muted">No hay tramos registrados para esta jornada.</p>
+        </ng-container>
+
+        <div class="text-end">
+          <button class="btn btn-danger" (click)="eliminarJornada(jornadaSeleccionada.id)" data-bs-dismiss="modal">
+            <i class="bi bi-trash"></i> Eliminar Jornada
+          </button>
+          <button class="btn btn-secondary ms-2" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
