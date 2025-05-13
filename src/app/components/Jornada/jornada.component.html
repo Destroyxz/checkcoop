@@ -21,12 +21,15 @@
         </p>
 
         <!-- Botón Iniciar Jornada -->
-        <button *ngIf="!jornadaIniciada && !horaEntrada"
-                (click)="iniciarJornada()"
-                [disabled]="isLoading"
-                class="btn btn-primary btn-lg w-100 mt-3">
-          <i class="bi bi-play-circle"></i> Iniciar Jornada
-        </button>
+        <!-- Botón Iniciar Jornada -->
+<button *ngIf="!jornadaIniciada"
+        (click)="iniciarJornada()"
+        [disabled]="isLoading"
+        class="btn btn-primary btn-lg w-100 mt-3">
+  <i class="bi" [ngClass]="horaEntrada ? 'bi-arrow-repeat' : 'bi-play-circle'"></i>
+  {{ horaEntrada ? 'Reanudar Jornada' : 'Iniciar Jornada' }}
+</button>
+
 
         <!-- Jornada Activa -->
         <div *ngIf="jornadaIniciada" class="mt-4">
@@ -103,21 +106,25 @@
       <div class="modal-body text-start">
         <p><strong>Fecha:</strong> {{ fechaActual }}</p>
         <p><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</p>
-        <p><strong>Salida:</strong> {{ horaSalida | date:'shortTime' }}</p>
+       <p><strong>Salida:</strong> {{ horaSalida ? (horaSalida | date:'shortTime') : 'En curso' }}</p>
         <p><strong>Duración total:</strong> {{ duracion }}</p>
         <p><strong>Jornada completa:</strong> {{ cumplioJornada ? 'Sí' : 'No' }}</p>
         <p><strong>Llegó tarde:</strong> {{ llegoTarde ? 'Sí' : 'No' }}</p>
         <p><strong>Jornada partida:</strong> {{ esPartida ? 'Sí' : 'No' }}</p>
         <hr>
         <h6>Tramos trabajados</h6>
-        <ul class="list-group">
-          <li *ngFor="let tramo of tramos" class="list-group-item d-flex justify-content-between align-items-center">
-            {{ tramo.inicio | date:'shortTime' }} - {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
-            <span *ngIf="tramo.fin" class="badge bg-secondary">
-              {{ calcularDuracionTramo(tramo.inicio, tramo.fin) }}
-            </span>
-          </li>
-        </ul>
+        <ul *ngIf="tramos.length > 0; else sinTramos" class="list-group">
+  <li *ngFor="let tramo of tramos" class="list-group-item d-flex justify-content-between align-items-center">
+    {{ tramo.inicio | date:'shortTime' }} - {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
+    <span *ngIf="tramo.fin" class="badge bg-secondary">
+      {{ calcularDuracionTramo(tramo.inicio, tramo.fin) }}
+    </span>
+  </li>
+</ul>
+<ng-template #sinTramos>
+  <p class="text-muted">Aún no has registrado ningún tramo hoy.</p>
+</ng-template>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
