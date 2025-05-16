@@ -1,6 +1,4 @@
 <div class="container mt-4">
-  <h2>Gestión de Jornadas</h2>
-
   <!-- Filtros -->
   <div class="row g-3 align-items-end mb-3">
     <div class="col-md-4">
@@ -101,6 +99,48 @@
             Cerrar
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalEditarJornada" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content shadow-sm">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalEditarLabel">
+          <i class="bi bi-pencil-square me-2"></i>Editar Tramos de la Jornada
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" *ngIf="tramosEditables.length">
+        <form (ngSubmit)="guardarCambiosTramos()">
+          <div *ngFor="let tramo of tramosEditables; let i = index" class="mb-4 p-3 border rounded bg-light">
+            <h6 class="fw-bold text-secondary mb-3">
+              <i class="bi bi-clock me-1"></i>Tramo {{ i + 1 }}
+            </h6>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Inicio</label>
+                <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].inicio" name="inicio{{i}}" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Fin</label>
+                <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].fin" name="fin{{i}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <button type="submit" class="btn btn-success px-4">
+   <i class="bi bi-check-circle me-1"></i>Guardar Cambios
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+         Cerrar
+        </button>
       </div>
     </div>
   </div>

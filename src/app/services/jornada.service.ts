@@ -41,4 +41,8 @@ export class JornadaService {
   obtenerTramosPorJornada(jornadaId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${jornadaId}/tramos`);
   }
+  actualizarTramos(payload: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/editar-tramos`, payload);
+  }
+  
 }

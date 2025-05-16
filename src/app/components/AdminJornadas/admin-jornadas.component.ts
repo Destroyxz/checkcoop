@@ -65,10 +65,51 @@ export class AdminJornadasComponent implements OnInit {
   
 
 
-  editarJornada(jornada: any) {
-    // Próximo paso
-  }
+  tramosEditables: any[] = [];
 
+  editarJornada(jornada: any) {
+    this.jornadaSeleccionada = jornada;
+    this.jornadaService.obtenerTramosPorJornada(jornada.id).subscribe({
+      next: (data) => {
+        // Copiamos para no modificar directamente
+        this.tramosEditables = data.map(t => ({
+          ...t,
+          inicio: this.toDatetimeLocal(t.inicio),
+          fin: t.fin ? this.toDatetimeLocal(t.fin) : null
+        }));
+  
+        const modalEl = document.getElementById('modalEditarJornada');
+        if (modalEl) {
+          const modal = new Modal(modalEl);
+          modal.show();
+        }
+      },
+      error: (err) => console.error('Error al cargar tramos para edición:', err)
+    });
+  }
+  
+  toDatetimeLocal(dateStr: string): string {
+    const date = new Date(dateStr);
+    const offset = date.getTimezoneOffset();
+    const localDate = new Date(date.getTime() - offset * 60000);
+    return localDate.toISOString().slice(0, 16);
+  }
+  
+  guardarCambiosTramos() {
+    const payload = {
+      jornadaId: this.jornadaSeleccionada.id,
+      tramos: this.tramosEditables
+    };
+  
+    this.jornadaService.actualizarTramos(payload).subscribe({
+      next: () => {
+        alert('Tramos actualizados');
+        this.cargarDatos();
+      },
+      error: (err) => console.error('Error al guardar cambios de tramos:', err)
+    });
+  }
+  
   eliminarJornada(id: number) {
     if (confirm('¿Eliminar esta jornada?')) {
       this.jornadaService.eliminarJornada(id).subscribe(() => {
