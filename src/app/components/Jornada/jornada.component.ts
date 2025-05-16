@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
-
+import { UserStorageService, UserStorage} from '../../services/UserStorage.service';
 @Component({
   selector: 'app-jornada',
   templateUrl: './jornada.component.html'
@@ -22,12 +22,24 @@ export class JornadaComponent implements OnInit {
   esPartida: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private jornadaService: JornadaService) {}
+  usercookie: UserStorage | null = null;
+
+  constructor(
+    private jornadaService: JornadaService,
+    private UserStorageService: UserStorageService,
+  ) {}
+
 
   ngOnInit(): void {
     this.actualizarReloj();
     setInterval(() => this.actualizarReloj(), 1000);
     this.cargarDatosJornada();
+    this.usercookie = this.UserStorageService.getUser();
+    console.log(this.UserStorageService.getUser());
+
+
+
+    console.log(this.usercookie)
   }
 
   actualizarReloj(): void {

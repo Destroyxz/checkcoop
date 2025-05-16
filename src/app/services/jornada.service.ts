@@ -10,7 +10,7 @@ export class JornadaService {
 
   constructor(private http: HttpClient) {}
 
-  iniciarJornada(): Observable<any> {
+   iniciarJornada(): Observable<any> {
     return this.http.post(`${this.apiUrl}/iniciar`, {});
   }
 

@@ -52,13 +52,15 @@ this.auth.currentUser$.pipe(take(1)).subscribe((user: User | null) => {
   // Guardar los datos del usuario en el localStorage
   if (user) {
     localStorage.setItem('user', JSON.stringify({
-      exp_Token: user?.["exp"],
-      nombre: user?.["nombre"],
-      apellidos: user?.["apellidos"],
-      rol: user?.["rol"],
-      //ID: user?.["sub"],
-      //ID_EMPRESA: user?.["empresa_id"],
-    }));
+    id: user?.["id"],
+    empresa_id: user?.["empresa_id"],
+    exp_Token: user?.["exp"],  // si quieres guardar fecha de expiración del token
+    nombre: user?.["nombre"],
+    apellidos: user?.["apellidos"],
+    email: user?.["email"],
+    rol: user?.["rol"],
+  }));
+
   }
 
   // Mostrar un mensaje de bienvenida usando Swal

@@ -8,6 +8,8 @@ import { AppComponent }            from './app.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AdminJornadasComponent } from './components/AdminJornadas/admin-jornadas.component';
+import { CookieService } from 'ngx-cookie-service';
+
 
 import { LoginComponent } from './components/Login/login.component';
 import { JornadaComponent } from './components/Jornada/jornada.component'; 
@@ -40,12 +42,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HttpClientModule,
     AppRoutingModule,
      MatMenuModule,
-     MatButtonModule
+     MatButtonModule,
+     
   ],
   providers: [
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     provideAnimationsAsync()
+  ,    CookieService ,
+
   ],
   bootstrap: [AppComponent]
 })
