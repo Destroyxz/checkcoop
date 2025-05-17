@@ -29,7 +29,8 @@ export class SidebarComponent implements OnInit {
       { label: 'Jornadas',    path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
       { label: 'Facturación', path: '/invoicing',      icon: 'fas fa-receipt'   },
       { label: 'Archivos',    path: '/files',          icon: 'fas fa-folder'    },
-      { label: 'Chat',        path: '/chat',           icon: 'fas fa-comments'  }
+      { label: 'Chat',        path: '/chat',           icon: 'fas fa-comments'  },
+      { label: 'Añadir', path: '/new', icon: 'fas fa-user'}
     ];
   }
 

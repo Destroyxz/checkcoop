@@ -1,0 +1,17 @@
+.app-content{
+    overflow-y: hidden;
+}
+.nav-link.active{
+          border-color: var(--color-primario) !important;
+      background-color: var(--color-primario) !important;
+      color: #fff !important;
+}
+
+.nav-link{
+    color:  var(--color-primario) !important;
+}
+
+.form-check-input:checked{
+    border-color: var(--color-primario) !important;
+      background-color: var(--color-primario) !important;
+}

@@ -7,15 +7,17 @@ import { DashboardComponent } from './components/Dashboard/dashboard.component';
 import { AuthGuard }          from './guards/auth.guard';
 import { JornadaComponent } from './components/Jornada/jornada.component';
 import { AdminJornadasComponent } from './components/AdminJornadas/admin-jornadas.component';
+import { formulariosComponent } from './components/Formularios/formularios.component';
 //import { PerfilComponent } from './components/Perfil/perfil.component';
 const routes: Routes = [
   { path: 'login',     component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'jornada', component: JornadaComponent },
-  { path: 'adminjornadas', component: AdminJornadasComponent },
+  { path: 'jornada', component: JornadaComponent , canActivate: [AuthGuard] },
+  { path: 'adminjornadas', component: AdminJornadasComponent , canActivate: [AuthGuard] },
+  { path: 'new', component: formulariosComponent , canActivate: [AuthGuard] },
 
 //  { path: 'perfil', component: PerfilComponent},
-  { path: '',           redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '*',           redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**',         redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 
