@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
     this.menuItems = [
       { label: 'Inicio',      path: '/dashboard',      icon: 'fas fa-home'      },
       { label: 'Jornadas',    path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
-      { label: 'Facturación', path: '/invoicing',      icon: 'fas fa-receipt'   },
+      { label: 'Inventario', path: '/inventario',      icon: 'fas fa-receipt'   },
       { label: 'Archivos',    path: '/files',          icon: 'fas fa-folder'    },
       { label: 'Chat',        path: '/chat',           icon: 'fas fa-comments'  },
       { label: 'Añadir', path: '/new', icon: 'fas fa-user'}

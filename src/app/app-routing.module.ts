@@ -8,10 +8,12 @@ import { AuthGuard }          from './guards/auth.guard';
 import { JornadaComponent } from './components/Jornada/jornada.component';
 import { AdminJornadasComponent } from './components/AdminJornadas/admin-jornadas.component';
 import { formulariosComponent } from './components/Formularios/formularios.component';
+import { InventarioComponent } from './components/Inventario/inventario.component';
 //import { PerfilComponent } from './components/Perfil/perfil.component';
 const routes: Routes = [
   { path: 'login',     component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'inventario', component: InventarioComponent, canActivate: [AuthGuard] },
   { path: 'jornada', component: JornadaComponent , canActivate: [AuthGuard] },
   { path: 'adminjornadas', component: AdminJornadasComponent , canActivate: [AuthGuard] },
   { path: 'new', component: formulariosComponent , canActivate: [AuthGuard] },
