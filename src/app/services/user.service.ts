@@ -22,14 +22,36 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Crea un nuevo usuario en el backend
-   */
+//Crear usuario
   newUser(data: NewUser): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/user/newUser`, data)
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  //Obtener todos los usuarios
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/user/users`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  //Obtener los usuarios por empresa
+  getUsersByCompany(empresa_id?: number): Observable<any[]> {
+    return this.http
+      .get<any[]>(`${this.baseUrl}/users/company/${empresa_id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // Eliminar usuario
+    deleteUser(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.baseUrl}/${id}`)
+      .pipe(catchError(err => throwError(() => err)));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -38,12 +60,3 @@ export class UserService {
   }
 }
 
-// Ejemplo de suscripción en tu componente:
-// this.userService.newUser(nuevoUsuario).subscribe({
-//   next: (res) => {
-//     console.log('Usuario creado:', res);
-//     this.form.reset({ activo: true, rol: 'usuario' });
-//   },
-//   error: (err) => console.error('Error al crear usuario', err),
-//   complete: () => console.log('Creación completada')
-// });

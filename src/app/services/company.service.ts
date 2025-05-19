@@ -1,11 +1,8 @@
-
-
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environment/environment';
-
 
 export interface Company {
   id: number;
@@ -20,29 +17,42 @@ export interface Company {
 }
 
 @Injectable({ providedIn: 'root' })
-
 export class CompanyService {
+  private baseUrl = environment.apiUrl; // Ajusta según tu entorno
 
-   private baseUrl = environment.apiUrl; // Ajusta según tu entorno
+  constructor(private http: HttpClient) {}
 
-    constructor (
-        private http: HttpClient
-    ) {
 
-    }
-   //Obtiene todas las empresas
 
-getAllCompanies(): Observable<any[]> {
+  //Crear empresa
+  newCompany(data: Partial<Company>): Observable<Company> {
     return this.http
-      .get<any[]>(`${this.baseUrl}/company/allcompanies`)
+      .post<Company>(`${this.baseUrl}/company/newCompany`, data)
+      .pipe(catchError(this.handleError));
+  }
+  //Obtiene todas las empresas
+  getAllEmpresas(): Observable<any[]> {
+    return this.http
+      .get<any[]>(`${this.baseUrl}/company/empresas`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-newCompany(data: Partial<Company>): Observable<Company> {
-    return this.http.post<Company>(`${this.baseUrl}/company/newCompany`, data)
-      .pipe(catchError(this.handleError));
+  //Obtiene una empresa por ID
+  getEmpresaById(empresa_id?: number): Observable<any> {
+    return this.http
+      .get<any>(`${this.baseUrl}/company/empresas/${empresa_id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // Eliminar empresa
+  deleteEmpresa(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.baseUrl}/${id}`)
+      .pipe(catchError(err => throwError(() => err)));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -50,5 +60,4 @@ newCompany(data: Partial<Company>): Observable<Company> {
     // Aquí podrías mapear distintos códigos de status a mensajes amigables
     return throwError(() => new Error('No se pudieron cargar las empresas.'));
   }
-
 }

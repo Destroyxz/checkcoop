@@ -15,3 +15,43 @@
     border-color: var(--color-primario) !important;
       background-color: var(--color-primario) !important;
 }
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Variaciones por rol */
+.avatar-superadmin {
+  background-color: #6f42c1; /* morado */
+}
+
+.avatar-admin {
+  background-color: #0d6efd; /* azul */
+}
+
+.avatar-usuario {
+  background-color: #198754; /* verde */
+}
+
+.badge-superadmin {
+  background-color: #6f42c1 !important;
+  color: #fff !important;
+}
+
+.badge-admin {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+}
+
+.badge-usuario {
+  background-color: #198754 !important;
+  color: #fff !important;
+}
+

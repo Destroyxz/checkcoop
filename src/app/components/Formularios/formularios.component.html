@@ -14,7 +14,7 @@
               <div class="card border-primary mb-3">
                 <div class="card-header bg-primary text-white d-flex align-items-center">
                   <i class="bi bi-shield-lock-fill me-2"></i>
-                  <strong>Superadministrador</strong>
+                  <strong>SuperAdmin</strong>
                 </div>
                 <div class="card-body">
                   <h5 class="card-title text-primary">Acceso completo al sistema</h5>
@@ -24,9 +24,9 @@
                   </p>
                   <div class="d-flex flex-wrap mt-3">
                     <span class="badge bg-success me-2 mb-2">Gestionar Usuarios</span>
-                    <span class="badge bg-success me-2 mb-2">Gestionar Administradores</span>
+                    <span class="badge bg-success me-2 mb-2">Gestionar Admins</span>
                     <span class="badge bg-success me-2 mb-2">Gestionar Empresas</span>
-                    <span class="badge bg-success me-2 mb-2">Configuración del Sistema</span>
+                    <span class="badge bg-success me-2 mb-2">Config del Sistema</span>
                   </div>
                 </div>
               </div>
@@ -97,6 +97,8 @@
                 </div>
               </div>
             </ng-container>
+
+
           </ng-container>
 
           <!-- USUARIO NO AUTENTICADO -->
@@ -121,61 +123,84 @@
 
             <p class="text-danger small">No se ha proporcionado información de usuario.</p>
           </ng-template>
+
+
+
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Columna del Formulario: ocupa 2/3 -->
-   <div class="col-md-8">
-      <ng-container *ngIf="userData?.rol === 'superadmin'">
-    <ul class="nav nav-pills mb-4">
+    </div>
+
+    <ul class="nav nav-pills mt-4">
       <li class="nav-item">
-        <button type="button" class="nav-link d-flex align-items-center" 
-                [ngClass]="{ active: mode === 'usuarios' }" 
-                (click)="switchMode('usuarios')">
-          <i class="bi bi-person me-1"></i>
-          <span>Usuarios</span>
+        <button type="button" class="nav-link d-flex align-items-center" [ngClass]="{ active: formulario === 'crear' }"
+          (click)="formMode('crear')">
+          <i class="fa-solid fa-plus me-1"></i>
+          <span>Crear</span>
         </button>
       </li>
       <li class="nav-item">
-        <button type="button" class="nav-link d-flex align-items-center" 
-                [ngClass]="{ active: mode === 'empresas' }" 
-                (click)="switchMode('empresas')">
-          <i class="bi bi-building me-1"></i>
-          <span>Empresas</span>
+        <button type="button" class="nav-link d-flex align-items-center"
+          [ngClass]="{ active: formulario === 'modificar' }" (click)="formMode('modificar')">
+          <i class="fa-solid fa-pen me-1"></i>
+          <span>Modifcar</span>
         </button>
       </li>
     </ul>
-  </ng-container>
-      <!-- Formulario de Usuarios -->
-      <div *ngIf="mode === 'usuarios'" class="card">
-        <div class="card-body">
-          <h4 class="card-title"><i class="bi bi-person-plus me-2"></i> Crear Usuario</h4>
-          <form [formGroup]="userForm" (ngSubmit)="submit()">
-            <div class="row g-3">
+  </div>
+
+  <!-- Columna del Formulario: ocupa 2/3 -->
+  <div class="col-md-8">
+    <ng-container *ngIf="userData?.rol === 'superadmin' ">
+      <ul class="nav nav-pills mb-4">
+        <li class="nav-item">
+          <button type="button" class="nav-link d-flex align-items-center" [ngClass]="{ active: mode === 'usuarios' }"
+            (click)="switchMode('usuarios')">
+            <i class="bi bi-person me-1"></i>
+            <span>Usuarios</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link d-flex align-items-center" [ngClass]="{ active: mode === 'empresas' }"
+            (click)="switchMode('empresas')">
+            <i class="bi bi-building me-1"></i>
+            <span>Empresas</span>
+          </button>
+        </li>
+      </ul>
+    </ng-container>
+    <!-- Formulario de Usuarios -->
+    <div *ngIf="mode === 'usuarios' && formulario=='crear'" class="card">
+      <div class="card-body">
+        <h4 class="card-title"><i class="bi bi-person-plus me-2"></i> Crear Usuario</h4>
+        <form [formGroup]="userForm" (ngSubmit)="submit()">
+          <div class="row g-3">
             <div class="col-md-6">
               <label for="nombre" class="form-label">Nombre</label>
-              <input id="nombre" formControlName="nombre" type="text" class="form-control" placeholder="Nombre del usuario">
+              <input id="nombre" formControlName="nombre" type="text" class="form-control"
+                placeholder="Nombre del usuario">
             </div>
             <div class="col-md-6">
               <label for="apellidos" class="form-label">Apellidos</label>
-              <input id="apellidos" formControlName="apellidos" type="text" class="form-control" placeholder="Apellidos del usuario">
+              <input id="apellidos" formControlName="apellidos" type="text" class="form-control"
+                placeholder="Apellidos del usuario">
             </div>
             <div class="col-md-6">
               <label for="email" class="form-label">Email</label>
-              <input id="email" formControlName="email" type="email" class="form-control" placeholder="correo@ejemplo.com">
+              <input id="email" formControlName="email" type="email" class="form-control"
+                placeholder="correo@ejemplo.com">
             </div>
             <div class="col-md-6">
               <label for="telefono" class="form-label">Teléfono <small class="text-muted"></small></label>
-              <input id="telefono" formControlName="telefono" type="tel" class="form-control" placeholder="Número de teléfono">
+              <input id="telefono" formControlName="telefono" type="tel" class="form-control"
+                placeholder="Número de teléfono">
             </div>
-            <div class="col-6"  *ngIf="userData?.rol === 'superadmin'">
+            <div class="col-6" *ngIf="userData?.rol === 'superadmin'">
               <label for="empresa" class="form-label">Empresa / Cooperativa</label>
               <select id="empresa" formControlName="empresa" class="form-select">
                 <option value="" disabled selected>Seleccione una empresa</option>
                 <option *ngFor="let e of empresas" [value]="e.id">
-                {{ e.nombre }}
+                  {{ e.nombre }}
                 </option>
               </select>
               <div class="form-text">Empresa a la que pertenece el usuario</div>
@@ -183,7 +208,7 @@
             <div class="col-6">
               <label for="contraseña" class="form-label">Contraseña <small class="text-muted"></small></label>
               <input id="pass" formControlName="password" type="password" class="form-control" placeholder="Contraseña">
-             </div>
+            </div>
             <div class="col-6">
               <div class="form-check">
                 <input id="activo" formControlName="activo" class="form-check-input" type="checkbox">
@@ -199,61 +224,271 @@
                 <option value="admin">Administrador</option>
               </select>
             </div>
-          </div>
-            <div class="mt-4 text-end">
-              <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
-                <i class="bi bi-save me-1"></i> Crear Usuario
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
 
-      <!-- Formulario de Empresas -->
-      <div *ngIf="mode === 'empresas'" class="card">
-        <div class="card-body">
-          <h4 class="card-title"><i class="bi bi-building me-2"></i> Crear Empresa</h4>
-          <form [formGroup]="companyForm" (ngSubmit)="submitCompany()">
-            <div class="row g-3">
-              <!-- Nombre -->
-              <div class="col-md-6">
-                <label for="c-nombre" class="form-label">Nombre</label>
-                <input id="c-nombre" formControlName="nombre" type="text" class="form-control" placeholder="Nombre de la empresa">
-              </div>
-              <!-- Razón Social -->
-              <div class="col-md-6">
-                <label for="razon_social" class="form-label">Razón Social</label>
-                <input id="razon_social" formControlName="razon_social" type="text" class="form-control" placeholder="Razón Social">
-              </div>
-              <!-- NIF/CIF -->
-              <div class="col-md-6">
-                <label for="nif_cif" class="form-label">NIF/CIF</label>
-                <input id="nif_cif" formControlName="nif_cif" type="text" class="form-control" placeholder="NIF o CIF">
-              </div>
-              <!-- Dirección -->
-              <div class="col-md-6">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input id="direccion" formControlName="direccion" type="text" class="form-control" placeholder="Dirección">
-              </div>
-              <!-- Email Contacto -->
-              <div class="col-md-6">
-                <label for="email_contacto" class="form-label">Email de Contacto</label>
-                <input id="email_contacto" formControlName="email_contacto" type="email" class="form-control" placeholder="contacto@empresa.com">
-              </div>
-              <!-- Teléfono -->
-              <div class="col-md-6">
-                <label for="c-telefono" class="form-label">Teléfono</label>
-                <input id="c-telefono" formControlName="telefono" type="tel" class="form-control" placeholder="Número de teléfono">
+            <!-- 1. Horario principal -->
+            <div class="col-md-6">
+              <label for="horaInicio" class="form-label">Hora de entrada</label>
+              <input id="horaInicio" type="time" formControlName="horaInicio" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label for="horaSalida" class="form-label">Hora de salida</label>
+              <input id="horaSalida" type="time" formControlName="horaSalida" class="form-control">
+            </div>
+
+            <!-- 2. Switch Turno partido -->
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input id="turnoPartido" class="form-check-input" type="checkbox" formControlName="turnoPartido">
+                <label for="turnoPartido" class="form-check-label">Turno partido</label>
               </div>
             </div>
-            <div class="mt-4 text-end">
-              <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid">
-                <i class="bi bi-save me-1"></i> Crear Empresa
-              </button>
+
+            <!-- 3. Horario segundo turno (sólo si turnoPartido = true) -->
+            <div class="col-md-6" *ngIf="userForm.get('turnoPartido')?.value">
+              <label for="horaInicio2" class="form-label">Entrada 2º turno</label>
+              <input id="horaInicio2" type="time" formControlName="horaInicio2" class="form-control">
             </div>
-          </form>
+            <div class="col-md-6" *ngIf="userForm.get('turnoPartido')?.value">
+              <label for="horaSalida2" class="form-label">Salida 2º turno</label>
+              <input id="horaSalida2" type="time" formControlName="horaSalida2" class="form-control">
+            </div>
+
+          </div>
+
+          <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
+              <i class="bi bi-save me-1"></i> Crear Usuario
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Formulario de Empresas -->
+    <div *ngIf="mode === 'empresas' && formulario=='crear'" class="card">
+      <div class="card-body">
+        <h4 class="card-title"><i class="bi bi-building me-2"></i> Crear Empresa</h4>
+        <form [formGroup]="companyForm" (ngSubmit)="submitCompany()">
+          <div class="row g-3">
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label for="c-nombre" class="form-label">Nombre</label>
+              <input id="c-nombre" formControlName="nombre" type="text" class="form-control"
+                placeholder="Nombre de la empresa">
+            </div>
+            <!-- Razón Social -->
+            <div class="col-md-6">
+              <label for="razon_social" class="form-label">Razón Social</label>
+              <input id="razon_social" formControlName="razon_social" type="text" class="form-control"
+                placeholder="Razón Social">
+            </div>
+            <!-- NIF/CIF -->
+            <div class="col-md-6">
+              <label for="nif_cif" class="form-label">NIF/CIF</label>
+              <input id="nif_cif" formControlName="nif_cif" type="text" class="form-control" placeholder="NIF o CIF">
+            </div>
+            <!-- Dirección -->
+            <div class="col-md-6">
+              <label for="direccion" class="form-label">Dirección</label>
+              <input id="direccion" formControlName="direccion" type="text" class="form-control"
+                placeholder="Dirección">
+            </div>
+            <!-- Email Contacto -->
+            <div class="col-md-6">
+              <label for="email_contacto" class="form-label">Email de Contacto</label>
+              <input id="email_contacto" formControlName="email_contacto" type="email" class="form-control"
+                placeholder="contacto@empresa.com">
+            </div>
+            <!-- Teléfono -->
+            <div class="col-md-6">
+              <label for="c-telefono" class="form-label">Teléfono</label>
+              <input id="c-telefono" formControlName="telefono" type="tel" class="form-control"
+                placeholder="Número de teléfono">
+            </div>
+          </div>
+          <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid">
+              <i class="bi bi-save me-1"></i> Crear Empresa
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--Vista de modificar para Usuarios-->
+    <div class="card" *ngIf="mode === 'usuarios' && formulario=='modificar'">
+      <div class="card-body">
+        <!-- Header: buscador, filtro y botón -->
+        <div
+          class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3">
+          <div class="d-flex w-100 mb-2 mb-sm-0">
+            <input type="text" class="form-control me-2" placeholder="Buscar por nombre o email..."
+              [(ngModel)]="filterText" />
+            <select class="form-select" [(ngModel)]="selectedCompany">
+              <option value="">Todas las empresas</option>
+              <option *ngFor="let c of empresas" [value]="c.id">{{ c.nombre }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tabla de usuarios -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Avatar</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Estado</th>
+                <th scope="col" class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users 
+                         | filterByText:filterText:['nombre','email'] 
+                         | filterByCompany:selectedCompany">
+                <!-- Avatar con inicial -->
+                <td>
+                  <div class="avatar" [ngClass]="{
+    'avatar-superadmin': user.rol === 'superadmin',
+    'avatar-admin':       user.rol === 'admin',
+    'avatar-usuario':     user.rol === 'usuario'
+  }">
+                    {{ user.nombre.charAt(0) }}
+                  </div>
+                </td>
+
+                <!-- Nombre + ID pequeño -->
+                <td>
+                  <div>{{ user.nombre }} {{ user.apellidos }}</div>
+                  <small class="text-muted">ID: {{ user.id }}</small>
+                </td>
+
+                <td>{{ user.email }}</td>
+                <td>{{ user.empresaNombre }}</td>
+
+                <!-- Badges de rol -->
+                <td>
+                  <span class="badge" [ngClass]="{
+        'badge-superadmin': user.rol === 'superadmin',
+        'badge-admin':       user.rol === 'admin',
+        'badge-usuario':     user.rol === 'usuario'
+      }">
+                    {{
+                    user.rol === 'superadmin' ? 'Superadmin' :
+                    user.rol === 'admin' ? 'Administrador' :
+                    'Usuario'
+                    }}
+                  </span>
+
+                </td>
+
+                <!-- Badge de estado -->
+                <td>
+                  <span class="badge" [ngClass]="{
+                  'bg-success': user.activo,
+                  'bg-danger':  !user.activo
+                }">
+                    {{ user.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+
+                <!-- Acciones -->
+                <td class="text-end">
+                  <button class="btn border-0 p-1 me-1">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button type="button" class="btn border-0 p-1 text-danger" (click)="deleteUser(user)"
+                    aria-label="Eliminar usuario">
+                    <i class="bi bi-trash"></i>
+                  </button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </div>
 
+    <!-- Vista de modificar para empresas (si eres SuperAdmin)-->
+    <div class="card" *ngIf="mode === 'empresas' && formulario === 'modificar'">
+      <div class="card-body">
+        <!-- Header: buscador y botón Nuevo -->
+        <div
+          class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3">
+          <div class="d-flex w-100 mb-2 mb-sm-0">
+            <input type="text" class="form-control me-2" placeholder="Buscar por nombre o Razon Social..."
+              [(ngModel)]="filterTextEmpresa" />
+            <select class="form-select" [(ngModel)]="filterTipoEmpresa">
+              <option value="">Todos los tipos</option>
+              <option value="cooperativa">Cooperativa</option>
+              <option value="empresa">Empresa</option>
+              <!-- ajusta según tus categorías -->
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Tabla de empresas -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Razón Social</th>
+                <th scope="col">NIF/CIF</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Contacto</th>
+                <th scope="col">Usuarios</th>
+                <th scope="col" class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let e of empresas 
+                       | filterByText:filterTextEmpresa:['nombre','razon_social'] 
+                       | filterByText:filterTipoEmpresa:['tipo']">
+                <!-- Avatar con inicial o logo -->
+                <td>
+                  <div class="avatar avatar-superadmin" title="{{ e.nombre }}">
+                    {{ e.nombre.charAt(0) }}
+                  </div>
+                </td>
+
+                <td>{{ e.nombre }}</td>
+                <td>{{ e.razon_social }}</td>
+                <td>{{ e.nif_cif }}</td>
+                <td>{{ e.direccion }}</td>
+                <td>
+                  <div><i class="bi bi-envelope me-1"></i>{{ e.email_contacto }}</div>
+                  <div><i class="bi bi-telephone me-1"></i>{{ e.telefono }}</div>
+                </td>
+
+                <!-- Conteo de usuarios -->
+                <td>
+                  <span class="badge bg-info text-white">
+                    {{ e.userCount }}
+                  </span>
+                </td>
+
+                <!-- Acciones -->
+                <td class="text-end">
+                  <button class="btn border-0 p-1 me-1">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button type="button" class="btn border-0 p-1 text-danger" (click)="deleteEmpresa(e)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
