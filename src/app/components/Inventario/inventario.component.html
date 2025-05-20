@@ -35,8 +35,8 @@
         </td>
         <td>{{ p.descripcion }}</td>
         <td>
-          <button class="btn btn-sm btn-outline-primary" (click)="abrirModal(p)">✏️</button>
-          <button class="btn btn-sm btn-outline-danger" (click)="eliminarProducto(p)">🗑️</button>
+          <button class="btn btn-outline-secondary btn-sm me-1" (click)="abrirModal(p)"><i class="bi bi-pencil-square"></i></button>
+          <button class="btn btn-outline-danger btn-sm" (click)="eliminarProducto(p)">  <i class="bi bi-trash"></i></button>
           
         </td>
       </tr>
@@ -118,8 +118,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Annulla</button>
-          <button type="submit" class="btn btn-success" [disabled]="formEdit.invalid">Salva</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn btn-success px-4 " [disabled]="formEdit.invalid"> <i class="bi bi-check-circle me-1"></i>Guardar Cambios</button>
         </div>
       </form>
     </div>
