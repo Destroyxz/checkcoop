@@ -1,0 +1,38 @@
+/* Estilos base para todos los badges */
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+/* Agotado: fondo rojo, texto blanco */
+.badge-danger {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+/* Por Vencer: fondo amarillo, texto oscuro */
+.badge-warning {
+  background-color: #f1c40f;
+  /* El texto por defecto de .badge-warning es claro:
+     si quieres forzar oscuro, añade esta regla: */
+  color: #212529;
+}
+
+/* Clase auxiliar si necesitas texto oscuro en otros badges */
+.text-dark {
+  color: #212529 !important;
+}
+
+/* Disponible: fondo gris oscuro, texto blanco */
+.badge-dark {
+  background-color: var(--color-primario);
+  color: #ffffff;
+}
+

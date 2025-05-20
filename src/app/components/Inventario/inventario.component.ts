@@ -3,7 +3,8 @@ import { ProductoService, Producto } from '../../services/producto.service';
 
 @Component({
   selector: 'app-inventario',
-  templateUrl: './inventario.component.html'
+  templateUrl: './inventario.component.html',
+  styleUrls: ['./inventario.component.scss']
 })
 export class InventarioComponent implements OnInit {
   productos: Producto[] = [];
