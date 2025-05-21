@@ -28,12 +28,11 @@ export class SidebarComponent implements OnInit {
       { label: 'Inicio',      path: '/dashboard',      icon: 'fas fa-home'      },
       { label: 'Jornadas',    path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
       { label: 'Inventario', path: '/inventario',      icon: 'fas fa-receipt'   },
-      { label: 'Archivos',    path: '/files',          icon: 'fas fa-folder'    },
-      { label: 'Chat',        path: '/chat',           icon: 'fas fa-comments'  },
+      { label: 'Tareas', path: esAdmin ? '/admintareas' : '/tareas', icon: 'fas fa-tasks' },
+     // { label: 'Archivos',    path: '/files',          icon: 'fas fa-folder'    },
       { label: 'Añadir', path: '/new', icon: 'fas fa-user'}
     ];
   }
-
   toggle(): void {
     this.expanded = !this.expanded;
     this.expandedChange.emit(this.expanded);

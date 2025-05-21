@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2><i class="fas fa-tasks me-2"></i>Mis Tareas Pendientes</h2>
+
+  <table class="table table-hover mt-3" *ngIf="tareas.length > 0; else sinTareas">
+    <thead class="table-light">
+      <tr>
+        <th>Fecha</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Prioridad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tarea of tareas" [class.table-warning]="tarea.estado === 'pendiente'" [class.table-info]="tarea.estado === 'en progreso'">
+        <td>{{ tarea.fecha }}</td>
+        <td>{{ tarea.titulo }}</td>
+        <td>{{ tarea.descripcion }}</td>
+        <td>
+          <span class="badge bg-secondary">{{ tarea.estado }}</span>
+        </td>
+        <td>
+          <span class="badge" [ngClass]="{
+            'bg-danger': tarea.prioridad === 'alta',
+            'bg-warning text-dark': tarea.prioridad === 'media',
+            'bg-success': tarea.prioridad === 'baja'
+          }">
+            {{ tarea.prioridad }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #sinTareas>
+    <div class="alert alert-info mt-3">No tienes tareas pendientes.</div>
+  </ng-template>
+</div>

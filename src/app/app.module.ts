@@ -11,6 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { CommonModule } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { InventarioComponent } from './components/Inventario/inventario.component';
+import { AdminTareasComponent } from './components/AdminTareas/admin-tareas.component';
+import { TareasUsuarioComponent } from './components/TareasUsuario/tareas-usuario.component';
 
 //Componentes
 import { AppComponent }            from './app.component';
@@ -43,7 +45,9 @@ import { FilterByCompanyPipe } from '../pipes/filterbycompany.pipe';
     JornadaComponent,
     formulariosComponent,
     AdminJornadasComponent,
+    AdminTareasComponent,
     InventarioComponent,
+    TareasUsuarioComponent,
     //Shared componentes
     SidebarComponent,
     HeaderComponent,

@@ -7,12 +7,16 @@ import { tap, map } from 'rxjs/operators';
 import { environment } from '../../environment/environment';
 
 export interface User {
-  sub: string;       //ID de Usuario
+  sub: string;
   iat: number;
   rol: string;
   exp: number;
-  [key: string]: any;
+  empresa_id: number;
+  nombre: string;
+  apellidos: string;
+  email: string;
 }
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
