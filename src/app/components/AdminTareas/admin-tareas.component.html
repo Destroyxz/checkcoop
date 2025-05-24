@@ -14,19 +14,26 @@
         <th>Usuario</th>
        
         <th>Título</th>
+            <th>Descripción</th>
         <th>Estado</th>
         <th>Prioridad</th>
+    
          <th>Fecha</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tarea of tareas">
+      <tr *ngFor="let tarea of tareas" >
 <td>{{ tarea.asignadoNombre }}</td>
         
         <td>{{ tarea.titulo }}</td>
-        <td><span class="badge bg-secondary">{{ tarea.estado }}</span></td>
-        <td><span class="badge bg-info text-dark">{{ tarea.prioridad }}</span></td>
+                <td>{{ tarea.descripcion }}</td>
+        <td><span class="badge bg-secondary">{{ tarea.estado | uppercase }}</span></td>
+        <td><span class="badge" [ngClass]="{
+            'bg-danger': tarea.prioridad === 'alta',
+            'bg-warning text-dark': tarea.prioridad === 'media',
+            'bg-success': tarea.prioridad === 'baja'
+          }">{{ tarea.prioridad | uppercase  }}</span></td>
         <td>{{ tarea.fecha }}</td>
         <td>
           <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="editarTarea(tarea)">
@@ -45,7 +52,7 @@
 <div class="modal fade" id="modalTarea" tabindex="-1" aria-labelledby="modalTareaLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-end">
     <div class="modal-content">
-      <form (ngSubmit)="guardarTarea()">
+      <form  #formulario="ngForm" (ngSubmit)="guardarTarea()">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title" id="modalTareaLabel">
             {{ modoEdicion ? 'Editar Tarea' : 'Nueva Tarea' }}
@@ -94,7 +101,7 @@
         </div>
 
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Guardar</button>
+          <button type="submit" class="btn btn-success" data-bs-dismiss="modal"  [disabled]="formulario.invalid">Guardar</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </form>

@@ -51,12 +51,14 @@ export class AdminTareasComponent implements OnInit {
 
   abrirNuevaTarea(): void {
  const usuario = this.authService.getUser();
+  const hoy = new Date();
+  const fechaActual = hoy.toISOString().split('T')[0];
     this.modoEdicion = false;
     this.tareaForm = {
   id: null,
       usuario_id: '',
        empresa_id: usuario?.empresa_id || null,
-  fecha: '',
+ fecha: fechaActual,
   titulo: '',
   descripcion: '',
   prioridad: 'media',

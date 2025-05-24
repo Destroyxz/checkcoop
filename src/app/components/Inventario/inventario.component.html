@@ -17,9 +17,10 @@
         <th>Precio</th>
         <th>Stock</th>
         <th>Unidad</th>
+               <th>Descripción</th>
         <th>Estado</th>
         
-        <th>Descripción</th>
+ 
         <th>Acciones</th>
       </tr>
     </thead>
@@ -31,12 +32,13 @@
         <td>{{ p.precio | currency:'EUR' }}</td>
         <td>{{ p.cantidad }}</td>
         <td>{{ p.unidad }}</td>
+                <td>{{ p.descripcion }}</td>
         <td>
           <span class="badge" [ngClass]="getEstadoClase(p)">
-            {{ getEstadoTexto(p) }}
+            {{ getEstadoTexto(p) | uppercase  }}
           </span>
         </td>
-        <td>{{ p.descripcion }}</td>
+
         <td>
           <button class="btn btn-outline-secondary btn-sm me-1" (click)="abrirModal(p)"><i class="bi bi-pencil-square"></i></button>
           <button class="btn btn-outline-danger btn-sm" (click)="eliminarProducto(p)">  <i class="bi bi-trash"></i></button>

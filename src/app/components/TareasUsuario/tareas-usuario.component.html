@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tarea of tareas" [class.table-warning]="tarea.estado === 'pendiente'" [class.table-info]="tarea.estado === 'en progreso'">
+      <tr *ngFor="let tarea of tareas" >
         <td>{{ tarea.fecha }}</td>
         <td>{{ tarea.titulo }}</td>
         <td>{{ tarea.descripcion }}</td>
