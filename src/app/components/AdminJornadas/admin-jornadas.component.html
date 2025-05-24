@@ -33,9 +33,11 @@
       <tbody>
         <tr *ngFor="let j of jornadasFiltradas">
           <td>{{ j.nombre }}</td>
-          <td>{{ j.fecha }}</td>
-          <td>{{ j.hora_entrada || '-' }}</td>
-          <td>{{ j.hora_salida || '-' }}</td>
+   <td>{{ j.fecha | date:'dd MMMM yyyy ' }}</td>
+
+    <td>{{ j.hora_entrada ? (j.hora_entrada | date:'HH:mm') : '-' }}</td>
+<td>{{ j.hora_salida ? (j.hora_salida | date:'HH:mm') : '-' }}</td>
+
           <td>{{ j.tipo_jornada }}</td>
           <td>
             <span class="badge px-3 py-2 text-uppercase"
