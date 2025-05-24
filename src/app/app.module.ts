@@ -10,6 +10,7 @@ import { AdminJornadasComponent } from './components/AdminJornadas/admin-jornada
 import { CookieService } from 'ngx-cookie-service';
 import { CommonModule } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { InventarioComponent } from './components/Inventario/inventario.component';
 import { AdminTareasComponent } from './components/AdminTareas/admin-tareas.component';
 import { TareasUsuarioComponent } from './components/TareasUsuario/tareas-usuario.component';
@@ -20,7 +21,8 @@ import { DashboardComponent } from './components/Dashboard/dashboard.component';
 import { LoginComponent } from './components/Login/login.component';
 import { JornadaComponent } from './components/Jornada/jornada.component'; 
 import { formulariosComponent } from './components/Formularios/formularios.component';
-
+import { EditUserModalComponent } from './components/Formularios/editUser/editUser.component';
+import { EditCompanyModalComponent } from './components/Formularios/editCompany/editCompany.component';
 //Autenticators
 import { AuthGuard }               from './guards/auth.guard';
 import { AuthInterceptor }         from './interceptor/auth.interceptor';
@@ -28,13 +30,13 @@ import { AuthInterceptor }         from './interceptor/auth.interceptor';
 
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
-
-
 import { AppRoutingModule }        from './app-routing.module';
 
 //Pipes
 import { FilterByTextPipe } from '../pipes/filterbytext.pipe';
 import { FilterByCompanyPipe } from '../pipes/filterbycompany.pipe';
+import { FixEncodingPipe } from '../pipes/fixencoding.pipe';
+
 @NgModule({
   declarations: [
     
@@ -45,6 +47,8 @@ import { FilterByCompanyPipe } from '../pipes/filterbycompany.pipe';
     JornadaComponent,
     formulariosComponent,
     AdminJornadasComponent,
+    EditCompanyModalComponent,
+    EditUserModalComponent,
     AdminTareasComponent,
     InventarioComponent,
     TareasUsuarioComponent,
@@ -54,7 +58,8 @@ import { FilterByCompanyPipe } from '../pipes/filterbycompany.pipe';
 
     //Pipes
     FilterByTextPipe,
-    FilterByCompanyPipe
+    FilterByCompanyPipe,
+    FixEncodingPipe
   ],
   imports: [
     BrowserModule,
@@ -65,6 +70,9 @@ import { FilterByCompanyPipe } from '../pipes/filterbycompany.pipe';
     MatMenuModule,
     MatButtonModule,
     CommonModule,
+
+    ModalModule.forRoot(),
+
   ],
   providers: [
     AuthGuard,

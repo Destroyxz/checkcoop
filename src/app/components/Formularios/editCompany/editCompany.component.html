@@ -1,0 +1,44 @@
+<div class="modal-header">
+  <h5 class="modal-title">Editar Empresa</h5>
+  <button type="button" class="btn-close" aria-label="Cerrar" (click)="onCancel()"></button>
+</div>
+<form [formGroup]="companyForm" (ngSubmit)="onSave()">
+  <div class="modal-body">
+    <div class="row g-3">
+      <!-- Nombre -->
+      <div class="col-md-6">
+        <label for="c-nombre">Nombre</label>
+        <input id="c-nombre" formControlName="nombre" class="form-control" placeholder="{{data.nombre}}" />
+      </div>
+      <!-- Razón Social -->
+      <div class="col-md-6">
+        <label for="razon_social">Razón Social</label>
+        <input id="razon_social" formControlName="razon_social" class="form-control" placeholder="{{data.razon_social}}" />
+      </div>
+      <!-- NIF/CIF -->
+      <div class="col-md-6">
+        <label for="nif_cif">NIF/CIF</label>
+        <input id="nif_cif" formControlName="nif_cif" class="form-control" placeholder="{{data.nif_cif}}" />
+      </div>
+      <!-- Dirección -->
+      <div class="col-md-6">
+        <label for="direccion">Dirección</label>
+        <input id="direccion" formControlName="direccion" class="form-control" placeholder="{{data.direccion}}" />
+      </div>
+      <!-- Email Contacto -->
+      <div class="col-md-6">
+        <label for="email_contacto">Email de Contacto</label>
+        <input id="email_contacto" formControlName="email_contacto" class="form-control" placeholder="{{data.email_contacto}}" />
+      </div>
+      <!-- Teléfono -->
+      <div class="col-md-6">
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" formControlName="telefono" class="form-control" placeholder="{{data.telefono}}" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid">Guardar</button>
+  </div>
+</form>

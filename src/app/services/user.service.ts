@@ -50,8 +50,13 @@ export class UserService {
   // Eliminar usuario
     deleteUser(id: number): Observable<void> {
     return this.http
-      .delete<void>(`${this.baseUrl}/${id}`)
+      .delete<void>(`${this.baseUrl}/user/users/${id}`)
       .pipe(catchError(err => throwError(() => err)));
+  }
+
+  // Actualizar usuario
+  update(u: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/user/usuarios/${u.id}`, u);
   }
 
   private handleError(error: HttpErrorResponse) {

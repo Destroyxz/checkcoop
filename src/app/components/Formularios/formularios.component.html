@@ -397,7 +397,7 @@
 
                 <!-- Acciones -->
                 <td class="text-end">
-                  <button class="btn border-0 p-1 me-1">
+                  <button class="btn border-0 p-1 me-1"  (click)="openUserModal(user)">
                     <i class="bi bi-pencil"></i>
                   </button>
                   <button type="button" class="btn border-0 p-1 text-danger" (click)="deleteUser(user)"
@@ -469,14 +469,14 @@
 
                 <!-- Conteo de usuarios -->
                 <td>
-                  <span class="badge bg-info text-white">
+                  <span class="badge bg-primary text-white">
                     {{ e.userCount }}
                   </span>
                 </td>
 
                 <!-- Acciones -->
                 <td class="text-end">
-                  <button class="btn border-0 p-1 me-1">
+                  <button class="btn border-0 p-1 me-1" (click)="openCompanyModal(e)">
                     <i class="bi bi-pencil"></i>
                   </button>
                   <button type="button" class="btn border-0 p-1 text-danger" (click)="deleteEmpresa(e)">

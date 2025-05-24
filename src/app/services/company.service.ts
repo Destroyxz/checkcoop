@@ -55,6 +55,11 @@ export class CompanyService {
       .pipe(catchError(err => throwError(() => err)));
   }
 
+  // Actualizar empresa
+    update(e: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/company/empresas/${e.id}`, e);
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.error('[CompanyService] Error fetching companies:', error);
     // Aquí podrías mapear distintos códigos de status a mensajes amigables

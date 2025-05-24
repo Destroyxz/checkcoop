@@ -37,6 +37,17 @@
   }
 }
 
+header.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .dropdown-menu {
   position: absolute;
   top: 50px; /* Ajusta según sea necesario */
@@ -62,5 +73,30 @@
 }
 
 
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: #fff;
+  /* opcional: cursor pointer si quieres que sea clicable */
+  cursor: pointer;
+}
+
+/* Variaciones por rol */
+.avatar-superadmin {
+  background-color: #6f42c1; /* morado */
+}
+
+.avatar-admin {
+  background-color: #0d6efd; /* azul */
+}
+
+.avatar-usuario {
+  background-color: #198754; /* verde */
+}
 
 
