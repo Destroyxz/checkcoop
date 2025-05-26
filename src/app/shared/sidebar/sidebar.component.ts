@@ -24,14 +24,17 @@ export class SidebarComponent implements OnInit {
     const user = this.auth.getUser();
     const esAdmin = user && (user.rol === 'admin' || user.rol === 'superadmin');
 
-    this.menuItems = [
-      { label: 'Inicio',      path: '/dashboard',      icon: 'fas fa-home'      },
-      { label: 'Jornadas',    path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
-      { label: 'Inventario', path: '/inventario',      icon: 'fas fa-receipt'   },
-      { label: 'Tareas', path: esAdmin ? '/admintareas' : '/tareas', icon: 'fas fa-tasks' },
-     // { label: 'Archivos',    path: '/files',          icon: 'fas fa-folder'    },
-      { label: 'Añadir', path: '/new', icon: 'fas fa-user'}
-    ];
+   this.menuItems = [
+  { label: 'Inicio', path: '/dashboard', icon: 'fas fa-home' },
+  { label: 'Jornadas', path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
+  { label: 'Tareas', path: esAdmin ? '/admintareas' : '/tareas', icon: 'fas fa-tasks' },
+  { label: 'Añadir', path: '/new', icon: 'fas fa-user' }
+];
+
+if (esAdmin) {
+  this.menuItems.splice(2, 0, { label: 'Inventario', path: '/inventario', icon: 'fas fa-receipt' });
+}
+
   }
   toggle(): void {
     this.expanded = !this.expanded;
