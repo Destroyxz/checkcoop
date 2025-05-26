@@ -11,8 +11,10 @@ export interface Producto {
   unidad: string;
   categoria: string;
   precio: number; 
+    imagen?: string;
 }
 
+// ✅ Servicio corregido
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
   private apiUrl = 'http://localhost:3000/productos';
@@ -22,14 +24,17 @@ export class ProductoService {
   obtenerProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiUrl);
   }
-  agregarProducto(producto: Producto): Observable<any> {
+
+  agregarProducto(producto: FormData): Observable<any> {
     return this.http.post(this.apiUrl, producto);
   }
-  actualizarProducto(producto: Producto): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${producto.id}`, producto);
+
+  actualizarProducto(id: number, producto: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, producto);
   }
+
   eliminarProducto(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
-  
 }
+
