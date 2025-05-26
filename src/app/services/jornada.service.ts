@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class JornadaService {
   private apiUrl = `http://localhost:3000/jornadas`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Encapsulamos opciones con headers y withCredentials
   private getOptions(): { headers: HttpHeaders; withCredentials: boolean } {

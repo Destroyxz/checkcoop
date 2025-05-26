@@ -33,15 +33,14 @@
       <tbody>
         <tr *ngFor="let j of jornadasFiltradas" class="text-center">
           <td>{{ j.nombre }}</td>
-   <td>{{ j.fecha | date:'dd MMMM yyyy ' }}</td>
+          <td>{{ j.fecha | date:'dd MMMM yyyy ' }}</td>
 
-    <td>{{ j.hora_entrada ? (j.hora_entrada | date:'HH:mm') : '-' }}</td>
-<td>{{ j.hora_salida ? (j.hora_salida | date:'HH:mm') : '-' }}</td>
+          <td>{{ j.hora_entrada ? (j.hora_entrada | date:'HH:mm') : '-' }}</td>
+          <td>{{ j.hora_salida ? (j.hora_salida | date:'HH:mm') : '-' }}</td>
 
           <td>{{ j.tipo_jornada }}</td>
           <td>
-            <span class="badge px-3 py-2 text-uppercase"
-              [ngClass]="{
+            <span class="badge px-3 py-2 text-uppercase" [ngClass]="{
                 'bg-success': j.estado === 'Completada',
                 'bg-danger': j.estado === 'Incompleta',
                 'bg-warning text-dark': j.estado === 'Con retraso'
@@ -51,7 +50,7 @@
             <button class="btn btn-sm btn-outline-success me-1" (click)="verTramos(j)" title="Ver detalles">
               <i class="bi bi-list-ul"></i>
             </button>
-            
+
             <button class="btn btn-sm btn-outline-danger" (click)="eliminarJornada(j.id)" title="Eliminar jornada">
               <i class="bi bi-trash"></i>
             </button>
@@ -81,8 +80,7 @@
             <p><strong>Entrada:</strong> {{ jornadaSeleccionada.hora_entrada || 'No registrada' }}</p>
             <p><strong>Salida:</strong> {{ jornadaSeleccionada.hora_salida || 'En curso' }}</p>
             <p><strong>Estado:</strong>
-              <span class="badge"
-                [ngClass]="{
+              <span class="badge" [ngClass]="{
                   'bg-success': jornadaSeleccionada.estado === 'Completada',
                   'bg-danger': jornadaSeleccionada.estado === 'Incompleta',
                   'bg-warning text-dark': jornadaSeleccionada.estado === 'Con retraso'
@@ -92,54 +90,59 @@
 
           <!-- Edición de tramos -->
           <!-- Edición de tramos -->
-<div *ngIf="modoEdicionTramos">
-  <form (ngSubmit)="guardarCambiosTramos()">
-    <div *ngFor="let tramo of tramosEditables; let i = index" class="mb-4 p-3 border rounded bg-light position-relative">
-      <h6 class="text-secondary d-flex justify-content-between align-items-center">
-        <span><i class="bi bi-clock me-2"></i>Tramo {{ i + 1 }}</span>
-        <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminarTramo(i)" *ngIf="tramosEditables.length > 1">
-          <i class="bi bi-x-circle"></i> Eliminar
-        </button>
-      </h6>
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label">Inicio</label>
-          <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].inicio" name="inicio{{i}}" required>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Fin</label>
-          <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].fin" name="fin{{i}}">
-        </div>
-      </div>
-    </div>
+          <div *ngIf="modoEdicionTramos">
+            <form (ngSubmit)="guardarCambiosTramos()">
+              <div *ngFor="let tramo of tramosEditables; let i = index"
+                class="mb-4 p-3 border rounded bg-light position-relative">
+                <h6 class="text-secondary d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-clock me-2"></i>Tramo {{ i + 1 }}</span>
+                  <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminarTramo(i)"
+                    *ngIf="tramosEditables.length > 1">
+                    <i class="bi bi-x-circle"></i> Eliminar
+                  </button>
+                </h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Inicio</label>
+                    <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].inicio"
+                      name="inicio{{i}}" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Fin</label>
+                    <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].fin"
+                      name="fin{{i}}">
+                  </div>
+                </div>
+              </div>
 
-    <!-- Botón para añadir nuevo tramo -->
-    <div class="mb-3">
-      <button type="button" class="btn btn-outline-success w-100" (click)="agregarTramo()">
-        <i class="bi bi-plus-circle me-1"></i> Añadir Tramo
-      </button>
-    </div>
+              <!-- Botón para añadir nuevo tramo -->
+              <div class="mb-3">
+                <button type="button" class="btn btn-outline-success w-100" (click)="agregarTramo()">
+                  <i class="bi bi-plus-circle me-1"></i> Añadir Tramo
+                </button>
+              </div>
 
-    <!-- Botones de acción -->
-    <div class="text-end">
-      <button type="submit" class="btn btn-success">
-        <i class="bi bi-check-circle me-1"></i> Guardar Cambios
-      </button>
-      <button type="button" class="btn btn-outline-secondary ms-2" (click)="modoEdicionTramos = false">
-        Cancelar
-      </button>
-    </div>
-  </form>
-</div>
+              <!-- Botones de acción -->
+              <div class="text-end">
+                <button type="submit" class="btn btn-success">
+                  <i class="bi bi-check-circle me-1"></i> Guardar Cambios
+                </button>
+                <button type="button" class="btn btn-outline-secondary ms-2" (click)="modoEdicionTramos = false">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
 
 
           <!-- Visualización de tramos -->
           <div *ngIf="!modoEdicionTramos">
             <h6 class="mt-4">Tramos trabajados</h6>
             <ul class="list-group mb-3">
-              <li *ngFor="let t of tramosSeleccionados" class="list-group-item d-flex justify-content-between align-items-center">
+              <li *ngFor="let t of tramosSeleccionados"
+                class="list-group-item d-flex justify-content-between align-items-center">
                 <span>
-                  {{ t.inicio | date:'shortTime' }} - 
+                  {{ t.inicio | date:'shortTime' }} -
                   {{ t.fin ? (t.fin | date:'shortTime') : 'En curso' }}
                 </span>
                 <span *ngIf="t.fin" class="badge bg-secondary">{{ calcularDuracionTramo(t.inicio, t.fin) }}</span>

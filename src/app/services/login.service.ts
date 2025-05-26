@@ -23,7 +23,7 @@ export interface AuthResult {
 export class AuthService {
   private baseUrl = environment.apiUrl; // Ajusta según tu entorno
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Envía credenciales al backend y guarda token + usuario en localStorage

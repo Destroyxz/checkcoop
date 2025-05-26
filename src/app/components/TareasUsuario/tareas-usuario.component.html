@@ -1,37 +1,37 @@
 <div class="container mt-4">
   <h2 class="mb-4 text-primary"><i class="fas fa-tasks me-2"></i>Mis Tareas Pendientes</h2>
- <div class="table-responsive shadow-sm border rounded">
+  <div class="table-responsive shadow-sm border rounded">
     <table class="table table-striped table-hover align-middle mb-0" *ngIf="tareas.length > 0; else sinTareas">
-    <thead class="table-light">
-      <tr>
-        <th>Fecha</th>
-        <th>Título</th>
-        <th>Descripción</th>
-        <th>Estado</th>
-        <th>Prioridad</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tarea of tareas" >
-        <td>{{ tarea.fecha | date:'dd MMMM yyyy '}}</td>
-        <td>{{ tarea.titulo }}</td>
-        <td>{{ tarea.descripcion }}</td>
-        <td>
-          <span class="badge bg-secondary">{{ tarea.estado }}</span>
-        </td>
-        <td>
-          <span class="badge" [ngClass]="{
+      <thead class="table-light">
+        <tr>
+          <th>Fecha</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarea of tareas">
+          <td>{{ tarea.fecha | date:'dd MMMM yyyy '}}</td>
+          <td>{{ tarea.titulo }}</td>
+          <td>{{ tarea.descripcion }}</td>
+          <td>
+            <span class="badge bg-secondary">{{ tarea.estado }}</span>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="{
             'bg-danger': tarea.prioridad === 'alta',
             'bg-warning text-dark': tarea.prioridad === 'media',
             'bg-success': tarea.prioridad === 'baja'
           }">
-            {{ tarea.prioridad }}
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+              {{ tarea.prioridad }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <ng-template #sinTareas>
     <div class="alert alert-info mt-3">No tienes tareas pendientes.</div>
   </ng-template>

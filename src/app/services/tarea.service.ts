@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TareaService {
-  private API_URL = 'http://localhost:3000/api/tareas'; // cambia si usas proxy o ruta diferente
+  private API_URL = 'http://localhost:3000/api/tareas';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getTodas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}`);

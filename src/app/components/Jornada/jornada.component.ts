@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
-import { UserStorageService, UserStorage} from '../../services/UserStorage.service';
+import { UserStorageService, UserStorage } from '../../services/UserStorage.service';
 @Component({
   selector: 'app-jornada',
   templateUrl: './jornada.component.html'
@@ -27,7 +27,7 @@ export class JornadaComponent implements OnInit {
   constructor(
     private jornadaService: JornadaService,
     private UserStorageService: UserStorageService,
-  ) {}
+  ) { }
 
 
   ngOnInit(): void {

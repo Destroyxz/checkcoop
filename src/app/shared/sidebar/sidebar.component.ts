@@ -13,27 +13,27 @@ interface MenuItem {
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  @Input()  expanded = false;
+  @Input() expanded = false;
   @Output() expandedChange = new EventEmitter<boolean>();
 
   menuItems: MenuItem[] = [];
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
     const user = this.auth.getUser();
     const esAdmin = user && (user.rol === 'admin' || user.rol === 'superadmin');
 
-   this.menuItems = [
-  { label: 'Inicio', path: '/dashboard', icon: 'fas fa-home' },
-  { label: 'Jornadas', path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
-  { label: 'Tareas', path: esAdmin ? '/admintareas' : '/tareas', icon: 'fas fa-tasks' },
-  { label: 'Añadir', path: '/new', icon: 'fas fa-user' }
-];
+    this.menuItems = [
+      { label: 'Inicio', path: '/dashboard', icon: 'fas fa-home' },
+      { label: 'Jornadas', path: esAdmin ? '/adminjornadas' : '/jornada', icon: 'fas fa-clock' },
+      { label: 'Tareas', path: esAdmin ? '/admintareas' : '/tareas', icon: 'fas fa-tasks' },
+      { label: 'Añadir', path: '/new', icon: 'fas fa-user' }
+    ];
 
-if (esAdmin) {
-  this.menuItems.splice(2, 0, { label: 'Inventario', path: '/inventario', icon: 'fas fa-receipt' });
-}
+    if (esAdmin) {
+      this.menuItems.splice(2, 0, { label: 'Inventario', path: '/inventario', icon: 'fas fa-receipt' });
+    }
 
   }
   toggle(): void {

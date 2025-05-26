@@ -1,8 +1,8 @@
 
 //Librerias Angular
-import { NgModule }                from '@angular/core';
-import { BrowserModule }           from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,21 +16,21 @@ import { AdminTareasComponent } from './components/AdminTareas/admin-tareas.comp
 import { TareasUsuarioComponent } from './components/TareasUsuario/tareas-usuario.component';
 
 //Componentes
-import { AppComponent }            from './app.component';
+import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/Dashboard/dashboard.component';
 import { LoginComponent } from './components/Login/login.component';
-import { JornadaComponent } from './components/Jornada/jornada.component'; 
+import { JornadaComponent } from './components/Jornada/jornada.component';
 import { formulariosComponent } from './components/Formularios/formularios.component';
 import { EditUserModalComponent } from './components/Formularios/editUser/editUser.component';
 import { EditCompanyModalComponent } from './components/Formularios/editCompany/editCompany.component';
 //Autenticators
-import { AuthGuard }               from './guards/auth.guard';
-import { AuthInterceptor }         from './interceptor/auth.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
-import { AppRoutingModule }        from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 //Pipes
 import { FilterByTextPipe } from '../pipes/filterbytext.pipe';
@@ -39,7 +39,7 @@ import { FixEncodingPipe } from '../pipes/fixencoding.pipe';
 
 @NgModule({
   declarations: [
-    
+
     //Componentes
     AppComponent,
     LoginComponent,
@@ -78,9 +78,9 @@ import { FixEncodingPipe } from '../pipes/fixencoding.pipe';
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     provideAnimationsAsync()
-  ,    CookieService ,
+    , CookieService,
 
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -3,23 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Producto {
-  id?: number; // 👈 ahora es opcional
+  id?: number;
   numEmpresa: number;
   nombre: string;
   descripcion?: string;
   cantidad: number;
   unidad: string;
   categoria: string;
-  precio: number; 
-    imagen?: string;
+  precio: number;
+  imagen?: string;
 }
 
-// ✅ Servicio corregido
+
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
   private apiUrl = 'http://localhost:3000/productos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obtenerProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiUrl);

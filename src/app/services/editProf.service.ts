@@ -7,9 +7,9 @@ import { environment } from '../../environment/environment';
 })
 export class editProfService {
 
-private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Método para actualizar el perfil del usuario
   updateProfile(formData: FormData): Observable<any> {

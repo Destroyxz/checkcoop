@@ -4,7 +4,7 @@ import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-admin-jornadas',
-  templateUrl: './admin-jornadas.component.html'
+  templateUrl: './admin-jornadas.component.html',
 })
 export class AdminJornadasComponent implements OnInit {
   jornadas: any[] = [];
@@ -20,27 +20,31 @@ export class AdminJornadasComponent implements OnInit {
 
   modoEdicionTramos: boolean = false;
 
-  constructor(private jornadaService: JornadaService) {}
+  constructor(private jornadaService: JornadaService) { }
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
   cargarDatos(): void {
-    this.jornadaService.obtenerTodasLasJornadas().subscribe(data => {
+    this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
       this.jornadas = data;
       this.jornadasFiltradas = [...data];
     });
 
-    this.jornadaService.obtenerTrabajadores().subscribe(data => {
+    this.jornadaService.obtenerTrabajadores().subscribe((data) => {
       this.trabajadores = data;
     });
   }
 
   filtrar(): void {
-    this.jornadasFiltradas = this.jornadas.filter(j => {
-      const coincideTrabajador = this.filtroTrabajador ? j.usuario_id == this.filtroTrabajador : true;
-      const coincideFecha = this.filtroFecha ? j.fecha === this.filtroFecha : true;
+    this.jornadasFiltradas = this.jornadas.filter((j) => {
+      const coincideTrabajador = this.filtroTrabajador
+        ? j.usuario_id == this.filtroTrabajador
+        : true;
+      const coincideFecha = this.filtroFecha
+        ? j.fecha === this.filtroFecha
+        : true;
       return coincideTrabajador && coincideFecha;
     });
   }
@@ -56,16 +60,16 @@ export class AdminJornadasComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar tramos:', err);
-      }
+      },
     });
   }
 
   activarEdicionTramos(): void {
     this.modoEdicionTramos = true;
-    this.tramosEditables = this.tramosSeleccionados.map(t => ({
+    this.tramosEditables = this.tramosSeleccionados.map((t) => ({
       ...t,
       inicio: this.toDatetimeLocal(t.inicio),
-      fin: t.fin ? this.toDatetimeLocal(t.fin) : null
+      fin: t.fin ? this.toDatetimeLocal(t.fin) : null,
     }));
   }
 
@@ -74,7 +78,7 @@ export class AdminJornadasComponent implements OnInit {
 
     const payload = {
       jornadaId: this.jornadaSeleccionada.id,
-      tramos: this.tramosEditables
+      tramos: this.tramosEditables,
     };
 
     this.jornadaService.actualizarTramos(payload).subscribe({
@@ -85,7 +89,7 @@ export class AdminJornadasComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al guardar cambios de tramos:', err);
-      }
+      },
     });
   }
 
@@ -102,17 +106,17 @@ export class AdminJornadasComponent implements OnInit {
 
     this.jornadaService.obtenerTramosPorJornada(jornada.id).subscribe({
       next: (data) => {
-        this.tramosEditables = data.map(t => ({
+        this.tramosEditables = data.map((t) => ({
           ...t,
           inicio: this.toDatetimeLocal(t.inicio),
-          fin: t.fin ? this.toDatetimeLocal(t.fin) : null
+          fin: t.fin ? this.toDatetimeLocal(t.fin) : null,
         }));
 
         this.mostrarModal('modalEditarJornada');
       },
       error: (err) => {
         console.error('Error al cargar tramos para edición:', err);
-      }
+      },
     });
   }
 
@@ -140,14 +144,13 @@ export class AdminJornadasComponent implements OnInit {
     }
   }
   agregarTramo(): void {
-  this.tramosEditables.push({
-    inicio: this.toDatetimeLocal(new Date().toISOString()),
-    fin: null
-  });
-}
+    this.tramosEditables.push({
+      inicio: this.toDatetimeLocal(new Date().toISOString()),
+      fin: null,
+    });
+  }
 
-eliminarTramo(index: number): void {
-  this.tramosEditables.splice(index, 1);
-}
-
+  eliminarTramo(index: number): void {
+    this.tramosEditables.splice(index, 1);
+  }
 }

@@ -1,7 +1,7 @@
 <div class="container my-5">
   <div class="card shadow-lg">
     <div class="card-body text-center">
-      
+
       <!-- Spinner de carga -->
       <div *ngIf="isLoading" class="text-center py-3">
         <div class="spinner-border text-primary" role="status">
@@ -22,13 +22,11 @@
 
         <!-- Botón Iniciar Jornada -->
         <!-- Botón Iniciar Jornada -->
-<button *ngIf="!jornadaIniciada"
-        (click)="iniciarJornada()"
-        [disabled]="isLoading"
-        class="btn btn-primary btn-lg w-100 mt-3">
-  <i class="bi" [ngClass]="horaEntrada ? 'bi-arrow-repeat' : 'bi-play-circle'"></i>
-  {{ horaEntrada ? 'Reanudar Jornada' : 'Iniciar Jornada' }}
-</button>
+        <button *ngIf="!jornadaIniciada" (click)="iniciarJornada()" [disabled]="isLoading"
+          class="btn btn-primary btn-lg w-100 mt-3">
+          <i class="bi" [ngClass]="horaEntrada ? 'bi-arrow-repeat' : 'bi-play-circle'"></i>
+          {{ horaEntrada ? 'Reanudar Jornada' : 'Iniciar Jornada' }}
+        </button>
 
 
         <!-- Jornada Activa -->
@@ -38,9 +36,7 @@
             Entrada: {{ horaEntrada | date:'shortTime' }} <br>
             Horario previsto: {{ horaInicio1 }} - {{ horaFin2 }}
           </div>
-          <button (click)="terminarJornada()"
-                  [disabled]="isLoading"
-                  class="btn btn-danger btn-lg w-100">
+          <button (click)="terminarJornada()" [disabled]="isLoading" class="btn btn-danger btn-lg w-100">
             <i class="bi bi-stop-circle"></i> Terminar Jornada
           </button>
         </div>
@@ -74,13 +70,9 @@
 
           <!-- Barra de progreso -->
           <div class="progress mt-3" style="height: 20px;">
-            <div class="progress-bar"
-                [ngClass]="cumplioJornada ? 'bg-success' : 'bg-warning'"
-                role="progressbar"
-                [style.width.%]="(horasTrabajadas / 7) * 100"
-                attr.aria-valuenow="{{ horasTrabajadas }}"
-                attr.aria-valuemin="0"
-                attr.aria-valuemax="7">
+            <div class="progress-bar" [ngClass]="cumplioJornada ? 'bg-success' : 'bg-warning'" role="progressbar"
+              [style.width.%]="(horasTrabajadas / 7) * 100" attr.aria-valuenow="{{ horasTrabajadas }}"
+              attr.aria-valuemin="0" attr.aria-valuemax="7">
               {{ horasTrabajadas }}h / 7h
             </div>
           </div>
@@ -106,7 +98,7 @@
       <div class="modal-body text-start">
         <p><strong>Fecha:</strong> {{ fechaActual }}</p>
         <p><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</p>
-       <p><strong>Salida:</strong> {{ horaSalida ? (horaSalida | date:'shortTime') : 'En curso' }}</p>
+        <p><strong>Salida:</strong> {{ horaSalida ? (horaSalida | date:'shortTime') : 'En curso' }}</p>
         <p><strong>Duración total:</strong> {{ duracion }}</p>
         <p><strong>Jornada completa:</strong> {{ cumplioJornada ? 'Sí' : 'No' }}</p>
         <p><strong>Llegó tarde:</strong> {{ llegoTarde ? 'Sí' : 'No' }}</p>
@@ -114,16 +106,16 @@
         <hr>
         <h6>Tramos trabajados</h6>
         <ul *ngIf="tramos.length > 0; else sinTramos" class="list-group">
-  <li *ngFor="let tramo of tramos" class="list-group-item d-flex justify-content-between align-items-center">
-    {{ tramo.inicio | date:'shortTime' }} - {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
-    <span *ngIf="tramo.fin" class="badge bg-secondary">
-      {{ calcularDuracionTramo(tramo.inicio, tramo.fin) }}
-    </span>
-  </li>
-</ul>
-<ng-template #sinTramos>
-  <p class="text-muted">Aún no has registrado ningún tramo hoy.</p>
-</ng-template>
+          <li *ngFor="let tramo of tramos" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ tramo.inicio | date:'shortTime' }} - {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
+            <span *ngIf="tramo.fin" class="badge bg-secondary">
+              {{ calcularDuracionTramo(tramo.inicio, tramo.fin) }}
+            </span>
+          </li>
+        </ul>
+        <ng-template #sinTramos>
+          <p class="text-muted">Aún no has registrado ningún tramo hoy.</p>
+        </ng-template>
 
       </div>
       <div class="modal-footer">

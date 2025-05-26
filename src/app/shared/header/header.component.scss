@@ -2,7 +2,7 @@
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  
+
   .header-left {
     display: flex;
     align-items: center;
@@ -50,7 +50,8 @@ header.fixed {
 
 .dropdown-menu {
   position: absolute;
-  top: 50px; /* Ajusta según sea necesario */
+  top: 50px;
+  /* Ajusta según sea necesario */
   right: 0;
   border: 1px solid #ccc;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -68,7 +69,7 @@ header.fixed {
   text-decoration: none;
 }
 
-.dropdown-menu ul li a:hover{
+.dropdown-menu ul li a:hover {
   background-color: var(--color-primario-hover);
 }
 
@@ -88,15 +89,16 @@ header.fixed {
 
 /* Variaciones por rol */
 .avatar-superadmin {
-  background-color: #6f42c1; /* morado */
+  background-color: #6f42c1;
+  /* morado */
 }
 
 .avatar-admin {
-  background-color: #0d6efd; /* azul */
+  background-color: #0d6efd;
+  /* azul */
 }
 
 .avatar-usuario {
-  background-color: #198754; /* verde */
+  background-color: #198754;
+  /* verde */
 }
-
-

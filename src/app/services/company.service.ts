@@ -20,7 +20,7 @@ export interface Company {
 export class CompanyService {
   private baseUrl = environment.apiUrl; // Ajusta según tu entorno
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
 
 
@@ -56,7 +56,7 @@ export class CompanyService {
   }
 
   // Actualizar empresa
-    update(e: any): Observable<any> {
+  update(e: any): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/company/empresas/${e.id}`, e);
   }
 

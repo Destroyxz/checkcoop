@@ -1,52 +1,54 @@
 .app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  background: #007bff;
+  padding: 0.5rem 1rem;
+  color: #fff;
+
+  .nav-list {
     display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .app-header {
-    background: #007bff;
-    padding: 0.5rem 1rem;
-    color: #fff;
-  
-    .nav-list {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-  
-      li {
-        margin-right: 1rem;
-  
-        a {
-          color: #fff;
-          text-decoration: none;
-          &.active {
-            font-weight: bold;
-            text-decoration: underline;
-          }
-          &:hover {
-            opacity: 0.8;
-          }
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin-right: 1rem;
+
+      a {
+        color: #fff;
+        text-decoration: none;
+
+        &.active {
+          font-weight: bold;
+          text-decoration: underline;
+        }
+
+        &:hover {
+          opacity: 0.8;
         }
       }
     }
   }
-  
-  .app-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-  }
-  
+}
 
-  .sidebar.collapsed + .app-wrapper {
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+
+.sidebar.collapsed+.app-wrapper {
   margin-left: 60px;
   transition: margin-left 0.3s ease;
 }
 
 /* Margen cuando el sidebar está expandido */
-.sidebar:not(.collapsed) + .app-wrapper {
+.sidebar:not(.collapsed)+.app-wrapper {
   margin-left: 240px;
 }
 
@@ -54,15 +56,18 @@
   margin-left: 60px;
   transition: margin-left 0.3s ease;
 }
+
 .layout.expanded .app-wrapper {
   margin-left: 240px;
   transition: margin-left 0.3s ease;
 }
+
 .fondo-personalizado {
-  background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), 
-              url('../assets/back.png') center center no-repeat;
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+    url('../assets/back.png') center center no-repeat;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  min-height: 100vh; /* Asegura que ocupe toda la pantalla */
+  min-height: 100vh;
+  /* Asegura que ocupe toda la pantalla */
 }

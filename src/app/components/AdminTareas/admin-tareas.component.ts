@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-tareas',
-  templateUrl: './admin-tareas.component.html'
+  templateUrl: './admin-tareas.component.html',
 })
 export class AdminTareasComponent implements OnInit {
   tareas: any[] = [];
@@ -18,61 +18,59 @@ export class AdminTareasComponent implements OnInit {
     titulo: '',
     descripcion: '',
     prioridad: 'media',
-    estado: 'pendiente'
+    estado: 'pendiente',
   };
 
   modoEdicion: boolean = false;
-filtroBusqueda: string = '';
-filtroTrabajador: string = '';
-filtroFecha: string = '';
+  filtroBusqueda: string = '';
+  filtroTrabajador: string = '';
+  filtroFecha: string = '';
 
-tareasFiltradas: any[] = [];
+  tareasFiltradas: any[] = [];
 
   constructor(
     private tareaService: TareaService,
     private usuarioService: UserService,
-      private authService: AuthService
-
-  ) {}
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.cargarTareas();
     this.cargarUsuarios();
   }
 
-cargarTareas(): void {
-  this.tareaService.getTodas().subscribe({
-    next: (data) => {
-      this.tareas = data;
-      this.filtrar(); // aplica filtros automáticamente
-    },
-    error: (err) => console.error('Error cargando tareas:', err)
-  });
-}
-
+  cargarTareas(): void {
+    this.tareaService.getTodas().subscribe({
+      next: (data) => {
+        this.tareas = data;
+        this.filtrar(); // aplica filtros automáticamente
+      },
+      error: (err) => console.error('Error cargando tareas:', err),
+    });
+  }
 
   cargarUsuarios(): void {
     this.usuarioService.getAllUsers().subscribe({
       next: (data) => (this.usuarios = data),
-      error: (err) => console.error('Error cargando usuarios:', err)
+      error: (err) => console.error('Error cargando usuarios:', err),
     });
   }
 
   abrirNuevaTarea(): void {
- const usuario = this.authService.getUser();
-  const hoy = new Date();
-  const fechaActual = hoy.toISOString().split('T')[0];
+    const usuario = this.authService.getUser();
+    const hoy = new Date();
+    const fechaActual = hoy.toISOString().split('T')[0];
     this.modoEdicion = false;
     this.tareaForm = {
-  id: null,
+      id: null,
       usuario_id: '',
-       empresa_id: usuario?.empresa_id || null,
- fecha: fechaActual,
-  titulo: '',
-  descripcion: '',
-  prioridad: 'media',
-  estado: 'pendiente'
-};
+      empresa_id: usuario?.empresa_id || null,
+      fecha: fechaActual,
+      titulo: '',
+      descripcion: '',
+      prioridad: 'media',
+      estado: 'pendiente',
+    };
   }
 
   editarTarea(tarea: any): void {
@@ -82,9 +80,11 @@ cargarTareas(): void {
 
   guardarTarea(): void {
     if (this.modoEdicion) {
-      this.tareaService.actualizar(this.tareaForm.id, this.tareaForm).subscribe(() => {
-        this.cargarTareas();
-      });
+      this.tareaService
+        .actualizar(this.tareaForm.id, this.tareaForm)
+        .subscribe(() => {
+          this.cargarTareas();
+        });
     } else {
       this.tareaService.crear(this.tareaForm).subscribe(() => {
         this.cargarTareas();
@@ -98,24 +98,16 @@ cargarTareas(): void {
     }
   }
   filtrar(): void {
-  this.tareasFiltradas = this.tareas.filter(t => {
-    const coincideBusqueda =
-      this.filtroBusqueda === '' ||
-      t.titulo.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
-      t.descripcion.toLowerCase().includes(this.filtroBusqueda.toLowerCase());
+    this.tareasFiltradas = this.tareas.filter((t) => {
+      const coincideBusqueda =
+        this.filtroBusqueda === '' ||
+        t.titulo.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
+        t.descripcion.toLowerCase().includes(this.filtroBusqueda.toLowerCase());
 
-    const coincideTrabajador =
-      this.filtroTrabajador === '' || t.usuario_id == this.filtroTrabajador;
+      const coincideTrabajador =
+        this.filtroTrabajador === '' || t.usuario_id == this.filtroTrabajador;
 
-
-
-    return coincideBusqueda && coincideTrabajador ;
-  });
+      return coincideBusqueda && coincideTrabajador;
+    });
+  }
 }
-
-
-
-
-
-
-} 

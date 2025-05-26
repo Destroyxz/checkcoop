@@ -13,7 +13,7 @@ export class TareasUsuarioComponent implements OnInit {
   constructor(
     private tareaService: TareaService,
     private userStorageService: UserStorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.usercookie = this.userStorageService.getUser();

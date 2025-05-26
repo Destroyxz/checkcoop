@@ -2,76 +2,78 @@
   <h2 class="mb-4 text-primary"><i class="bi bi-tools me-2"></i>Gestión de Tareas</h2>
 
   <div class="row align-items-end g-3 mb-4">
-  <div class="col-md-4">
-    <label class="form-label">Filtrar por trabajador</label>
-    <select class="form-select" [(ngModel)]="filtroTrabajador" (change)="filtrar()">
-      <option value="">Todos</option>
-      <option *ngFor="let user of usuarios" [value]="user.id">{{ user.nombre }}</option>
-    </select>
-  </div>
+    <div class="col-md-4">
+      <label class="form-label">Filtrar por trabajador</label>
+      <select class="form-select" [(ngModel)]="filtroTrabajador" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option *ngFor="let user of usuarios" [value]="user.id">{{ user.nombre }}</option>
+      </select>
+    </div>
 
-  <div class="col-md-4">
-    <label class="form-label">Buscar tareas</label>
-    <input type="text" class="form-control" placeholder="Título o descripción..." [(ngModel)]="filtroBusqueda" (input)="filtrar()" />
-  </div>
+    <div class="col-md-4">
+      <label class="form-label">Buscar tareas</label>
+      <input type="text" class="form-control" placeholder="Título o descripción..." [(ngModel)]="filtroBusqueda"
+        (input)="filtrar()" />
+    </div>
 
-  <div class="col-md-4 text-end">
-    <label class="form-label invisible d-block">.</label> <!-- para alinear verticalmente -->
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="abrirNuevaTarea()">
-      <i class="bi bi-plus-circle me-1"></i> Nueva Tarea
-    </button>
+    <div class="col-md-4 text-end">
+      <label class="form-label invisible d-block">.</label> <!-- para alinear verticalmente -->
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="abrirNuevaTarea()">
+        <i class="bi bi-plus-circle me-1"></i> Nueva Tarea
+      </button>
+    </div>
   </div>
-</div>
 
 
   <div class="table-responsive shadow-sm border rounded">
     <table class="table table-striped table-hover align-middle mb-0">
-    <thead class="table-light">
-      <tr class="text-center">
-        <th>Usuario</th>
-       
-        <th>Título</th>
-            <th>Descripción</th>
-        <th>Estado</th>
-        <th>Prioridad</th>
-    
-         <th>Fecha</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-   <tr *ngFor="let tarea of tareasFiltradas" class="text-center">
+      <thead class="table-light">
+        <tr class="text-center">
+          <th>Usuario</th>
 
-<td>{{ tarea.asignadoNombre }}</td>
-        
-        <td>{{ tarea.titulo }}</td>
-                <td>{{ tarea.descripcion }}</td>
-        <td><span class="badge bg-secondary">{{ tarea.estado | uppercase }}</span></td>
-        <td><span class="badge" [ngClass]="{
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarea of tareasFiltradas" class="text-center">
+
+          <td>{{ tarea.asignadoNombre }}</td>
+
+          <td>{{ tarea.titulo }}</td>
+          <td>{{ tarea.descripcion }}</td>
+          <td><span class="badge bg-secondary">{{ tarea.estado | uppercase }}</span></td>
+          <td><span class="badge" [ngClass]="{
             'bg-danger': tarea.prioridad === 'alta',
             'bg-warning text-dark': tarea.prioridad === 'media',
             'bg-success': tarea.prioridad === 'baja'
-          }">{{ tarea.prioridad | uppercase  }}</span></td>
-        <td>{{ tarea.fecha |   date:'dd MMMM yyyy '}}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="editarTarea(tarea)">
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button class="btn btn-sm btn-outline-danger" (click)="eliminarTarea(tarea.id)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          }">{{ tarea.prioridad | uppercase }}</span></td>
+          <td>{{ tarea.fecha | date:'dd MMMM yyyy '}}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#modalTarea"
+              (click)="editarTarea(tarea)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="eliminarTarea(tarea.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="modalTarea" tabindex="-1" aria-labelledby="modalTareaLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-end">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-end">
     <div class="modal-content">
-      <form  #formulario="ngForm" (ngSubmit)="guardarTarea()">
+      <form #formulario="ngForm" (ngSubmit)="guardarTarea()">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title" id="modalTareaLabel">
             {{ modoEdicion ? 'Editar Tarea' : 'Nueva Tarea' }}
@@ -120,7 +122,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" data-bs-dismiss="modal"  [disabled]="formulario.invalid">Guardar</button>
+          <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+            [disabled]="formulario.invalid">Guardar</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </form>

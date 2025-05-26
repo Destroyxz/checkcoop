@@ -1,43 +1,28 @@
-
-
 <header class="header sticky-top d-flex justify-content-between align-items-center p-3">
- <div class="header-left d-flex align-items-center">
-  <img 
-    src="assets/logo-icon.png" 
-    alt="CheckCoop logo" 
-    class="logo-icon me-2" 
-    width="55" 
-    height="55"
-  />
-  <span style=" font-family: 'Cinzel', serif;
+  <div class="header-left d-flex align-items-center">
+    <img src="assets/logo-icon.png" alt="CheckCoop logo" class="logo-icon me-2" width="55" height="55" />
+    <span style=" font-family: 'Cinzel', serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: #000;
   letter-spacing: 1px;
 ">CheckCoop - Tu aplicación para Cooperativas</span>
-</div>
+  </div>
 
 
-  <div
-  class="header-right d-flex align-items-center"
-  (click)="toggleDropdown()"
->
-  <!-- Avatar dinámico -->
-  <div
-    class="avatar me-2"
-    [ngClass]="{
+  <div class="header-right d-flex align-items-center" (click)="toggleDropdown()">
+    <!-- Avatar dinámico -->
+    <div class="avatar me-2" [ngClass]="{
       'avatar-superadmin': userData.rol === 'superadmin',
       'avatar-admin':       userData.rol === 'admin',
       'avatar-usuario':     userData.rol === 'usuario'
-    }"
+    }">
+      {{ userData.nombre.charAt(0) | uppercase }}
+    </div>
 
-  >
-    {{ userData.nombre.charAt(0) | uppercase }}
+    <!-- Nombre completo -->
+    <span>{{ userData.nombre | fixEncoding }} {{ userData.apellidos | fixEncoding }}</span>
   </div>
-
-  <!-- Nombre completo -->
-<span>{{ userData.nombre | fixEncoding }} {{ userData.apellidos | fixEncoding }}</span>
-</div>
 
 
   <!-- Dropdown Menu usando Bootstrap -->

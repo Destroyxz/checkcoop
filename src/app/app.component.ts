@@ -9,12 +9,12 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
 
-    expanded = false;
+  expanded = false;
 
   constructor(
     private authService: AuthService,
     public router: Router
-  ) {}
+  ) { }
 
   onLogout(): void {
     this.authService.logout();

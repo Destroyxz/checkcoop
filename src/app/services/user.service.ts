@@ -18,11 +18,11 @@ export interface NewUser {
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = environment.apiUrl; 
+  private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-//Crear usuario
+  //Crear usuario
   newUser(data: NewUser): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/user/newUser`, data)
       .pipe(
@@ -48,7 +48,7 @@ export class UserService {
   }
 
   // Eliminar usuario
-    deleteUser(id: number): Observable<void> {
+  deleteUser(id: number): Observable<void> {
     return this.http
       .delete<void>(`${this.baseUrl}/user/users/${id}`)
       .pipe(catchError(err => throwError(() => err)));

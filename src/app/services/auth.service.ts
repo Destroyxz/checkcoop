@@ -30,11 +30,11 @@ export class AuthService {
   public get token(): string | null {
     return this.getToken();
   }
-  
+
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   /** Devuelve el token almacenado o null */
   getToken(): string | null {
@@ -53,11 +53,11 @@ export class AuthService {
       email: email,
       password
     })
-    
+
       .pipe(
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);
-          this._currentUser$.next(this.getUserFromToken()); 
+          this._currentUser$.next(this.getUserFromToken());
         }),
         map(() => void 0)
       );
@@ -65,7 +65,7 @@ export class AuthService {
   register(userData: { username: string; surname: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/auth/register`, userData);
   }
-  
+
   /** Elimina token y reinicia estado */
   logout(): void {
     localStorage.removeItem(this.tokenKey);
@@ -76,21 +76,21 @@ export class AuthService {
   /** Decodifica JWT y retorna el payload */
   private getUserFromToken(): User | null {
     let token = this.getToken();
-  
+
     // Si no existe un token, generamos uno de prueba
     if (!token) {
       console.log('No se encontró el token en localStorage. Generando un token de prueba.');
       token = this.generateFakeToken(); // Generamos un token de prueba
       localStorage.setItem(this.tokenKey, token); // Guardamos el token en localStorage
     }
-  
+
     try {
       const tokenParts = token.split('.');
       if (tokenParts.length !== 3) {
         console.error('Token JWT inválido. No tiene la estructura esperada.');
         return null;
       }
-  
+
       const payload = tokenParts[1];
       const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
       const obj = JSON.parse(decoded);
@@ -102,28 +102,28 @@ export class AuthService {
   }
 
   /** Genera un token falso (solo para pruebas) */
-private generateFakeToken(): string {
-  const payload = {
-    sub: 'testUser',
-    iat: Math.floor(Date.now() / 1000),  // Timestamp actual
-    exp: Math.floor(Date.now() / 1000) + (60 * 60),  // 1 hora de expiración
-    name: 'Test User'
-  };
-  
-  // Generamos un JWT simple con el payload
-  const base64Url = this.base64UrlEncode(JSON.stringify(payload));
-  const signature = 'dummy_signature';  // Esta es una firma dummy solo para pruebas
-  return `header.${base64Url}.${signature}`;
-}
+  private generateFakeToken(): string {
+    const payload = {
+      sub: 'testUser',
+      iat: Math.floor(Date.now() / 1000),  // Timestamp actual
+      exp: Math.floor(Date.now() / 1000) + (60 * 60),  // 1 hora de expiración
+      name: 'Test User'
+    };
 
-/** Codifica el payload en base64Url */
-private base64UrlEncode(str: string): string {
-  const base64 = btoa(str); // Convierte a base64
-  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');  // Convierte a base64Url
-}
-/** Devuelve el usuario actual decodificado del token */
-getUser(): User | null {
-  return this._currentUser$.value;
-}
+    // Generamos un JWT simple con el payload
+    const base64Url = this.base64UrlEncode(JSON.stringify(payload));
+    const signature = 'dummy_signature';  // Esta es una firma dummy solo para pruebas
+    return `header.${base64Url}.${signature}`;
+  }
+
+  /** Codifica el payload en base64Url */
+  private base64UrlEncode(str: string): string {
+    const base64 = btoa(str); // Convierte a base64
+    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');  // Convierte a base64Url
+  }
+  /** Devuelve el usuario actual decodificado del token */
+  getUser(): User | null {
+    return this._currentUser$.value;
+  }
 
 }
