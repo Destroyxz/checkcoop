@@ -20,7 +20,7 @@
   <div class="table-responsive shadow-sm border rounded">
     <table class="table table-striped table-hover align-middle mb-0">
       <thead class="table-light">
-        <tr>
+        <tr class="text-center">
           <th>Trabajador</th>
           <th>Fecha</th>
           <th>Entrada</th>
@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let j of jornadasFiltradas">
+        <tr *ngFor="let j of jornadasFiltradas" class="text-center">
           <td>{{ j.nombre }}</td>
    <td>{{ j.fecha | date:'dd MMMM yyyy ' }}</td>
 
@@ -48,7 +48,7 @@
               }">{{ j.estado }}</span>
           </td>
           <td>
-            <button class="btn btn-sm btn-outline-info me-1" (click)="verTramos(j)" title="Ver detalles">
+            <button class="btn btn-sm btn-outline-success me-1" (click)="verTramos(j)" title="Ver detalles">
               <i class="bi bi-list-ul"></i>
             </button>
             

@@ -7,10 +7,10 @@
   </button>
 </div>
 
-
-  <table class="table table-striped table-hover">
+  <div class="table-responsive shadow-sm border rounded">
+    <table class="table table-striped table-hover align-middle mb-0">
     <thead class="table-light">
-      <tr>
+      <tr class="text-center">
         <th>Usuario</th>
        
         <th>Título</th>
@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tarea of tareas" >
+      <tr *ngFor="let tarea of tareas"  class="text-center">
 <td>{{ tarea.asignadoNombre }}</td>
         
         <td>{{ tarea.titulo }}</td>
@@ -34,9 +34,9 @@
             'bg-warning text-dark': tarea.prioridad === 'media',
             'bg-success': tarea.prioridad === 'baja'
           }">{{ tarea.prioridad | uppercase  }}</span></td>
-        <td>{{ tarea.fecha }}</td>
+        <td>{{ tarea.fecha |   date:'dd MMMM yyyy '}}</td>
         <td>
-          <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="editarTarea(tarea)">
+          <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="editarTarea(tarea)">
             <i class="bi bi-pencil"></i>
           </button>
           <button class="btn btn-sm btn-outline-danger" (click)="eliminarTarea(tarea.id)">
@@ -46,6 +46,7 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </div>
 
 <!-- Modal -->
