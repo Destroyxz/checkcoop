@@ -22,6 +22,11 @@ export class AdminTareasComponent implements OnInit {
   };
 
   modoEdicion: boolean = false;
+filtroBusqueda: string = '';
+filtroTrabajador: string = '';
+filtroFecha: string = '';
+
+tareasFiltradas: any[] = [];
 
   constructor(
     private tareaService: TareaService,
@@ -35,12 +40,16 @@ export class AdminTareasComponent implements OnInit {
     this.cargarUsuarios();
   }
 
-  cargarTareas(): void {
-    this.tareaService.getTodas().subscribe({
-      next: (data) => (this.tareas = data),
-      error: (err) => console.error('Error cargando tareas:', err)
-    });
-  }
+cargarTareas(): void {
+  this.tareaService.getTodas().subscribe({
+    next: (data) => {
+      this.tareas = data;
+      this.filtrar(); // aplica filtros automáticamente
+    },
+    error: (err) => console.error('Error cargando tareas:', err)
+  });
+}
+
 
   cargarUsuarios(): void {
     this.usuarioService.getAllUsers().subscribe({
@@ -88,4 +97,25 @@ export class AdminTareasComponent implements OnInit {
       this.tareaService.eliminar(id).subscribe(() => this.cargarTareas());
     }
   }
+  filtrar(): void {
+  this.tareasFiltradas = this.tareas.filter(t => {
+    const coincideBusqueda =
+      this.filtroBusqueda === '' ||
+      t.titulo.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
+      t.descripcion.toLowerCase().includes(this.filtroBusqueda.toLowerCase());
+
+    const coincideTrabajador =
+      this.filtroTrabajador === '' || t.usuario_id == this.filtroTrabajador;
+
+
+
+    return coincideBusqueda && coincideTrabajador ;
+  });
+}
+
+
+
+
+
+
 } 
