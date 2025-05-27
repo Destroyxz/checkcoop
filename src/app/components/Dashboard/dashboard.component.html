@@ -1,17 +1,139 @@
-<div class="dashboard-container">
-  <h1 class="mb-4 text-primary">Panel de Control</h1>
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item" *ngFor="let t of tabs">
+    <ng-container *ngIf="!(t.key === 'companies' && !isSuperAdmin)">
+      <a class="nav-link" [class.active]="selectedTab === t.key" (click)="selectTab(t.key)">{{ t.label }}</a>
+    </ng-container>
+  </li>
+</ul>
 
-  <div class="stats-grid">
-    <div *ngFor="let stat of stats" class="stat-card" [ngClass]="stat.colorClass">
-      <div class="icon">
-        <i [class]="stat.icon"></i>
+<div [ngSwitch]="selectedTab">
+
+  <!-- Resumen -->
+  <div *ngSwitchCase="'summary'">
+    <div class="row g-3">
+      <ng-container *ngIf="!loadingSummary; else loadingTpl">
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Total Usuarios</h5>
+              <h2>{{ totalUsers }}</h2>
+              <small class="text-success">+{{ activeUsers }} activos</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3" *ngIf="isSuperAdmin">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Empresas</h5>
+              <h2>{{ totalCompanies }}</h2>
+              <small class="text-info">+{{ newCompaniesThisMonth }} este mes</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Duración Media</h5>
+              <h2>{{ averageDuration/60 | number:'1.1-1' }}h</h2>
+              <small class="text-muted">{{ averageTramosCount | number:'1.1-1' }} tramos</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Valor Inventario</h5>
+              <h2>$ {{ totalStockValue/1e6 | number:'1.1-1' }}M</h2>
+              <small class="text-muted">{{ stockLevels.length }} productos</small>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #loadingTpl>
+        <div class="col-md-3" *ngFor="let _ of [1,2,3,4]">
+          <div class="card placeholder-glow text-center">
+            <div class="card-body">
+              <h5 class="card-title placeholder col-6"></h5>
+              <h2 class="placeholder col-4"></h2>
+              <small class="placeholder col-3"></small>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="row mt-4 g-3">
+      <div class="col-md-6"><canvas #usersChart></canvas></div>
+      <div class="col-md-6"><canvas #durationChart></canvas></div>
+    </div>
+  </div>
+
+  <!-- Usuarios -->
+  <div *ngSwitchCase="'users'">
+    <div class="row g-3">
+      <div class="col-md-3" *ngFor="let card of userCards">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">{{ card.title }}</h5>
+            <h2>{{ card.value }}</h2>
+            <small [ngClass]="{'text-success': card.isPositive, 'text-danger': !card.isPositive}">{{ card.sub }}</small>
+          </div>
+        </div>
       </div>
-      <div class="details">
-        <h2>{{ stat.value }}</h2>
-        <p>{{ stat.title }}</p>
+    </div>
+    <div class="row mt-4 g-3">
+      <div class="col-md-6"><canvas #newUsersChart></canvas></div>
+      <div class="col-md-6"><canvas #loginsChart></canvas></div>
+    </div>
+  </div>
+
+  <!-- Jornadas -->
+  <div *ngSwitchCase="'jornadas'">
+    <div class="row g-3">
+      <div class="col-md-3" *ngFor="let card of jornadaCards">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">{{ card.title }}</h5>
+            <h2>{{ card.value }}</h2>
+            <small>{{ card.sub }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 g-3">
+      <div class="col-md-6"><canvas #lateChart></canvas></div>
+      <div class="col-md-6"><canvas #complianceChart></canvas></div>
+    </div>
+  </div>
+
+  <!-- Inventario -->
+  <div *ngSwitchCase="'inventory'">
+    <div class="row g-3">
+      <div class="col-md-3" *ngFor="let card of inventoryCards">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">{{ card.title }}</h5>
+            <h2>{{ card.value }}</h2>
+            <small>{{ card.sub }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 g-3">
+      <div class="col-md-6">
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let p of stockLevels">
+            {{ p.nombre }} <span class="badge bg-primary rounded-pill">{{ p.cantidad }} {{ p.unidad }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let c of productsByCategory">
+            {{ c.categoria }} <span class="badge bg-secondary rounded-pill">{{ c.total_value | currency }}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- Aquí podrías incluir gráficos, tablas, etc. -->
 </div>

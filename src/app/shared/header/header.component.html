@@ -28,8 +28,7 @@
   <!-- Dropdown Menu usando Bootstrap -->
   <div *ngIf="dropdownVisible" class="dropdown-menu dropdown-menu-end show">
     <ul class="list-unstyled">
-      <li><a href="/perfil" class="dropdown-item">Perfil</a></li>
-      <li><a href="#" class="dropdown-item">Cerrar sesión</a></li>
+      <li><a (click)="logout()" class="dropdown-item">Cerrar sesión</a></li>
     </ul>
   </div>
 </header>

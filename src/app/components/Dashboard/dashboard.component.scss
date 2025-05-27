@@ -55,3 +55,12 @@
     background-color: #6f42c1;
   }
 }
+
+.nav-link{
+  color: var(--color-primario);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
