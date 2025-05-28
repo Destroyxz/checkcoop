@@ -1,7 +1,7 @@
 <ng-container *ngIf="shouldShowLayout()">
   <!-- Contenedor principal con clases dinámicas -->
   <app-header></app-header>
-  <div class="d-flex layout" [class.collapsed]="!expanded" [class.expanded]="expanded">
+  <div class="d-flex  flex-wrap  layout" [class.collapsed]="!expanded" [class.expanded]="expanded">
 
     <!-- Sidebar sincronizado con el estado `expanded` -->
     <app-sidebar [(expanded)]="expanded"></app-sidebar>
@@ -23,18 +23,3 @@
 
 
 
-<!-- 
-    <header class="app-header">
-      <nav>
-        <ul class="nav-list">
-          <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-          <li><a routerLink="/jornada" class="nav-link">Jornada</a></li>
-
-          <li><a routerLink="/registro" routerLinkActive="active">Registro</a></li>
-          <li><a routerLink="/expedientes" routerLinkActive="active">Expedientes</a></li>
-          <li><a routerLink="/users" routerLinkActive="active">Usuarios</a></li>
-          <li><a (click)="onLogout()">Cerrar Sesión</a></li>
-        </ul>
-      </nav>
-    </header>
--->

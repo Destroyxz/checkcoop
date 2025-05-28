@@ -110,3 +110,9 @@
 .login-card hr {
   margin: 1.5rem 0;
 }
+@media (max-width: 767.98px) {
+  .scroll-mobile-only {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+}

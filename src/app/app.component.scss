@@ -1,6 +1,7 @@
 .app-wrapper {
   display: flex;
   flex-direction: column;
+    min-width: 0;
   height: 100vh;
 }
 
@@ -70,4 +71,13 @@
   background-position: center;
   min-height: 100vh;
   /* Asegura que ocupe toda la pantalla */
+}
+@media (min-width: 768px) {
+  .layout.collapsed .app-wrapper {
+    margin-left: 60px;
+  }
+
+  .layout.expanded .app-wrapper {
+    margin-left: 240px;
+  }
 }
