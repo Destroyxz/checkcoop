@@ -7,25 +7,39 @@ import { Modal } from 'bootstrap';
   templateUrl: './admin-jornadas.component.html',
 })
 export class AdminJornadasComponent implements OnInit {
+  // Lista de todas las jornadas laborales
   jornadas: any[] = [];
+  
+  // Lista de jornadas filtradas por trabajador o fecha
   jornadasFiltradas: any[] = [];
+
+  // Lista de trabajadores disponibles para el filtro   
   trabajadores: any[] = [];
 
+  // Valores de los filtros
   filtroTrabajador: string = '';
   filtroFecha: string = '';
 
+  // Jornada actualmente seleccionada
   jornadaSeleccionada: any = null;
+
+  // Tramos de la jornada seleccionada (modo visualización)
   tramosSeleccionados: any[] = [];
+
+  // Tramos en modo edición
   tramosEditables: any[] = [];
 
+  // Bandera que indica si estamos en modo edición de tramos
   modoEdicionTramos: boolean = false;
 
   constructor(private jornadaService: JornadaService) { }
 
+  // Método que se ejecuta al cargar el componente
   ngOnInit(): void {
     this.cargarDatos();
   }
 
+  // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
     this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
       this.jornadas = data;
@@ -37,6 +51,7 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
+  // Filtra las jornadas según el trabajador y/o la fecha seleccionados
   filtrar(): void {
     this.jornadasFiltradas = this.jornadas.filter((j) => {
       const coincideTrabajador = this.filtroTrabajador
@@ -49,6 +64,7 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
+  // Visualiza los tramos de una jornada en un modal (modo solo lectura)
   verTramos(jornada: any): void {
     this.jornadaSeleccionada = jornada;
     this.modoEdicionTramos = false;
@@ -64,6 +80,7 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
+  // Activa el modo edición para los tramos de la jornada seleccionada
   activarEdicionTramos(): void {
     this.modoEdicionTramos = true;
     this.tramosEditables = this.tramosSeleccionados.map((t) => ({
@@ -73,6 +90,7 @@ export class AdminJornadasComponent implements OnInit {
     }));
   }
 
+  // Guarda los cambios realizados a los tramos y los envía al servidor
   guardarCambiosTramos(): void {
     if (!this.jornadaSeleccionada) return;
 
@@ -93,6 +111,7 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
+  // Elimina una jornada del sistema (tras confirmación)
   eliminarJornada(id: number): void {
     if (confirm('¿Eliminar esta jornada?')) {
       this.jornadaService.eliminarJornada(id).subscribe(() => {
@@ -101,6 +120,7 @@ export class AdminJornadasComponent implements OnInit {
     }
   }
 
+  // Abre el modal de edición para modificar los tramos de una jornada
   editarJornada(jornada: any): void {
     this.jornadaSeleccionada = jornada;
 
@@ -120,6 +140,7 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
+  // Calcula la duración entre dos horarios y la devuelve como texto legible
   calcularDuracionTramo(inicio: string, fin: string): string {
     const ini = new Date(inicio);
     const f = new Date(fin);
@@ -129,6 +150,7 @@ export class AdminJornadasComponent implements OnInit {
     return `${h}h ${m}m`;
   }
 
+  // Convierte una fecha a formato local compatible con inputs de tipo datetime-local
   toDatetimeLocal(dateStr: string): string {
     const date = new Date(dateStr);
     const offset = date.getTimezoneOffset();
@@ -136,6 +158,7 @@ export class AdminJornadasComponent implements OnInit {
     return localDate.toISOString().slice(0, 16);
   }
 
+  // Muestra un modal de Bootstrap utilizando su ID
   private mostrarModal(id: string): void {
     const modalEl = document.getElementById(id);
     if (modalEl) {
@@ -143,6 +166,8 @@ export class AdminJornadasComponent implements OnInit {
       modal.show();
     }
   }
+
+  // Agrega un nuevo tramo editable con hora actual y sin hora de fin
   agregarTramo(): void {
     this.tramosEditables.push({
       inicio: this.toDatetimeLocal(new Date().toISOString()),
@@ -150,6 +175,7 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
+  // Elimina un tramo editable según su índice
   eliminarTramo(index: number): void {
     this.tramosEditables.splice(index, 1);
   }
