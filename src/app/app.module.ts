@@ -74,6 +74,7 @@ import { FixEncodingPipe } from '../pipes/fixencoding.pipe';
     ModalModule.forRoot(),
 
   ],
+ // Los providers son servicios que estarán disponibles en toda la aplicación mediante inyección de dependencias
   providers: [
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
