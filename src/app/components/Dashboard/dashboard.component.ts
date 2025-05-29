@@ -1,3 +1,4 @@
+//Importamos los componentes necesarios
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { MetricasService } from '../../services/metricas.service';
@@ -18,8 +19,10 @@ interface CategoryStock { categoria: string; total_quantity: number; total_value
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
+  // Indicador de carga
   loadingSummary = true;
-
+  
+  // Referencias a los elementos del DOM para los gráficos
   @ViewChild('usersChart',       { static: false }) usersChartRef?:    ElementRef<HTMLCanvasElement>;
   @ViewChild('durationChart',    { static: false }) durationChartRef?: ElementRef<HTMLCanvasElement>;
   @ViewChild('newUsersChart',    { static: false }) newUsersChartRef?:    ElementRef<HTMLCanvasElement>;
@@ -28,6 +31,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('complianceChart',  { static: false }) complianceChartRef?:  ElementRef<HTMLCanvasElement>;
 
   userData: any;
+  
+  // Variables de datos para métricas
   tabs = [
     { key: 'summary',  label: 'Resumen'   },
     { key: 'users',    label: 'Usuarios'  },
@@ -63,10 +68,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   lowStockCount = 0;
   criticalStockCount = 0;
 
+  // Datos mostrados en tarjetas del dashboard 
   userCards: Array<{ title: string; value: any; sub: string; isPositive?: boolean }> = [];
   jornadaCards: Array<{ title: string; value: any; sub: string }> = [];
   inventoryCards: Array<{ title: string; value: any; sub: string }> = [];
 
+  // Instancias de los gráficos
   private usersChart?: Chart;
   private durationChart?: Chart;
   private newUsersChart?: Chart;
@@ -79,12 +86,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private userStorageService: UserStorageService
   ) {}
 
+  // Carga de datos inicial 
   ngOnInit(): void {
     this.userData = this.userStorageService.getUser();
     this.isSuperAdmin = this.userData.role === 'superadmin';
     this.loadAllMetrics();
   }
 
+  // Inicialización de los gráficos tras cargar la vista
   ngAfterViewInit(): void {
     if (this.usersChartRef && this.durationChartRef) {
       this.usersChart = this.initChart(this.usersChartRef.nativeElement, 'line', 'Usuarios Activos');
@@ -92,6 +101,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Permite cambiar entre pestañas
   selectTab(key: string): void {
     this.selectedTab = key;
     setTimeout(() => {
@@ -118,6 +128,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  //Super funcion que carga todas las metricas 
   private loadAllMetrics(): void {
     const { empresaId, from, to, groupBy } = this.userData;
 
