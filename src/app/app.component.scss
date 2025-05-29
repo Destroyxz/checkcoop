@@ -1,15 +1,16 @@
+/* Contenedor principal de la aplicación*/
 .app-wrapper {
   display: flex;
   flex-direction: column;
     min-width: 0;
   height: 100vh;
 }
-
+/* Cabecera de la aplicación*/
 .app-header {
   background: #007bff;
   padding: 0.5rem 1rem;
   color: #fff;
-
+  /* Lista de navegación  dentro del header */
   .nav-list {
     display: flex;
     list-style: none;
@@ -35,34 +36,36 @@
     }
   }
 }
-
+/* Contenido principal de la aplicación*/
 .app-content {
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
 }
 
-
+/* Sidebar  cuando está cerrado */
 .sidebar.collapsed+.app-wrapper {
   margin-left: 60px;
   transition: margin-left 0.3s ease;
 }
 
-/* Margen cuando el sidebar está expandido */
+/*Sidebar cuando está expandido */
 .sidebar:not(.collapsed)+.app-wrapper {
   margin-left: 240px;
 }
 
+/* Margen cuando está cerrado */
 .layout.collapsed .app-wrapper {
   margin-left: 60px;
   transition: margin-left 0.3s ease;
 }
-
+/* Margen cuando está expandido */
 .layout.expanded .app-wrapper {
   margin-left: 240px;
   transition: margin-left 0.3s ease;
 }
 
+/* Fondo personalizado*/
 .fondo-personalizado {
   background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
     url('../assets/back.png') center center no-repeat;
@@ -70,8 +73,10 @@
   background-repeat: no-repeat;
   background-position: center;
   min-height: 100vh;
-  /* Asegura que ocupe toda la pantalla */
+
 }
+
+/* Ajustes de layout para pantallas grandes  */
 @media (min-width: 768px) {
   .layout.collapsed .app-wrapper {
     margin-left: 60px;
