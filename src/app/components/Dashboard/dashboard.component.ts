@@ -21,24 +21,24 @@ interface CategoryStock { categoria: string; total_quantity: number; total_value
 export class DashboardComponent implements OnInit, AfterViewInit {
   // Indicador de carga
   loadingSummary = true;
-  
+
   // Referencias a los elementos del DOM para los gráficos
-  @ViewChild('usersChart',       { static: false }) usersChartRef?:    ElementRef<HTMLCanvasElement>;
-  @ViewChild('durationChart',    { static: false }) durationChartRef?: ElementRef<HTMLCanvasElement>;
-  @ViewChild('newUsersChart',    { static: false }) newUsersChartRef?:    ElementRef<HTMLCanvasElement>;
-  @ViewChild('loginsChart',      { static: false }) loginsChartRef?:      ElementRef<HTMLCanvasElement>;
-  @ViewChild('lateChart',        { static: false }) lateChartRef?:        ElementRef<HTMLCanvasElement>;
-  @ViewChild('complianceChart',  { static: false }) complianceChartRef?:  ElementRef<HTMLCanvasElement>;
+  @ViewChild('usersChart', { static: false }) usersChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('durationChart', { static: false }) durationChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('newUsersChart', { static: false }) newUsersChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('loginsChart', { static: false }) loginsChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('lateChart', { static: false }) lateChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('complianceChart', { static: false }) complianceChartRef?: ElementRef<HTMLCanvasElement>;
 
   userData: any;
-  
+
   // Variables de datos para métricas
   tabs = [
-    { key: 'summary',  label: 'Resumen'   },
-    { key: 'users',    label: 'Usuarios'  },
-    { key: 'jornadas', label: 'Jornadas'  },
-    { key: 'inventory',label: 'Inventario'},
-    { key: 'companies',label: 'Empresas'  }
+    { key: 'summary', label: 'Resumen' },
+    { key: 'users', label: 'Usuarios' },
+    { key: 'jornadas', label: 'Jornadas' },
+    { key: 'inventory', label: 'Inventario' },
+    { key: 'companies', label: 'Empresas' }
   ];
   selectedTab = 'summary';
   isSuperAdmin = false;
@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private metricasService: MetricasService,
     private userStorageService: UserStorageService
-  ) {}
+  ) { }
 
   // Carga de datos inicial 
   ngOnInit(): void {
@@ -231,33 +231,33 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private updateUserCards(): void {
     if (!this.totalUsers) { return; }
     this.userCards = [
-      { title: 'Usuarios Activos', value: this.activeUsers, sub: `${(this.activeUsers/this.totalUsers*100).toFixed(1)}%`, isPositive: true },
-      { title: 'Nuevos Usuarios',  value: this.newUsersThisMonth, sub: 'Este mes' },
-      { title: 'Últimos Logins',    value: this.loginsThisMonth,      sub: 'Este mes' },
-      { title: 'Retención',          value: `${((this.loginsThisMonth/this.totalUsers)*100).toFixed(1)}%`, sub: '' }
+      { title: 'Usuarios Activos', value: this.activeUsers, sub: `${(this.activeUsers / this.totalUsers * 100).toFixed(1)}%`, isPositive: true },
+      { title: 'Nuevos Usuarios', value: this.newUsersThisMonth, sub: 'Este mes' },
+      { title: 'Últimos Logins', value: this.loginsThisMonth, sub: 'Este mes' },
+      { title: 'Retención', value: `${((this.loginsThisMonth / this.totalUsers) * 100).toFixed(1)}%`, sub: '' }
     ];
   }
 
   private updateJornadaCards(): void {
-    const late  = this.lateRatesThisMonth    ?? 0;
-    const comp  = this.complianceRatesThisMonth ?? 0;
-    const mins  = this.totalMinutesThisMonth  ?? 0;
-    const trams = this.averageTramosCount     ?? 0;
+    const late = this.lateRatesThisMonth ?? 0;
+    const comp = this.complianceRatesThisMonth ?? 0;
+    const mins = this.totalMinutesThisMonth ?? 0;
+    const trams = this.averageTramosCount ?? 0;
 
     this.jornadaCards = [
-      { title: 'Puntualidad',    value: `${(100 - late).toFixed(1)}%`, sub: `${late.toFixed(1)}% tarde` },
-      { title: 'Cumplimiento',    value: `${comp.toFixed(1)}%`,      sub: '' },
-      { title: 'Minutos Totales', value: `${mins}`,                  sub: 'Este mes' },
-      { title: 'Tramos/Jornada',  value: `${trams.toFixed(2)}`,     sub: 'Promedio' }
+      { title: 'Puntualidad', value: `${(100 - late).toFixed(1)}%`, sub: `${late.toFixed(1)}% tarde` },
+      { title: 'Cumplimiento', value: `${comp.toFixed(1)}%`, sub: '' },
+      { title: 'Minutos Totales', value: `${mins}`, sub: 'Este mes' },
+      { title: 'Tramos/Jornada', value: `${trams.toFixed(2)}`, sub: 'Promedio' }
     ];
   }
 
   private updateInventoryCards(): void {
     this.inventoryCards = [
-      { title: 'Valor Inventario', value: `$${(this.totalStockValue/1e6).toFixed(1)}M`, sub: '' },
-      { title: 'Productos',        value: this.stockLevels.length, sub: 'En inventario' },
-      { title: 'Stock Bajo',       value: this.lowStockCount,      sub: '' },
-      { title: 'Stock Crítico',    value: this.criticalStockCount, sub: '' }
+      { title: 'Valor Inventario', value: `$${(this.totalStockValue / 1e6).toFixed(1)}M`, sub: '' },
+      { title: 'Productos', value: this.stockLevels.length, sub: 'En inventario' },
+      { title: 'Stock Bajo', value: this.lowStockCount, sub: '' },
+      { title: 'Stock Crítico', value: this.criticalStockCount, sub: '' }
     ];
   }
 
@@ -271,6 +271,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   private getCurrentMonth(): string {
     const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
   }
 }

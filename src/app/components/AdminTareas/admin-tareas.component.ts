@@ -47,7 +47,7 @@ export class AdminTareasComponent implements OnInit {
     this.cargarUsuarios();
   }
 
-   // Carga todas las tareas
+  // Carga todas las tareas
   cargarTareas(): void {
     this.tareaService.getTodas().subscribe({
       next: (data) => {
@@ -88,7 +88,7 @@ export class AdminTareasComponent implements OnInit {
     this.modoEdicion = true;
     this.tareaForm = { ...tarea };
   }
-  
+
   //Guarda la tarea nueva o la que se edita
   guardarTarea(): void {
     if (this.modoEdicion) {

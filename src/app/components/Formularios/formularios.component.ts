@@ -1,5 +1,5 @@
+// Importamos los servicios necesarios
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   UserStorage,
   UserStorageService,
@@ -73,8 +73,10 @@ export class formulariosComponent implements OnInit {
       })
     }
 
+    // Cargar empresas
     this.loadEmpresas();
 
+    // Inicializar formulario de usuario
     this.userForm = this.fb.group({
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
@@ -93,6 +95,7 @@ export class formulariosComponent implements OnInit {
       horaSalida2: [''],
     });
 
+    // Inicializar formulario de empresa
     this.companyForm = this.fb.group({
       nombre: ['', Validators.required],
       razon_social: ['', Validators.required],
@@ -101,6 +104,8 @@ export class formulariosComponent implements OnInit {
       email_contacto: ['', [Validators.required, Validators.email]],
       telefono: ['', [Validators.required, Validators.pattern('^\\d{7,10}$')]]
     });
+
+    // Validadores dinámicos para turno partido
     this.userForm.get('turnoPartido')!.valueChanges.subscribe((isOn) => {
       const h2 = this.userForm.get('horaInicio2')!;
       const s2 = this.userForm.get('horaSalida2')!;
@@ -117,9 +122,12 @@ export class formulariosComponent implements OnInit {
 
   }
 
+  // Cambia el modo entre usuarios y empresas
   switchMode(mode: 'usuarios' | 'empresas'): void {
     this.mode = mode;
   }
+
+  // Enviar formulario de usuario
   submit() {
     if (this.userForm.valid) {
       const nuevoUsuario = {
@@ -163,10 +171,12 @@ export class formulariosComponent implements OnInit {
     }
   }
 
+  // Cambia el modo del formulario (crear/modificar)
   formMode(formulario: 'crear' | 'modificar'): void {
     this.formulario = formulario;
   }
 
+  // Enviar formulario de empresa
   submitCompany() {
     if (this.companyForm.valid) {
       const nuevaEmpresa = {
@@ -200,6 +210,7 @@ export class formulariosComponent implements OnInit {
     }
   }
 
+  // Actualizar compañia
   updateCompany(){
     if (this.companyForm.valid) {
       const nuevaEmpresa = {

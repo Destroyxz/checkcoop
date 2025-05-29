@@ -1,20 +1,20 @@
-/* Contenedor del dashboard*/ 
+/* Contenedor del dashboard*/
 .dashboard-container {
   padding: 1.5rem;
-  
+
   /* Título principal del dashboard */
   h1 {
     margin-bottom: 2rem;
     font-size: 2rem;
   }
-    
-/* Grid que organiza las estadísticas*/ 
+
+  /* Grid que organiza las estadísticas*/
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
-    
-     /* Tarjeta de las estadisticas*/ 
+
+    /* Tarjeta de las estadisticas*/
     .stat-card {
       display: flex;
       align-items: center;
@@ -28,7 +28,7 @@
         font-size: 2.5rem;
         margin-right: 1rem;
       }
-      
+
       /* Detalles de la estadística (valor y texto) */
       .details {
         h2 {
@@ -44,7 +44,7 @@
     }
   }
 
-     /*  Colores de las etiquetas */
+  /*  Colores de las etiquetas */
   .bg-blue {
     background-color: #007bff;
   }
@@ -63,7 +63,7 @@
 }
 
 /* Estilo de los enlaces */
-.nav-link{
+.nav-link {
   color: var(--color-primario);
   text-decoration: none;
 

@@ -10,12 +10,7 @@
         <label for="editNombre">Nombre</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-user"></i></span>
-          <input
-            id="editNombre"
-            formControlName="nombre"
-            class="form-control"
-            placeholder="{{data.nombre}}"
-          />
+          <input id="editNombre" formControlName="nombre" class="form-control" placeholder="{{data.nombre}}" />
         </div>
       </div>
       <!-- Apellidos -->
@@ -23,12 +18,7 @@
         <label for="editApellidos">Apellidos</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-id-card"></i></span>
-          <input
-            id="editApellidos"
-            formControlName="apellidos"
-            class="form-control"
-            placeholder="{{data.apellidos}}"
-          />
+          <input id="editApellidos" formControlName="apellidos" class="form-control" placeholder="{{data.apellidos}}" />
         </div>
       </div>
       <!-- Email -->
@@ -36,13 +26,8 @@
         <label for="editEmail">Email</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-          <input
-            id="editEmail"
-            formControlName="email"
-            type="email"
-            class="form-control"
-            placeholder="{{data.email}}"
-          />
+          <input id="editEmail" formControlName="email" type="email" class="form-control"
+            placeholder="{{data.email}}" />
         </div>
       </div>
       <!-- Teléfono -->
@@ -50,12 +35,7 @@
         <label for="editTelefono">Teléfono</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-phone"></i></span>
-          <input
-            id="editTelefono"
-            formControlName="telefono"
-            class="form-control"
-            placeholder="{{data.telefono}}"
-          />
+          <input id="editTelefono" formControlName="telefono" class="form-control" placeholder="{{data.telefono}}" />
         </div>
       </div>
 
@@ -64,25 +44,15 @@
         <label for="editPassword">Contraseña</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-lock"></i></span>
-          <input
-            id="editPassword"
-            formControlName="password"
-            type="password"
-            class="form-control"
-            placeholder="********"
-          />
+          <input id="editPassword" formControlName="password" type="password" class="form-control"
+            placeholder="********" />
         </div>
       </div>
       <!-- Activo -->
       <div class="col-6">
         <div class="form-check">
-          <input
-            id="editActivo"
-            formControlName="activo"
-            class="form-check-input"
-            type="checkbox"
-            [checked]="data.activo"
-          />
+          <input id="editActivo" formControlName="activo" class="form-check-input" type="checkbox"
+            [checked]="data.activo" />
           <label for="editActivo" class="form-check-label">
             Usuario activo
           </label>
@@ -93,16 +63,8 @@
         <label for="editRol">Rol</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-user-tag"></i></span>
-          <select
-            id="editRol"
-            formControlName="rol"
-            class="form-select"
-            [value]="data.rol"
-          >
-           <option
-        *ngIf="userData.rol === 'superadmin'"
-        value="superadmin"
-      >
+          <select id="editRol" formControlName="rol" class="form-select" [value]="data.rol">
+            <option *ngIf="userData.rol === 'superadmin'" value="superadmin">
             <option value="usuario">Usuario</option>
             <option value="admin">Administrador</option>
           </select>
@@ -113,38 +75,23 @@
         <label for="editHoraInicio">Hora de entrada</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-clock"></i></span>
-          <input
-            id="editHoraInicio"
-            formControlName="horaInicio"
-            type="time"
-            class="form-control"
-            [value]="data.horaInicio"
-          />
+          <input id="editHoraInicio" formControlName="horaInicio" type="time" class="form-control"
+            [value]="data.horaInicio" />
         </div>
       </div>
       <div class="col-md-6">
         <label for="editHoraSalida">Hora de salida</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fa fa-clock"></i></span>
-          <input
-            id="editHoraSalida"
-            formControlName="horaSalida"
-            type="time"
-            class="form-control"
-            [value]="data.horaSalida"
-          />
+          <input id="editHoraSalida" formControlName="horaSalida" type="time" class="form-control"
+            [value]="data.horaSalida" />
         </div>
       </div>
       <!-- Turno partido -->
       <div class="col-12">
         <div class="form-check form-switch">
-          <input
-            id="editTurnoPartido"
-            class="form-check-input"
-            type="checkbox"
-            formControlName="turnoPartido"
-            [checked]="data.turnoPartido"
-          />
+          <input id="editTurnoPartido" class="form-check-input" type="checkbox" formControlName="turnoPartido"
+            [checked]="data.turnoPartido" />
           <label for="editTurnoPartido" class="form-check-label">
             <i class="fa fa-exchange-alt"></i>
             Turno partido
@@ -157,26 +104,16 @@
           <label for="editHoraInicio2">Entrada 2º turno</label>
           <div class="input-group">
             <span class="input-group-text"><i class="fa fa-clock"></i></span>
-            <input
-              id="editHoraInicio2"
-              formControlName="horaInicio2"
-              type="time"
-              class="form-control"
-              [value]="data.horaInicio2"
-            />
+            <input id="editHoraInicio2" formControlName="horaInicio2" type="time" class="form-control"
+              [value]="data.horaInicio2" />
           </div>
         </div>
         <div class="col-md-6">
           <label for="editHoraSalida2">Salida 2º turno</label>
           <div class="input-group">
             <span class="input-group-text"><i class="fa fa-clock"></i></span>
-            <input
-              id="editHoraSalida2"
-              formControlName="horaSalida2"
-              type="time"
-              class="form-control"
-              [value]="data.horaSalida2"
-            />
+            <input id="editHoraSalida2" formControlName="horaSalida2" type="time" class="form-control"
+              [value]="data.horaSalida2" />
           </div>
         </div>
       </ng-container>
@@ -186,11 +123,7 @@
     <button type="button" class="btn btn-secondary" (click)="onCancel()">
       <i class="fa fa-times"></i> Cancelar
     </button>
-    <button
-      type="submit"
-      class="btn btn-primary"
-      [disabled]="userForm.invalid"
-    >
+    <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
       <i class="fa fa-save"></i> Guardar
     </button>
   </div>

@@ -10,7 +10,7 @@ import { Modal } from 'bootstrap';
 export class AdminJornadasComponent implements OnInit {
   // Lista de todas las jornadas laborales
   jornadas: any[] = [];
-  
+
   // Lista de jornadas filtradas por trabajador o fecha
   jornadasFiltradas: any[] = [];
 

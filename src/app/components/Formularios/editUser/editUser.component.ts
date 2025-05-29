@@ -1,3 +1,4 @@
+//Importamos los componentes necesarios 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -21,25 +22,25 @@ export class EditUserModalComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userStorageService: UserStorageService,
     private userService: UserService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userData = this.userStorageService.getUser();
 
     this.userForm = this.fb.group({
-      nombre:      [this.data.nombre,   Validators.required],
-      apellidos:   [this.data.apellidos, Validators.required],
-      email:       [this.data.email,     [Validators.required, Validators.email]],
-      telefono:    [this.data.telefono],
-      empresa:     [this.userData.empresa_id,],
-      password:    [this.data.password,  Validators.required],
-      rol:         [this.data.rol,       Validators.required],
-      horaInicio:  [this.data.horaInicio, Validators.required],
-      horaSalida:  [this.data.horaSalida, Validators.required],
-      turnoPartido:[this.data.turnoPartido],
+      nombre: [this.data.nombre, Validators.required],
+      apellidos: [this.data.apellidos, Validators.required],
+      email: [this.data.email, [Validators.required, Validators.email]],
+      telefono: [this.data.telefono],
+      empresa: [this.userData.empresa_id,],
+      password: [this.data.password, Validators.required],
+      rol: [this.data.rol, Validators.required],
+      horaInicio: [this.data.horaInicio, Validators.required],
+      horaSalida: [this.data.horaSalida, Validators.required],
+      turnoPartido: [this.data.turnoPartido],
       horaInicio2: [this.data.horaInicio2],
       horaSalida2: [this.data.horaSalida2],
-      activo:      [this.data.activo]
+      activo: [this.data.activo]
     });
 
     // Subscription para cambiar validadores de turno 2
