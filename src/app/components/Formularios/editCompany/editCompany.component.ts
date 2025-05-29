@@ -4,7 +4,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CompanyService } from '../../../services/company.service';
 @Component({
     selector: 'app-editCompany',
-    styleUrls: ['editCompany.component.scss'],
     templateUrl: 'editCompany.component.html',
 })
 
