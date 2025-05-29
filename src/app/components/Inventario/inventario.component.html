@@ -2,7 +2,7 @@
   <h2 class="mb-4 text-primary">
     <i class="bi bi-box-seam me-2"></i> Gestión de Inventario
   </h2>
-
+  <!-- Buscador de productos y boton para desplegar modal -->
   <div class="row align-items-end mb-3">
     <div class="col-md-4">
       <label class="form-label">Buscar productos</label>
@@ -14,7 +14,7 @@
       </button>
     </div>
   </div>
-
+  <!-- Tabla con los productos y sus botones -->
   <div class="table-responsive shadow-sm border rounded">
     <table class="table table-striped table-hover align-middle mb-0">
       <thead class="table-light">
@@ -63,7 +63,7 @@
       </tbody>
     </table>
   </div>
-  <!-- Modal Bootstrap para añadir nuevo producto -->
+  <!-- Modal  para añadir nuevo producto -->
   <div class="modal fade" id="modalNuevoProducto" tabindex="-1" role="dialog" aria-labelledby="modalNuevoProductoLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -120,7 +120,7 @@
     </div>
   </div>
 
-  <!-- Modal Bootstrap para editar producto -->
+  <!-- Modal  para editar producto -->
   <div class="modal fade" tabindex="-1" role="dialog" [ngClass]="{ 'show d-block': mostrarModal }"
     style="background-color: rgba(0, 0, 0, 0.5)" *ngIf="mostrarModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
