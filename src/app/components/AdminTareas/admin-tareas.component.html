@@ -1,6 +1,7 @@
 <div class="container mt-4">
   <h2 class="mb-4 text-primary"><i class="bi bi-tools me-2"></i>Gestión de Tareas</h2>
-
+  
+  <!-- Filtros por trabajador -->
   <div class="row align-items-end g-3 mb-4">
     <div class="col-md-4">
       <label class="form-label">Filtrar por trabajador</label>
@@ -10,21 +11,23 @@
       </select>
     </div>
 
+      <!-- Buscar tareas -->
     <div class="col-md-4">
       <label class="form-label">Buscar tareas</label>
       <input type="text" class="form-control" placeholder="Título o descripción..." [(ngModel)]="filtroBusqueda"
         (input)="filtrar()" />
     </div>
-
+    
+<!-- Boton para crear nuevas tareas -->
     <div class="col-md-4 text-end">
-      <label class="form-label invisible d-block">.</label> <!-- para alinear verticalmente -->
+      <label class="form-label invisible d-block">.</label> 
       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTarea" (click)="abrirNuevaTarea()">
         <i class="bi bi-plus-circle me-1"></i> Nueva Tarea
       </button>
     </div>
   </div>
 
-
+<!--Tabla que muestra las tareas y los botones -->
   <div class="table-responsive shadow-sm border rounded">
     <table class="table table-striped table-hover align-middle mb-0">
       <thead class="table-light">
@@ -69,7 +72,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para editar/ Agregar tareas  -->
 <div class="modal fade" id="modalTarea" tabindex="-1" aria-labelledby="modalTareaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-end">
     <div class="modal-content">
