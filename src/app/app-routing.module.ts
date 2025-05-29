@@ -1,4 +1,4 @@
-// src/app/app-routing.module.ts
+//Importamos los modulos que se van a enrutar
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminTareasComponent } from './components/AdminTareas/admin-tareas.component';
@@ -12,6 +12,8 @@ import { formulariosComponent } from './components/Formularios/formularios.compo
 import { InventarioComponent } from './components/Inventario/inventario.component';
 import { TareasUsuarioComponent } from './components/TareasUsuario/tareas-usuario.component';
 //import { PerfilComponent } from './components/Perfil/perfil.component';
+
+//Hacemos que nuestra constante guarde las rutas de los componentes con los nombre que pusimos
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
