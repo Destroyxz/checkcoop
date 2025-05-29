@@ -1,3 +1,4 @@
+//Importamos los componentes necesarios 
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
