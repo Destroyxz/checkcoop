@@ -39,9 +39,7 @@ export class JornadaService {
     return this.http.get<any[]>(`${this.apiUrl}/todas`, this.getOptions());
   }
 
-  obtenerTrabajadores(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/usuarios`, this.getOptions());
-  }
+
 
   eliminarJornada(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, this.getOptions());
