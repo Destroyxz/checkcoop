@@ -29,12 +29,12 @@ export class LoginComponent {
 
     this.loading = true;
 
-    console.log('Iniciando sesión con email:', this.email);  // Log para ver el email con el que se intenta hacer login
+    //console.log('Iniciando sesión con email:', this.email);  // Log para ver el email con el que se intenta hacer login
 
     this.auth.login(this.email, this.password).subscribe({
       next: () => {
         this.loading = false;
-        console.log('Login exitoso');  // Log para confirmar que el login fue exitoso
+        //console.log('Login exitoso');  // Log para confirmar que el login fue exitoso
 
         // Después de que el login es exitoso, el token debería estar en localStorage.
         const token = localStorage.getItem('ERP_TOKEN');

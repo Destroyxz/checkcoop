@@ -23,7 +23,7 @@ export class UserStorageService {
   /** Devuelve el objeto {exp_Token, nombre, rol} o null si no existe / no es JSON válido */
   getUser(): UserStorage | null {
     const raw = localStorage.getItem(this.STORAGE_KEY);
-    console.log('LocalStorage raw "user":', raw);
+    //console.log('LocalStorage raw "user":', raw);
     if (!raw) { return null; }
     try {
       return JSON.parse(raw) as UserStorage;

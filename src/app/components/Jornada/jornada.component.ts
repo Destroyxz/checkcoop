@@ -39,11 +39,11 @@ jornadaPartida: boolean = false;
     setInterval(() => this.actualizarReloj(), 1000);
     this.cargarDatosJornada();
     this.usercookie = this.UserStorageService.getUser();
-    console.log(this.UserStorageService.getUser());
+    //console.log(this.UserStorageService.getUser());
 
 
 
-    console.log(this.usercookie)
+    //console.log(this.usercookie)
   }
 
   //Funcion para actualizar el reloj que se muestra al usuario
@@ -69,7 +69,7 @@ private cargarDatosJornada(): void {
       this.horaInicio2 = data.hora_inicio_2;
       this.horaFin2 = data.hora_fin_2;
       this.jornadaPartida = data.jornadaPartida;
-console.log('Horario previsto:', this.horaInicio1, this.horaFin1, this.horaInicio2, this.horaFin2, this.jornadaPartida);
+    //console.log('Horario previsto:', this.horaInicio1, this.horaFin1, this.horaInicio2, this.horaFin2, this.jornadaPartida);
 
       if (data?.tramos?.length) {
         this.tramos = data.tramos;
