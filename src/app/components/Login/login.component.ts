@@ -1,3 +1,4 @@
+//Importamos los componentes necesarios
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
