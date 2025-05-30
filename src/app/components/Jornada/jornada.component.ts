@@ -16,8 +16,12 @@ export class JornadaComponent implements OnInit {
   duracion: string = '';
   llegoTarde: boolean | null = null;
   cumplioJornada: boolean | null = null;
-  horaInicio1: string = '09:00';
-  horaFin2: string = '17:00';
+ horaInicio1: string = '';
+horaFin1: string = '';
+horaInicio2: string = '';
+horaFin2: string = '';
+jornadaPartida: boolean = false;
+
   horasTrabajadas: number = 0;
   tramos: { inicio: string; fin: string | null }[] = [];
   esPartida: boolean = false;
@@ -55,37 +59,62 @@ export class JornadaComponent implements OnInit {
   }
 
   //Funcion que carga todos los datos referentes a la jornada de hoy
-  private cargarDatosJornada(): void {
-    this.isLoading = true;
-    this.jornadaService.obtenerJornadaDeHoy().subscribe({
-      next: (data) => {
-        if (data?.tramos?.length) {
-          this.tramos = data.tramos;
-          const ultimo = this.tramos[this.tramos.length - 1];
+private cargarDatosJornada(): void {
+  this.isLoading = true;
+  this.jornadaService.obtenerJornadaDeHoy().subscribe({
+    next: (data) => {
+      // Siempre asignar horarios esperados
+      this.horaInicio1 = data.hora_inicio_1;
+      this.horaFin1 = data.hora_fin_1;
+      this.horaInicio2 = data.hora_inicio_2;
+      this.horaFin2 = data.hora_fin_2;
+      this.jornadaPartida = data.jornadaPartida;
 
-          this.horaEntrada = new Date(this.tramos[0].inicio);
-          this.horaSalida = ultimo.fin ? new Date(ultimo.fin) : null;
-          this.duracion = `${data.horasTrabajadas}h`;
-          this.horasTrabajadas = data.horasTrabajadas;
-          this.cumplioJornada = data.completa;
-          this.llegoTarde = new Date(this.tramos[0].inicio).getHours() > 9;
-          this.esPartida = data.partida;
-          this.jornadaIniciada = !ultimo.fin;
+      if (data?.tramos?.length) {
+        this.tramos = data.tramos;
+        const ultimo = this.tramos[this.tramos.length - 1];
+
+        this.horaEntrada = new Date(this.tramos[0].inicio);
+
+        if (ultimo.fin) {
+          this.horaSalida = new Date(ultimo.fin);
+          this.duracion = this.calcularDuracionTramo(this.tramos[0].inicio, ultimo.fin);
         } else {
-          this.tramos = [];
-          this.jornadaIniciada = false;
-          this.horaEntrada = null;
+          this.horaSalida = null;
+          const ahora = new Date().toISOString();
+          this.duracion = this.calcularDuracionTramo(this.tramos[0].inicio, ahora);
         }
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error al obtener jornada:', err);
+
+        this.horasTrabajadas = data.horasTrabajadas;
+        this.cumplioJornada = data.completa;
+        this.llegoTarde = data.llegoTarde;
+        this.esPartida = data.partida;
+        this.jornadaIniciada = !ultimo.fin;
+      } else {
+        this.tramos = [];
         this.jornadaIniciada = false;
         this.horaEntrada = null;
-        this.isLoading = false;
+        this.horaSalida = null;
+        this.duracion = '';
+        this.horasTrabajadas = 0;
+        this.cumplioJornada = null;
+        this.llegoTarde = null;
+        this.esPartida = false;
       }
-    });
-  }
+
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Error al obtener jornada:', err);
+      this.jornadaIniciada = false;
+      this.horaEntrada = null;
+      this.horaSalida = null;
+      this.duracion = '';
+      this.isLoading = false;
+    }
+  });
+}
+
 
   //Funcion que permite iniciar/reanudar la jornada
   iniciarJornada(): void {
