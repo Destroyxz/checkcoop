@@ -51,27 +51,9 @@ export class formulariosComponent implements OnInit {
 
     
     //Usuarios según Rol
-    if (this.userData?.rol == 'superadmin'){
-      this.userService.getAllUsers().subscribe((users: any[]) =>{
-        this.users = users;
-      },
-      (err: any) => {
-        console.error('Error al cargar los usuarios', err);
-      },
-      () => {
-        console.log('Carga de usuarios completada');
-      })
-    } else{
-      this.userService.getUsersByCompany(this.userData?.empresa_id).subscribe((users: any[]) =>{
-        this.users = users;
-      },
-      (err: any) => {
-        console.error('Error al cargar los usuarios', err);
-      },
-      () => {
-        console.log('Carga de usuarios completada');
-      })
-    }
+
+    this.loadusers()
+
 
     // Cargar empresas
     this.loadEmpresas();
@@ -106,71 +88,107 @@ export class formulariosComponent implements OnInit {
     });
 
     // Validadores dinámicos para turno partido
-    this.userForm.get('turnoPartido')!.valueChanges.subscribe((isOn) => {
-      const h2 = this.userForm.get('horaInicio2')!;
-      const s2 = this.userForm.get('horaSalida2')!;
-      if (isOn) {
-        h2.setValidators(Validators.required);
-        s2.setValidators(Validators.required);
-      } else {
-        h2.clearValidators();
-        s2.clearValidators();
-      }
-      h2.updateValueAndValidity();
-      s2.updateValueAndValidity();
-    });
+this.userForm.get('turnoPartido')!.valueChanges.subscribe(isOn => {
+  const hIn2 = this.userForm.get('horaInicio2')!;
+  const hOut2 = this.userForm.get('horaSalida2')!;
+
+  if (isOn) {
+    hIn2.setValidators(Validators.required);
+    hOut2.setValidators(Validators.required);
+  } else {
+    hIn2.clearValidators();
+    hOut2.clearValidators();
+  }
+  hIn2.updateValueAndValidity();
+  hOut2.updateValueAndValidity();
+});
 
   }
 
+
+  loadusers(){
+  
+        if (this.userData?.rol == 'superadmin'){
+      this.userService.getAllUsers().subscribe((users: any[]) =>{
+        this.users = users;
+      },
+      (err: any) => {
+        console.error('Error al cargar los usuarios', err);
+      },
+      () => {
+        console.log('Carga de usuarios completada');
+      })
+    } else{
+      this.userService.getUsersByCompany(this.userData?.empresa_id).subscribe((users: any[]) =>{
+        this.users = users;
+      },
+      (err: any) => {
+        console.error('Error al cargar los usuarios', err);
+      },
+      () => {
+        console.log('Carga de usuarios completada');
+      })
+    }
+  
+  }
   // Cambia el modo entre usuarios y empresas
   switchMode(mode: 'usuarios' | 'empresas'): void {
     this.mode = mode;
   }
 
   // Enviar formulario de usuario
-  submit() {
-    if (this.userForm.valid) {
-      const nuevoUsuario = {
-        nombre: this.userForm.value.nombre,
-        apellidos: this.userForm.value.apellidos,
-        email: this.userForm.value.email,
-        telefono: this.userForm.value.telefono,
-        rol: this.userForm.value.rol,
-        empresa_id: this.userForm.value.empresa,
-        password: this.userForm.value.password,
-        activo: this.userForm.value.activo,
-      };
+submit() {
+  if (this.userForm.valid) {
+    const f = this.userForm.value;
 
-      this.userService.newUser(nuevoUsuario).subscribe({
-        next: (res) => {
-          // Mostrar SweetAlert de éxito
-          Swal.fire({
-            icon: 'success',
-            title: '¡Usuario creado!',
-            text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
-            confirmButtonText: 'OK',
-          });
+    const nuevoUsuario = {
+      nombre:       f.nombre,
+      apellidos:    f.apellidos,
+      email:        f.email,
+      telefono:     f.telefono,
+      rol:          f.rol,
+      empresa_id:   f.empresa,
+      password:     f.password,
+      activo:       f.activo,
 
-          // Resetear formulario a valores por defecto
-          this.userForm.reset({ activo: true, rol: 'usuario' });
-        },
-        error: (err) => {
-          console.error('Error al crear usuario', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: err?.error?.message || 'No se pudo crear el usuario.',
-          });
-        },
-        complete: () => {
-          console.log('Petición de creación completada');
-        },
-      });
-    } else {
-      this.userForm.markAllAsTouched();
-    }
+      // —————————————————————————————
+      // ¡CAMBIO CLAVE! Los nombres camelCase que espera el back:
+      horaInicio:   f.horaInicio,
+      horaSalida:   f.horaSalida,
+      turnoPartido: f.turnoPartido,
+      horaInicio2:  f.turnoPartido ? f.horaInicio2 : undefined,
+      horaSalida2:  f.turnoPartido ? f.horaSalida2 : undefined,
+      // —————————————————————————————
+    };
+
+    this.userService.newUser(nuevoUsuario).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Usuario creado!',
+          text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
+          confirmButtonText: 'OK',
+        });
+        // resetea sólo los valores por defecto
+        this.userForm.reset({ activo: true, rol: 'usuario' });
+      },
+      error: (err) => {
+        console.error('Error al crear usuario', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err?.error?.message || 'No se pudo crear el usuario.',
+        });
+      },
+      complete: () => console.log('Petición de creación completada'),
+    });
+  } else {
+    this.userForm.markAllAsTouched();
   }
 
+   this.loadusers()
+
+}
   // Cambia el modo del formulario (crear/modificar)
   formMode(formulario: 'crear' | 'modificar'): void {
     this.formulario = formulario;
@@ -208,6 +226,9 @@ export class formulariosComponent implements OnInit {
     } else {
       this.companyForm.markAllAsTouched();
     }
+
+    this.loadusers()
+
   }
 
   // Actualizar compañia
@@ -242,6 +263,9 @@ export class formulariosComponent implements OnInit {
     } else {
       this.companyForm.markAllAsTouched();
     }
+
+    this.loadusers()
+
   }
   //Borrar empresa
  deleteEmpresa(e: any) {
@@ -274,6 +298,9 @@ export class formulariosComponent implements OnInit {
         });
       }
     });
+
+    this.loadusers()
+
   }
 
   //Borrar Usuario
@@ -307,6 +334,9 @@ export class formulariosComponent implements OnInit {
         });
       }
     });
+
+    this.loadusers()
+
   }
 
   //Cargar empresa
