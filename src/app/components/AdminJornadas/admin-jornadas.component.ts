@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-admin-jornadas',
@@ -33,7 +34,10 @@ export class AdminJornadasComponent implements OnInit {
   // Bandera que indica si estamos en modo edición de tramos
   modoEdicionTramos: boolean = false;
 
-  constructor(private jornadaService: JornadaService) { }
+  constructor(
+  private jornadaService: JornadaService,
+  private userService: UserService
+) {}
 
   // Método que se ejecuta al cargar el componente
   ngOnInit(): void {
@@ -42,15 +46,18 @@ export class AdminJornadasComponent implements OnInit {
 
   // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
-    this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
-      this.jornadas = data;
-      this.jornadasFiltradas = [...data];
-    });
+  this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
+    this.jornadas = data;
+    this.jornadasFiltradas = [...data];
+  });
 
-    this.jornadaService.obtenerTrabajadores().subscribe((data) => {
-      this.trabajadores = data;
-    });
-  }
+  const empresaId = Number(localStorage.getItem('empresa_id'));
+  this.userService.getUsersByCompany(empresaId).subscribe((data) => {
+    this.trabajadores = data;
+  });
+}
+
+
 
   // Filtra las jornadas según el trabajador y/o la fecha seleccionados
   filtrar(): void {
