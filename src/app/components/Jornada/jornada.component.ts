@@ -1,3 +1,4 @@
+//Importamos los componentes necesarios
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
@@ -29,7 +30,6 @@ export class JornadaComponent implements OnInit {
     private UserStorageService: UserStorageService,
   ) { }
 
-
   ngOnInit(): void {
     this.actualizarReloj();
     setInterval(() => this.actualizarReloj(), 1000);
@@ -42,6 +42,7 @@ export class JornadaComponent implements OnInit {
     console.log(this.usercookie)
   }
 
+  //Funcion para actualizar el reloj que se muestra al usuario
   actualizarReloj(): void {
     const ahora = new Date();
     this.horaActual = ahora.toLocaleTimeString();
@@ -53,6 +54,7 @@ export class JornadaComponent implements OnInit {
     });
   }
 
+  //Funcion que carga todos los datos referentes a la jornada de hoy
   private cargarDatosJornada(): void {
     this.isLoading = true;
     this.jornadaService.obtenerJornadaDeHoy().subscribe({
@@ -85,6 +87,7 @@ export class JornadaComponent implements OnInit {
     });
   }
 
+  //Funcion que permite iniciar/reanudar la jornada
   iniciarJornada(): void {
     this.isLoading = true;
     this.jornadaService.iniciarJornada().subscribe({
@@ -96,6 +99,7 @@ export class JornadaComponent implements OnInit {
     });
   }
 
+  //Funcion para finalizar la jornada/tramo
   terminarJornada(): void {
     this.isLoading = true;
     this.jornadaService.finalizarTramo().subscribe({
@@ -107,6 +111,7 @@ export class JornadaComponent implements OnInit {
     });
   }
 
+  //Funcion para calcular el tiempo que estuvo iniciado el tramo
   calcularDuracionTramo(inicio: string, fin: string): string {
     const ini = new Date(inicio);
     const f = new Date(fin);
@@ -116,6 +121,7 @@ export class JornadaComponent implements OnInit {
     return `${h}h ${m}m`;
   }
 
+  //Modal que permite ver detalles de la jornada
   openModal(): void {
     const modalEl = document.getElementById('detalleJornadaModal');
     if (modalEl) {
