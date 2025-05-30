@@ -1,16 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { UserStorageService } from '../../../services/UserStorage.service';
 import { UserService } from '../../../services/user.service';
 
+
 @Component({
   selector: 'app-editUser',
   templateUrl: 'editUser.component.html',
   styleUrls: ['editUser.component.scss']
 })
+
+
+
 export class EditUserModalComponent implements OnInit, OnDestroy {
+
+
+      @Output() userSaved = new EventEmitter<any>();
+
+
   userForm!: FormGroup;
   data!: any;
   userData!: any;
@@ -30,6 +39,7 @@ export class EditUserModalComponent implements OnInit, OnDestroy {
       nombre:       [this.data.nombre, Validators.required],
       apellidos:    [this.data.apellidos, Validators.required],
       email:        [this.data.email, [Validators.required, Validators.email]],
+      empresa: [this.data.empresa_id, Validators.required],
       telefono:     [this.data.telefono, [Validators.pattern('^\\d{9}$')]],
       rol:          [this.data.rol, Validators.required],
       password:     ['', Validators.required],
@@ -92,6 +102,7 @@ export class EditUserModalComponent implements OnInit, OnDestroy {
         resp => {
           this.bsModalRef.content = resp;
           this.bsModalRef.hide();
+          this.userSaved.emit(resp);
         },
         error => console.error('Error updating user', error)
       );

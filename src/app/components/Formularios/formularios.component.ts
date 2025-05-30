@@ -373,15 +373,24 @@ submit() {
 
 
   //Abrir modal para editar usuario
-    openUserModal(user: any): void {
-    this.bsModalRef = this.modalService.show(EditUserModalComponent, { initialState: { data: { ...user } } });
-    this.bsModalRef.onHidden?.subscribe(() => {
-      const updatedUser: any = this.bsModalRef?.content;
-      if (updatedUser) {
-        this.handleUpdatedUser(updatedUser);
-      }
-    });
-  }
+
+openUserModal(user: any): void {
+  // Abre el modal y le pasas los datos
+  this.bsModalRef = this.modalService.show(EditUserModalComponent, {
+    initialState: { data: { ...user } }
+  });
+
+  // Type-cast al tipo real del componente hijo
+  const child = this.bsModalRef.content as EditUserModalComponent;
+
+  // Suscríbete al EventEmitter que definimos en el hijo
+  child.userSaved.subscribe(() => {
+    // Tan pronto el hijo emita, recargamos usuarios
+    this.loadusers();
+    // (opcional) cerramos el modal si no lo ha hecho ya
+    this.bsModalRef?.hide();
+  });
+}
 
   //Funcion que actualiza los datos del usuario
   private handleUpdatedUser(updatedUser: any): void {
