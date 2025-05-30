@@ -243,7 +243,7 @@ export class formulariosComponent implements OnInit {
       this.companyForm.markAllAsTouched();
     }
   }
-
+  //Borrar empresa
  deleteEmpresa(e: any) {
     Swal.fire({
       title: `¿Eliminar la empresa "${e.nombre}"?`,
@@ -276,6 +276,7 @@ export class formulariosComponent implements OnInit {
     });
   }
 
+  //Borrar Usuario
   deleteUser(u: any) {
     Swal.fire({
       title: `¿Eliminar al usuario "${u.nombre}"?`,
@@ -308,7 +309,7 @@ export class formulariosComponent implements OnInit {
     });
   }
 
-
+  //Cargar empresa
     loadEmpresas() {
     if (this.userData?.rol === 'superadmin') {
       this.companyService.getAllEmpresas().subscribe({
@@ -326,7 +327,7 @@ export class formulariosComponent implements OnInit {
   }
 
 
-
+//Abrir modal para editar la empresa
  openCompanyModal(company: any): void {
     this.bsModalRef = this.modalService.show(EditCompanyModalComponent, { initialState: { data: { ...company } } });
     // Al cerrar, recibimos el objeto actualizado en bsModalRef.content
@@ -341,7 +342,7 @@ export class formulariosComponent implements OnInit {
   }
 
 
-
+  //Abrir modal para editar usuario
     openUserModal(user: any): void {
     this.bsModalRef = this.modalService.show(EditUserModalComponent, { initialState: { data: { ...user } } });
     this.bsModalRef.onHidden?.subscribe(() => {
@@ -352,6 +353,7 @@ export class formulariosComponent implements OnInit {
     });
   }
 
+  //Funcion que actualiza los datos del usuario
   private handleUpdatedUser(updatedUser: any): void {
     const idx = this.users.findIndex(u => u.id === updatedUser.id);
     if (idx > -1) {
