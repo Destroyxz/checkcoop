@@ -41,7 +41,7 @@ export class UserService {
   //Obtener los usuarios por empresa
   getUsersByCompany(empresa_id?: number): Observable<any[]> {
     return this.http
-      .get<any[]>(`${this.baseUrl}/users/company/${empresa_id}`)
+      .get<any[]>(`${this.baseUrl}/user/users/company/${empresa_id}`)
       .pipe(
         catchError(this.handleError)
       );
