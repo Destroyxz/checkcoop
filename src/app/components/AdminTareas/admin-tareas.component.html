@@ -73,7 +73,13 @@
 </div>
 
 <!-- Modal para editar/ Agregar tareas  -->
-<div class="modal fade" id="modalTarea" tabindex="-1" aria-labelledby="modalTareaLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="modalTarea"
+  tabindex="-1"
+  aria-labelledby="modalTareaLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-end">
     <div class="modal-content">
       <form #formulario="ngForm" (ngSubmit)="guardarTarea()">
@@ -81,53 +87,148 @@
           <h5 class="modal-title" id="modalTareaLabel">
             {{ modoEdicion ? 'Editar Tarea' : 'Nueva Tarea' }}
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+          ></button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
+            <!-- Usuario -->
             <div class="col-md-6">
-              <label>Usuario</label>
-              <select class="form-select" required [(ngModel)]="tareaForm.usuario_id" name="usuario_id">
-                <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombre }}</option>
-              </select>
+              <label for="usuario_id" class="form-label">Usuario</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-user"></i>
+                </span>
+                <select
+                  id="usuario_id"
+                  class="form-select"
+                  required
+                  [(ngModel)]="tareaForm.usuario_id"
+                  name="usuario_id"
+                >
+                  <option *ngFor="let u of usuarios" [value]="u.id">
+                    {{ u.nombre }}
+                  </option>
+                </select>
+              </div>
             </div>
+
+            <!-- Fecha -->
             <div class="col-md-6">
-              <label>Fecha</label>
-              <input type="date" class="form-control" required [(ngModel)]="tareaForm.fecha" name="fecha">
+              <label for="fecha" class="form-label">Fecha</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar-alt"></i>
+                </span>
+                <input
+                  id="fecha"
+                  type="date"
+                  class="form-control"
+                  required
+                  [(ngModel)]="tareaForm.fecha"
+                  name="fecha"
+                />
+              </div>
             </div>
+
+            <!-- Título -->
             <div class="col-md-12">
-              <label>Título</label>
-              <input type="text" class="form-control" required [(ngModel)]="tareaForm.titulo" name="titulo">
+              <label for="titulo" class="form-label">Título</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-heading"></i>
+                </span>
+                <input
+                  id="titulo"
+                  type="text"
+                  class="form-control"
+                  required
+                  [(ngModel)]="tareaForm.titulo"
+                  name="titulo"
+                />
+              </div>
             </div>
+
+            <!-- Descripción -->
             <div class="col-md-12">
-              <label>Descripción</label>
-              <textarea class="form-control" rows="3" [(ngModel)]="tareaForm.descripcion" name="descripcion"></textarea>
+              <label for="descripcion" class="form-label">Descripción</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-align-left"></i>
+                </span>
+                <textarea
+                  id="descripcion"
+                  class="form-control"
+                  rows="3"
+                  [(ngModel)]="tareaForm.descripcion"
+                  name="descripcion"
+                ></textarea>
+              </div>
             </div>
+
+            <!-- Prioridad -->
             <div class="col-md-6">
-              <label>Prioridad</label>
-              <select class="form-select" [(ngModel)]="tareaForm.prioridad" name="prioridad">
-                <option value="baja">Baja</option>
-                <option value="media">Media</option>
-                <option value="alta">Alta</option>
-              </select>
+              <label for="prioridad" class="form-label">Prioridad</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-exclamation-circle"></i>
+                </span>
+                <select
+                  id="prioridad"
+                  class="form-select"
+                  [(ngModel)]="tareaForm.prioridad"
+                  name="prioridad"
+                >
+                  <option value="baja">Baja</option>
+                  <option value="media">Media</option>
+                  <option value="alta">Alta</option>
+                </select>
+              </div>
             </div>
+
+            <!-- Estado -->
             <div class="col-md-6">
-              <label>Estado</label>
-              <select class="form-select" [(ngModel)]="tareaForm.estado" name="estado">
-                <option value="pendiente">Pendiente</option>
-                <option value="en progreso">En Progreso</option>
-                <option value="completada">Completada</option>
-                <option value="cancelada">Cancelada</option>
-              </select>
+              <label for="estado" class="form-label">Estado</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fa fa-tasks"></i>
+                </span>
+                <select
+                  id="estado"
+                  class="form-select"
+                  [(ngModel)]="tareaForm.estado"
+                  name="estado"
+                >
+                  <option value="pendiente">Pendiente</option>
+                  <option value="en progreso">En Progreso</option>
+                  <option value="completada">Completada</option>
+                  <option value="cancelada">Cancelada</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
-            [disabled]="formulario.invalid">Guardar</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button
+            type="submit"
+            class="btn btn-success"
+            data-bs-dismiss="modal"
+            [disabled]="formulario.invalid"
+          >
+            Guardar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
         </div>
       </form>
     </div>
