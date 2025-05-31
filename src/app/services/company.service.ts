@@ -1,3 +1,4 @@
+//Importamos los módulos necesarios
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -18,7 +19,7 @@ export interface Company {
 
 @Injectable({ providedIn: 'root' })
 export class CompanyService {
-  private baseUrl = environment.apiUrl; // Ajusta según tu entorno
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -62,7 +63,6 @@ export class CompanyService {
 
   private handleError(error: HttpErrorResponse) {
     console.error('[CompanyService] Error fetching companies:', error);
-    // Aquí podrías mapear distintos códigos de status a mensajes amigables
     return throwError(() => new Error('No se pudieron cargar las empresas.'));
   }
 }

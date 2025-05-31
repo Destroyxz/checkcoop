@@ -12,7 +12,7 @@ export class InventarioComponent implements OnInit {
   filtroBusqueda: string = '';
   mostrarFormulario = false;
   mostrarModal: boolean = false;
-//Modelo de ejemplo de cuando creas un producto
+  //Modelo de ejemplo de cuando creas un producto
   nuevoProducto: Producto = {
     numEmpresa: 1,
     nombre: '',
@@ -24,7 +24,7 @@ export class InventarioComponent implements OnInit {
     imagen: '',
   };
 
-//Modelo de ejemplo de cuando actualizas un producto (para inicizalizar las variables si no los pilla bien)
+  //Modelo de ejemplo de cuando actualizas un producto (para inicizalizar las variables si no los pilla bien)
   productoSeleccionado: Producto = {
     id: 0,
     numEmpresa: 1,
@@ -78,8 +78,8 @@ export class InventarioComponent implements OnInit {
     };
     reader.readAsDataURL(file);
   }
-  
-//Funcion que obtiene los productos
+
+  //Funcion que obtiene los productos
   cargarProductos(): void {
     this.productoService.obtenerProductos().subscribe((data) => {
       this.productos = data;
@@ -106,7 +106,7 @@ export class InventarioComponent implements OnInit {
     if (p.cantidad <= 25) return 'badge-warning text-dark';
     return 'badge-dark';
   }
-//Funcion que permite agregar productos
+  //Funcion que permite agregar productos
   agregarProducto(): void {
     const formData = new FormData();
     Object.entries(this.nuevoProducto).forEach(([key, value]) => {

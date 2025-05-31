@@ -110,6 +110,7 @@ export class AdminTareasComponent implements OnInit {
       this.tareaService.eliminar(id).subscribe(() => this.cargarTareas());
     }
   }
+
   // Filtra tareas según búsqueda y trabajador
   filtrar(): void {
     this.tareasFiltradas = this.tareas.filter((t) => {

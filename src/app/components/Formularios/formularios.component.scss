@@ -1,21 +1,26 @@
-.app-content{
-    overflow-y: hidden;
-}
-.nav-link.active{
-          border-color: var(--color-primario) !important;
-      background-color: var(--color-primario) !important;
-      color: #fff !important;
+/* Oculta el scroll de la página */
+.app-content {
+  overflow-y: hidden;
 }
 
-.nav-link{
-    color:  var(--color-primario) !important;
+/* Estilos de la barra de navegacion */
+.nav-link.active {
+  border-color: var(--color-primario) !important;
+  background-color: var(--color-primario) !important;
+  color: #fff !important;
 }
 
-.form-check-input:checked{
-    border-color: var(--color-primario) !important;
-      background-color: var(--color-primario) !important;
+.nav-link {
+  color: var(--color-primario) !important;
 }
 
+/* Estilo del formulario si su input está seleccionado */
+.form-check-input:checked {
+  border-color: var(--color-primario) !important;
+  background-color: var(--color-primario) !important;
+}
+
+/* Estilos del avatar */
 .avatar {
   width: 40px;
   height: 40px;
@@ -27,31 +32,37 @@
   color: #fff;
 }
 
-/* Variaciones por rol */
 .avatar-superadmin {
-  background-color: #6f42c1; /* morado */
+  background-color: #6f42c1;
+  /* morado */
 }
 
 .avatar-admin {
-  background-color: #0d6efd; /* azul */
+  background-color: #0d6efd;
+  /* azul */
 }
 
 .avatar-usuario {
-  background-color: #198754; /* verde */
+  background-color: #198754;
+  /* verde */
 }
 
 .badge-superadmin {
   background-color: #6f42c1 !important;
   color: #fff !important;
+  /* morado */
+
 }
 
 .badge-admin {
   background-color: #0d6efd !important;
   color: #fff !important;
+  /* azul */
+
 }
 
 .badge-usuario {
   background-color: #198754 !important;
   color: #fff !important;
+  /* verde */
 }
-

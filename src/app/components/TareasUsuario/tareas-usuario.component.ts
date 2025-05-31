@@ -1,3 +1,4 @@
+//Importamos los módulos necesarios
 import { Component, OnInit } from '@angular/core';
 import { TareaService } from '../../services/tarea.service';
 import { UserStorageService, UserStorage } from '../../services/UserStorage.service';
@@ -30,6 +31,7 @@ export class TareasUsuarioComponent implements OnInit {
     }
   }
 
+  //Verfica si la tarea está pendiente o en progreso
   esPendiente(tarea: any): boolean {
     return tarea.estado === 'pendiente' || tarea.estado === 'en progreso';
   }

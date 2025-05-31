@@ -7,7 +7,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-admin-jornadas',
   templateUrl: './admin-jornadas.component.html',
-  
+
 })
 export class AdminJornadasComponent implements OnInit {
   // Lista de todas las jornadas laborales
@@ -38,31 +38,32 @@ export class AdminJornadasComponent implements OnInit {
   modoEdicionTramos: boolean = false;
 
   constructor(
-  private jornadaService: JornadaService,
-  private userService: UserService
-) {}
+    private jornadaService: JornadaService,
+    private userService: UserService
+  ) { }
 
   // Método que se ejecuta al cargar el componente
   ngOnInit(): void {
     this.cargarDatos();
-        this.cargarUsuarios();
+    this.cargarUsuarios();
   }
 
   // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
-  this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
-   
-    this.jornadas = data;
+    this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
 
-       this.filtrar(); 
-  });
+      this.jornadas = data;
 
-  const empresaId = Number(localStorage.getItem('empresa_id'));
-  this.userService.getUsersByCompany(empresaId).subscribe((data) => {
-    this.trabajadores = data;
-  });
-}
+      this.filtrar();
+    });
 
+    const empresaId = Number(localStorage.getItem('empresa_id'));
+    this.userService.getUsersByCompany(empresaId).subscribe((data) => {
+      this.trabajadores = data;
+    });
+  }
+
+  //Metodo que carga los usuarios
   cargarUsuarios(): void {
     this.userService.getAllUsers().subscribe({
       next: (data) => (this.usuarios = data),
@@ -70,25 +71,19 @@ export class AdminJornadasComponent implements OnInit {
     });
   }
 
-
-filtrar(): void {
-  this.jornadasFiltradas = this.jornadas.filter((j) => {
-    const coincideTrabajador =
-      this.filtroTrabajador === '' || j.usuario_id ==this.filtroTrabajador;
-
-
-    const coincideFecha =
-      this.filtroFecha === '' || new Date(j.fecha).toISOString().slice(0, 10) === this.filtroFecha;
-
-    return coincideTrabajador && coincideFecha;
-  });
-}
+  // Filtra las jornadas según los criterios seleccionados
+  filtrar(): void {
+    this.jornadasFiltradas = this.jornadas.filter((j) => {
+      const coincideTrabajador =
+        this.filtroTrabajador === '' || j.usuario_id == this.filtroTrabajador;
 
 
+      const coincideFecha =
+        this.filtroFecha === '' || new Date(j.fecha).toISOString().slice(0, 10) === this.filtroFecha;
 
-
-
-
+      return coincideTrabajador && coincideFecha;
+    });
+  }
 
   // Visualiza los tramos de una jornada en un modal (modo solo lectura)
   verTramos(jornada: any): void {
@@ -205,16 +200,18 @@ filtrar(): void {
   eliminarTramo(index: number): void {
     this.tramosEditables.splice(index, 1);
   }
- formatearMinutosComoTexto(minutos: number): string {
-  const h = Math.floor(minutos / 60);
-  const m = minutos % 60;
-  let resultado = '';
 
-  if (h > 0) resultado += `${h}h`;
-  if (m > 0) resultado += (h > 0 ? ' ' : '') + `${m}min`;
-  if (resultado === '') resultado = '0min';
+  // Formatea minutos totales como texto legible (ej. "1h 30min")
+  formatearMinutosComoTexto(minutos: number): string {
+    const h = Math.floor(minutos / 60);
+    const m = minutos % 60;
+    let resultado = '';
 
-  return resultado;
-}
+    if (h > 0) resultado += `${h}h`;
+    if (m > 0) resultado += (h > 0 ? ' ' : '') + `${m}min`;
+    if (resultado === '') resultado = '0min';
+
+    return resultado;
+  }
 
 }

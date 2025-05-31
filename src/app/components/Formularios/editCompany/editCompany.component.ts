@@ -14,7 +14,7 @@ export class EditCompanyModalComponent implements OnInit {
   @Output() refresh = new EventEmitter<void>();
 
   companyForm!: FormGroup;
-  data!: any; 
+  data!: any;
 
   constructor(
     public bsModalRef: BsModalRef,

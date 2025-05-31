@@ -33,23 +33,23 @@ export class formulariosComponent implements OnInit {
   selectedCompany: string = '';
   filterTextEmpresa = '';
   filterTipoEmpresa = '';
-  
+
   users: any[] = [];
   empresas: any[] = [];
-  
+
   constructor(
     private userStorage: UserStorageService,
     private fb: FormBuilder,
     private companyService: CompanyService,
     private userService: UserService,
     private modalService: BsModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Obtener datos de usuario
     this.userData = this.userStorage.getUser();
 
-    
+
     //Usuarios según Rol
 
     this.loadusers()
@@ -88,48 +88,48 @@ export class formulariosComponent implements OnInit {
     });
 
     // Validadores dinámicos para turno partido
-this.userForm.get('turnoPartido')!.valueChanges.subscribe(isOn => {
-  const hIn2 = this.userForm.get('horaInicio2')!;
-  const hOut2 = this.userForm.get('horaSalida2')!;
+    this.userForm.get('turnoPartido')!.valueChanges.subscribe(isOn => {
+      const hIn2 = this.userForm.get('horaInicio2')!;
+      const hOut2 = this.userForm.get('horaSalida2')!;
 
-  if (isOn) {
-    hIn2.setValidators(Validators.required);
-    hOut2.setValidators(Validators.required);
-  } else {
-    hIn2.clearValidators();
-    hOut2.clearValidators();
+      if (isOn) {
+        hIn2.setValidators(Validators.required);
+        hOut2.setValidators(Validators.required);
+      } else {
+        hIn2.clearValidators();
+        hOut2.clearValidators();
+      }
+      hIn2.updateValueAndValidity();
+      hOut2.updateValueAndValidity();
+    });
+
   }
-  hIn2.updateValueAndValidity();
-  hOut2.updateValueAndValidity();
-});
 
-  }
+  // Cargar usuarios según el rol del usuario actual
+  loadusers() {
 
-
-  loadusers(){
-  
-        if (this.userData?.rol == 'superadmin'){
-      this.userService.getAllUsers().subscribe((users: any[]) =>{
+    if (this.userData?.rol == 'superadmin') {
+      this.userService.getAllUsers().subscribe((users: any[]) => {
         this.users = users;
       },
-      (err: any) => {
-        console.error('Error al cargar los usuarios', err);
-      },
-      () => {
-        console.log('Carga de usuarios completada');
-      })
-    } else{
-      this.userService.getUsersByCompany(this.userData?.empresa_id).subscribe((users: any[]) =>{
+        (err: any) => {
+          console.error('Error al cargar los usuarios', err);
+        },
+        () => {
+          console.log('Carga de usuarios completada');
+        })
+    } else {
+      this.userService.getUsersByCompany(this.userData?.empresa_id).subscribe((users: any[]) => {
         this.users = users;
       },
-      (err: any) => {
-        console.error('Error al cargar los usuarios', err);
-      },
-      () => {
-        console.log('Carga de usuarios completada');
-      })
+        (err: any) => {
+          console.error('Error al cargar los usuarios', err);
+        },
+        () => {
+          console.log('Carga de usuarios completada');
+        })
     }
-  
+
   }
   // Cambia el modo entre usuarios y empresas
   switchMode(mode: 'usuarios' | 'empresas'): void {
@@ -137,58 +137,54 @@ this.userForm.get('turnoPartido')!.valueChanges.subscribe(isOn => {
   }
 
   // Enviar formulario de usuario
-submit() {
-  if (this.userForm.valid) {
-    const f = this.userForm.value;
+  submit() {
+    if (this.userForm.valid) {
+      const f = this.userForm.value;
 
-    const nuevoUsuario = {
-      nombre:       f.nombre,
-      apellidos:    f.apellidos,
-      email:        f.email,
-      telefono:     f.telefono,
-      rol:          f.rol,
-      empresa_id:   f.empresa,
-      password:     f.password,
-      activo:       f.activo,
+      const nuevoUsuario = {
+        nombre: f.nombre,
+        apellidos: f.apellidos,
+        email: f.email,
+        telefono: f.telefono,
+        rol: f.rol,
+        empresa_id: f.empresa,
+        password: f.password,
+        activo: f.activo,
+        horaInicio: f.horaInicio,
+        horaSalida: f.horaSalida,
+        turnoPartido: f.turnoPartido,
+        horaInicio2: f.turnoPartido ? f.horaInicio2 : undefined,
+        horaSalida2: f.turnoPartido ? f.horaSalida2 : undefined,
+      };
 
-      // —————————————————————————————
-      // ¡CAMBIO CLAVE! Los nombres camelCase que espera el back:
-      horaInicio:   f.horaInicio,
-      horaSalida:   f.horaSalida,
-      turnoPartido: f.turnoPartido,
-      horaInicio2:  f.turnoPartido ? f.horaInicio2 : undefined,
-      horaSalida2:  f.turnoPartido ? f.horaSalida2 : undefined,
-      // —————————————————————————————
-    };
+      this.userService.newUser(nuevoUsuario).subscribe({
+        next: (res) => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Usuario creado!',
+            text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
+            confirmButtonText: 'OK',
+          });
+          // resetea sólo los valores por defecto
+          this.userForm.reset({ activo: true, rol: 'usuario' });
+        },
+        error: (err) => {
+          console.error('Error al crear usuario', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: err?.error?.message || 'No se pudo crear el usuario.',
+          });
+        },
+        complete: () => console.log('Petición de creación completada'),
+      });
+    } else {
+      this.userForm.markAllAsTouched();
+    }
 
-    this.userService.newUser(nuevoUsuario).subscribe({
-      next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Usuario creado!',
-          text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
-          confirmButtonText: 'OK',
-        });
-        // resetea sólo los valores por defecto
-        this.userForm.reset({ activo: true, rol: 'usuario' });
-      },
-      error: (err) => {
-        console.error('Error al crear usuario', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err?.error?.message || 'No se pudo crear el usuario.',
-        });
-      },
-      complete: () => console.log('Petición de creación completada'),
-    });
-  } else {
-    this.userForm.markAllAsTouched();
+    this.loadusers()
+
   }
-
-   this.loadusers()
-
-}
   // Cambia el modo del formulario (crear/modificar)
   formMode(formulario: 'crear' | 'modificar'): void {
     this.formulario = formulario;
@@ -232,7 +228,7 @@ submit() {
   }
 
   // Actualizar compañia
-  updateCompany(){
+  updateCompany() {
     if (this.companyForm.valid) {
       const nuevaEmpresa = {
         nombre: this.companyForm.value.nombre,
@@ -268,7 +264,7 @@ submit() {
 
   }
   //Borrar empresa
- deleteEmpresa(e: any) {
+  deleteEmpresa(e: any) {
     Swal.fire({
       title: `¿Eliminar la empresa "${e.nombre}"?`,
       text: 'Esta acción no se puede deshacer.',
@@ -340,7 +336,7 @@ submit() {
   }
 
   //Cargar empresa
-    loadEmpresas() {
+  loadEmpresas() {
     if (this.userData?.rol === 'superadmin') {
       this.companyService.getAllEmpresas().subscribe({
         next: (empresas: any[]) => this.empresas = empresas,
@@ -357,8 +353,8 @@ submit() {
   }
 
 
-//Abrir modal para editar la empresa
- openCompanyModal(company: any): void {
+  //Abrir modal para editar la empresa
+  openCompanyModal(company: any): void {
     this.bsModalRef = this.modalService.show(EditCompanyModalComponent, { initialState: { data: { ...company } } });
     // Al cerrar, recibimos el objeto actualizado en bsModalRef.content
     this.bsModalRef.onHidden?.subscribe(() => {
@@ -366,38 +362,24 @@ submit() {
       if (updated) {
         this.loadEmpresas();
         this.bsModalRef?.hide();
-        
+
       }
     });
   }
 
 
   //Abrir modal para editar usuario
+  openUserModal(user: any): void {
+    this.bsModalRef = this.modalService.show(EditUserModalComponent, {
+      initialState: { data: { ...user } }
+    });
 
-openUserModal(user: any): void {
-  // Abre el modal y le pasas los datos
-  this.bsModalRef = this.modalService.show(EditUserModalComponent, {
-    initialState: { data: { ...user } }
-  });
+    const child = this.bsModalRef.content as EditUserModalComponent;
 
-  // Type-cast al tipo real del componente hijo
-  const child = this.bsModalRef.content as EditUserModalComponent;
-
-  // Suscríbete al EventEmitter que definimos en el hijo
-  child.userSaved.subscribe(() => {
-    // Tan pronto el hijo emita, recargamos usuarios
-    this.loadusers();
-    // (opcional) cerramos el modal si no lo ha hecho ya
-    this.bsModalRef?.hide();
-  });
-}
-
-  //Funcion que actualiza los datos del usuario
-  private handleUpdatedUser(updatedUser: any): void {
-    const idx = this.users.findIndex(u => u.id === updatedUser.id);
-    if (idx > -1) {
-      this.users[idx] = updatedUser;
-    }
-    // this.userService.update(updatedUser).subscribe();
+    child.userSaved.subscribe(() => {
+      this.loadusers();
+      this.bsModalRef?.hide();
+    });
   }
+
 }

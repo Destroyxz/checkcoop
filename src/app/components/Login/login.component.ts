@@ -48,12 +48,12 @@ export class LoginComponent {
           console.log('Usuario recuperado:', user);  // Log para ver el usuario recuperado
 
           // Si no hay usuario en el payload, se asume que el email es el nombre
-          const name = user?.["name"] || this.email;
+          const name = user?.["nombre"] || this.email;
 
           // Guardar los datos del usuario en el localStorage
           if (user) {
             localStorage.setItem('user', JSON.stringify({
-              id: user?.["id"],
+              id: user?.["sub"],
               empresa_id: user?.["empresa_id"],
               exp_Token: user?.["exp"],  // si quieres guardar fecha de expiración del token
               nombre: user?.["nombre"],

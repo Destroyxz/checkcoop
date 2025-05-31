@@ -1,36 +1,37 @@
-.login-container {
+  /* Contenedor de login*/
+  .login-container {
     max-width: 400px;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
+
     h2 {
       text-align: center;
       margin-bottom: 1.5rem;
     }
-  
+
     .form-group {
       margin-bottom: 1rem;
-  
+
       label {
         display: block;
         margin-bottom: 0.5rem;
       }
-  
+
       input {
         width: 100%;
         padding: 0.5rem;
         border: 1px solid #ccc;
         border-radius: 4px;
       }
-  
+
       .error {
         color: #d9534f;
         font-size: 0.875rem;
         margin-top: 0.25rem;
       }
     }
-  
+
     button {
       width: 100%;
       padding: 0.75rem;
@@ -39,13 +40,13 @@
       color: #fff;
       font-size: 1rem;
       cursor: pointer;
-  
+
       &:disabled {
         background: #6c757d;
         cursor: not-allowed;
       }
     }
-  
+
     .error-message {
       margin-top: 1rem;
       color: #d9534f;
@@ -54,65 +55,67 @@
   }
 
   /* Contenedor full-screen con flex */
-.auth-page {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Zona del carrusel */
-.carousel-container {
-  flex: 1;
-  position: relative;
-}
-
-/* Asegura que las imágenes cubran todo el alto */
-.carousel-inner,
-.carousel-item,
-.carousel-item img {
-  height: 100%;
-}
-
-/* — Contenedor de la derecha — */
-.login-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 3rem;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* — Card de login — */
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  background-color: #fff;
-  border-radius: 1rem;
-}
-
-/* — Logo dentro del card — */
-.login-logo {
-  height: 50px;
-  object-fit: contain;
-}
-
-/* — Color verde para enlaces — */
-.link-green {
-  color: #006943;
-  text-decoration: none;
-}
-.link-green:hover {
-  text-decoration: underline;
-}
-
-/* — Separador — */
-.login-card hr {
-  margin: 1.5rem 0;
-}
-@media (max-width: 767.98px) {
-  .scroll-mobile-only {
-    overflow-y: auto;
-    max-height: 100vh;
+  .auth-page {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
   }
-}
+
+  /* Zona del carrusel */
+  .carousel-container {
+    flex: 1;
+    position: relative;
+  }
+
+  /* Asegura que las imágenes cubran todo el alto */
+  .carousel-inner,
+  .carousel-item,
+  .carousel-item img {
+    height: 100%;
+  }
+
+  /* — Contenedor de la derecha — */
+  .login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 3rem;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* — Card de login — */
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 1rem;
+  }
+
+  /* — Logo dentro del card — */
+  .login-logo {
+    height: 50px;
+    object-fit: contain;
+  }
+
+  /* — Color verde para enlaces — */
+  .link-green {
+    color: #006943;
+    text-decoration: none;
+  }
+
+  .link-green:hover {
+    text-decoration: underline;
+  }
+
+  /* — Separador — */
+  .login-card hr {
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 767.98px) {
+    .scroll-mobile-only {
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+  }

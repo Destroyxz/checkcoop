@@ -11,25 +11,25 @@
 
       <!-- Contenido principal -->
       <div *ngIf="!isLoading">
-        
+
         <!-- Hora y fecha -->
         <h2 class="fw-bold mb-1">{{ horaActual }}</h2>
         <p class="text-muted">{{ fechaActual }}</p>
         <!-- Horario esperado -->
-<div class="mb-3">
-  <div class="alert alert-light border text-start" *ngIf="jornadaPartida">
-    <i class="bi bi-calendar-check me-2"></i>
-    <strong>Horario:</strong><br>
-    Mañana: {{ horaInicio1 }} - {{ horaFin1 }}<br>
-    Tarde: {{ horaInicio2 }} - {{ horaFin2 }}
-  </div>
+        <div class="mb-3">
+          <div class="alert alert-light border text-start" *ngIf="jornadaPartida">
+            <i class="bi bi-calendar-check me-2"></i>
+            <strong>Horario:</strong><br>
+            Mañana: {{ horaInicio1 }} - {{ horaFin1 }}<br>
+            Tarde: {{ horaInicio2 }} - {{ horaFin2 }}
+          </div>
 
-  <div class="alert alert-light border text-start" *ngIf="!jornadaPartida && horaInicio1 && horaFin1">
-    <i class="bi bi-calendar-check me-2"></i>
-    <strong>Horario:</strong><br>
-    {{ horaInicio1 }} - {{ horaFin1 }}
-  </div>
-</div>
+          <div class="alert alert-light border text-start" *ngIf="!jornadaPartida && horaInicio1 && horaFin1">
+            <i class="bi bi-calendar-check me-2"></i>
+            <strong>Horario:</strong><br>
+            {{ horaInicio1 }} - {{ horaFin1 }}
+          </div>
+        </div>
 
         <!-- Estado inicial -->
         <p *ngIf="!jornadaIniciada && !horaEntrada" class="text-secondary">
@@ -45,18 +45,18 @@
 
 
         <!-- Jornada Activa -->
-<div *ngIf="jornadaIniciada" class="mt-4">
-  <div class="alert alert-info text-start">
-    <strong>Jornada en curso</strong><br>
-    <span><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</span><br>
+        <div *ngIf="jornadaIniciada" class="mt-4">
+          <div class="alert alert-info text-start">
+            <strong>Jornada en curso</strong><br>
+            <span><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</span><br>
 
-   
-  </div>
 
-  <button (click)="terminarJornada()" [disabled]="isLoading" class="btn btn-danger btn-lg w-100">
-    <i class="bi bi-stop-circle"></i> Terminar Jornada
-  </button>
-</div>
+          </div>
+
+          <button (click)="terminarJornada()" [disabled]="isLoading" class="btn btn-danger btn-lg w-100">
+            <i class="bi bi-stop-circle"></i> Terminar Jornada
+          </button>
+        </div>
 
 
         <!-- Información post-jornada -->
