@@ -40,9 +40,10 @@ $mi-app-theme: mat.define-light-theme((
 
 :root {
   --color-primario: #047857;
-  --bs-primary: #047857;
 
   --color-primario-hover: #68C7A0;
+
+  --color-primario-focus: #03503a;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

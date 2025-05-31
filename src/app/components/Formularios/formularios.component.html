@@ -170,150 +170,360 @@
       </ul>
     </ng-container>
     <!-- Formulario de Usuarios -->
-    <div *ngIf="mode === 'usuarios' && formulario=='crear'" class="card">
-      <div class="card-body">
-        <h4 class="card-title"><i class="bi bi-person-plus me-2"></i> Crear Usuario</h4>
-        <form [formGroup]="userForm" (ngSubmit)="submit()">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input id="nombre" formControlName="nombre" type="text" class="form-control"
-                placeholder="Nombre del usuario">
-            </div>
-            <div class="col-md-6">
-              <label for="apellidos" class="form-label">Apellidos</label>
-              <input id="apellidos" formControlName="apellidos" type="text" class="form-control"
-                placeholder="Apellidos del usuario">
-            </div>
-            <div class="col-md-6">
-              <label for="email" class="form-label">Email</label>
-              <input id="email" formControlName="email" type="email" class="form-control"
-                placeholder="correo@ejemplo.com">
-            </div>
-            <div class="col-md-6">
-              <label for="telefono" class="form-label">Teléfono <small class="text-muted"></small></label>
-              <input id="telefono" formControlName="telefono" type="tel" class="form-control"
-                placeholder="Número de teléfono">
-            </div>
-            <div class="col-6" *ngIf="userData?.rol === 'superadmin'">
-              <label for="empresa" class="form-label">Empresa / Cooperativa</label>
-              <select id="empresa" formControlName="empresa" class="form-select">
-                <option value="" disabled selected>Seleccione una empresa</option>
-                <option *ngFor="let e of empresas" [value]="e.id">
-                  {{ e.nombre }}
-                </option>
-              </select>
-              <div class="form-text">Empresa a la que pertenece el usuario</div>
-            </div>
-            <div class="col-6">
-              <label for="contraseña" class="form-label">Contraseña <small class="text-muted"></small></label>
-              <input id="pass" formControlName="password" type="password" class="form-control" placeholder="Contraseña">
-            </div>
-            <div class="col-6">
-              <div class="form-check">
-                <input id="activo" formControlName="activo" class="form-check-input" type="checkbox">
-                <label for="activo" class="form-check-label">Usuario activo</label>
-                <div class="form-text">Si está desactivado, el usuario no podrá iniciar sesión en el sistema</div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="rol" class="form-label">Rol</label>
-              <select id="rol" formControlName="rol" class="form-select">
-                <option value="" disabled selected>Seleccione un rol</option>
-                <option value="usuario">Usuario</option>
-                <option value="admin">Administrador</option>
-              </select>
-            </div>
-
-            <!-- 1. Horario principal -->
-            <div class="col-md-6">
-              <label for="horaInicio" class="form-label">Hora de entrada</label>
-              <input id="horaInicio" type="time" formControlName="horaInicio" class="form-control">
-            </div>
-            <div class="col-md-6">
-              <label for="horaSalida" class="form-label">Hora de salida</label>
-              <input id="horaSalida" type="time" formControlName="horaSalida" class="form-control">
-            </div>
-
-            <!-- 2. Switch Turno partido -->
-            <div class="col-12">
-              <div class="form-check form-switch">
-                <input id="turnoPartido" class="form-check-input" type="checkbox" formControlName="turnoPartido">
-                <label for="turnoPartido" class="form-check-label">Turno partido</label>
-              </div>
-            </div>
-
-            <!-- 3. Horario segundo turno (sólo si turnoPartido = true) -->
-            <div class="col-md-6" *ngIf="userForm.get('turnoPartido')?.value">
-              <label for="horaInicio2" class="form-label">Entrada 2º turno</label>
-              <input id="horaInicio2" type="time" formControlName="horaInicio2" class="form-control">
-            </div>
-            <div class="col-md-6" *ngIf="userForm.get('turnoPartido')?.value">
-              <label for="horaSalida2" class="form-label">Salida 2º turno</label>
-              <input id="horaSalida2" type="time" formControlName="horaSalida2" class="form-control">
-            </div>
-
+<div *ngIf="mode === 'usuarios' && formulario=='crear'" class="card">
+  <div class="card-body">
+    <h4 class="card-title">
+      <i class="bi bi-person-plus me-2"></i> Crear Usuario
+    </h4>
+    <form [formGroup]="userForm" (ngSubmit)="submit()">
+      <div class="row g-3">
+        <!-- Nombre -->
+        <div class="col-md-6">
+          <label for="nombre" class="form-label">Nombre</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+            <input
+              id="nombre"
+              formControlName="nombre"
+              type="text"
+              class="form-control"
+              placeholder="Nombre del usuario"
+            />
           </div>
+        </div>
 
-          <div class="mt-4 text-end">
-            <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
-              <i class="bi bi-save me-1"></i> Crear Usuario
-            </button>
+        <!-- Apellidos -->
+        <div class="col-md-6">
+          <label for="apellidos" class="form-label">Apellidos</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+            <input
+              id="apellidos"
+              formControlName="apellidos"
+              type="text"
+              class="form-control"
+              placeholder="Apellidos del usuario"
+            />
           </div>
-        </form>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              class="form-control"
+              placeholder="correo@ejemplo.com"
+            />
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="col-md-6">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-phone"></i>
+            </span>
+            <input
+              id="telefono"
+              formControlName="telefono"
+              type="tel"
+              class="form-control"
+              placeholder="Número de teléfono"
+            />
+          </div>
+        </div>
+
+        <!-- Empresa / Cooperativa -->
+        <div class="col-6" *ngIf="userData?.rol === 'superadmin'">
+          <label for="empresa" class="form-label">Empresa / Cooperativa</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-building"></i>
+            </span>
+            <select
+              id="empresa"
+              formControlName="empresa"
+              class="form-select"
+            >
+              <option value="" disabled selected>Seleccione una empresa</option>
+              <option *ngFor="let e of empresas" [value]="e.id">
+                {{ e.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="form-text">Empresa a la que pertenece el usuario</div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="col-6">
+          <label for="pass" class="form-label">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-lock"></i>
+            </span>
+            <input
+              id="pass"
+              formControlName="password"
+              type="password"
+              class="form-control"
+              placeholder="Contraseña"
+            />
+          </div>
+        </div>
+
+        <!-- Usuario activo -->
+        <div class="col-6">
+          <div class="form-check">
+            <input
+              id="activo"
+              formControlName="activo"
+              class="form-check-input"
+              type="checkbox"
+            />
+            <label for="activo" class="form-check-label">Usuario activo</label>
+            <div class="form-text">
+              Si está desactivado, el usuario no podrá iniciar sesión en el sistema
+            </div>
+          </div>
+        </div>
+
+        <!-- Rol -->
+        <div class="col-md-6">
+          <label for="rol" class="form-label">Rol</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-user-tag"></i>
+            </span>
+            <select id="rol" formControlName="rol" class="form-select">
+              <option value="" disabled selected>Seleccione un rol</option>
+              <option value="usuario">Usuario</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Hora de entrada -->
+        <div class="col-md-6">
+          <label for="horaInicio" class="form-label">Hora de entrada</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-clock"></i>
+            </span>
+            <input
+              id="horaInicio"
+              type="time"
+              formControlName="horaInicio"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <!-- Hora de salida -->
+        <div class="col-md-6">
+          <label for="horaSalida" class="form-label">Hora de salida</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-clock"></i>
+            </span>
+            <input
+              id="horaSalida"
+              type="time"
+              formControlName="horaSalida"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <!-- Switch Turno partido -->
+        <div class="col-12">
+          <div class="form-check form-switch">
+            <input
+              id="turnoPartido"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="turnoPartido"
+            />
+            <label for="turnoPartido" class="form-check-label">Turno partido</label>
+          </div>
+        </div>
+
+        <!-- Entrada 2º turno -->
+        <div class="col-md-6" *ngIf="userForm.get('turnoPartido')?.value">
+          <label for="horaInicio2" class="form-label">Entrada 2º turno</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-clock"></i>
+            </span>
+            <input
+              id="horaInicio2"
+              type="time"
+              formControlName="horaInicio2"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <!-- Salida 2º turno -->
+        <div class="col-md-6" *ngIf="userForm.get('turnoPartido')?.value">
+          <label for="horaSalida2" class="form-label">Salida 2º turno</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-clock"></i>
+            </span>
+            <input
+              id="horaSalida2"
+              type="time"
+              formControlName="horaSalida2"
+              class="form-control"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div class="mt-4 text-end">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="userForm.invalid"
+        >
+          <i class="bi bi-save me-1"></i> Crear Usuario
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
     <!-- Formulario de Empresas -->
     <div *ngIf="mode === 'empresas' && formulario=='crear'" class="card">
-      <div class="card-body">
-        <h4 class="card-title"><i class="bi bi-building me-2"></i> Crear Empresa</h4>
-        <form [formGroup]="companyForm" (ngSubmit)="submitCompany()">
-          <div class="row g-3">
-            <!-- Nombre -->
-            <div class="col-md-6">
-              <label for="c-nombre" class="form-label">Nombre</label>
-              <input id="c-nombre" formControlName="nombre" type="text" class="form-control"
-                placeholder="Nombre de la empresa">
-            </div>
-            <!-- Razón Social -->
-            <div class="col-md-6">
-              <label for="razon_social" class="form-label">Razón Social</label>
-              <input id="razon_social" formControlName="razon_social" type="text" class="form-control"
-                placeholder="Razón Social">
-            </div>
-            <!-- NIF/CIF -->
-            <div class="col-md-6">
-              <label for="nif_cif" class="form-label">NIF/CIF</label>
-              <input id="nif_cif" formControlName="nif_cif" type="text" class="form-control" placeholder="NIF o CIF">
-            </div>
-            <!-- Dirección -->
-            <div class="col-md-6">
-              <label for="direccion" class="form-label">Dirección</label>
-              <input id="direccion" formControlName="direccion" type="text" class="form-control"
-                placeholder="Dirección">
-            </div>
-            <!-- Email Contacto -->
-            <div class="col-md-6">
-              <label for="email_contacto" class="form-label">Email de Contacto</label>
-              <input id="email_contacto" formControlName="email_contacto" type="email" class="form-control"
-                placeholder="contacto@empresa.com">
-            </div>
-            <!-- Teléfono -->
-            <div class="col-md-6">
-              <label for="c-telefono" class="form-label">Teléfono</label>
-              <input id="c-telefono" formControlName="telefono" type="tel" class="form-control"
-                placeholder="Número de teléfono">
-            </div>
+  <div class="card-body">
+    <h4 class="card-title">
+      <i class="bi bi-building me-2"></i> Crear Empresa
+    </h4>
+    <form [formGroup]="companyForm" (ngSubmit)="submitCompany()">
+      <div class="row g-3">
+        <!-- Nombre -->
+        <div class="col-md-6">
+          <label for="c-nombre" class="form-label">Nombre</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-building"></i>
+            </span>
+            <input
+              id="c-nombre"
+              formControlName="nombre"
+              type="text"
+              class="form-control"
+              placeholder="Nombre de la empresa"
+            />
           </div>
-          <div class="mt-4 text-end">
-            <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid">
-              <i class="bi bi-save me-1"></i> Crear Empresa
-            </button>
+        </div>
+        <!-- Razón Social -->
+        <div class="col-md-6">
+          <label for="razon_social" class="form-label">Razón Social</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-registered"></i>
+            </span>
+            <input
+              id="razon_social"
+              formControlName="razon_social"
+              type="text"
+              class="form-control"
+              placeholder="Razón Social"
+            />
           </div>
-        </form>
+        </div>
+        <!-- NIF/CIF -->
+        <div class="col-md-6">
+          <label for="nif_cif" class="form-label">NIF/CIF</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-id-card"></i>
+            </span>
+            <input
+              id="nif_cif"
+              formControlName="nif_cif"
+              type="text"
+              class="form-control"
+              placeholder="NIF o CIF"
+            />
+          </div>
+        </div>
+        <!-- Dirección -->
+        <div class="col-md-6">
+          <label for="direccion" class="form-label">Dirección</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker-alt"></i>
+            </span>
+            <input
+              id="direccion"
+              formControlName="direccion"
+              type="text"
+              class="form-control"
+              placeholder="Dirección"
+            />
+          </div>
+        </div>
+        <!-- Email Contacto -->
+        <div class="col-md-6">
+          <label for="email_contacto" class="form-label">Email de Contacto</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <input
+              id="email_contacto"
+              formControlName="email_contacto"
+              type="email"
+              class="form-control"
+              placeholder="contacto@empresa.com"
+            />
+          </div>
+        </div>
+        <!-- Teléfono -->
+        <div class="col-md-6">
+          <label for="c-telefono" class="form-label">Teléfono</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa fa-phone"></i>
+            </span>
+            <input
+              id="c-telefono"
+              formControlName="telefono"
+              type="tel"
+              class="form-control"
+              placeholder="Número de teléfono"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+      <div class="mt-4 text-end">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="companyForm.invalid"
+        >
+          <i class="bi bi-save me-1"></i> Crear Empresa
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
     <!--Vista de modificar para Usuarios-->
     <div class="card" *ngIf="mode === 'usuarios' && formulario=='modificar'">
@@ -397,7 +607,7 @@
 
                 <!-- Acciones -->
                 <td class="text-end">
-                  <button class="btn border-0 p-1 me-1" (click)="openUserModal(user)">
+                  <button class="btn border-0 p-1 me-1 text-primary" (click)="openUserModal(user)">
                     <i class="bi bi-pencil"></i>
                   </button>
                   <button type="button" class="btn border-0 p-1 text-danger" (click)="deleteUser(user)"
@@ -476,8 +686,8 @@
 
                 <!-- Acciones -->
                 <td class="text-end">
-                  <button class="btn border-0 p-1 me-1" (click)="openCompanyModal(e)">
-                    <i class="bi bi-pencil"></i>
+                  <button class="btn border-0 p-1 me-1 text-primary" (click)="openCompanyModal(e)">
+                    <i class="bi bi-pencil text-p"></i>
                   </button>
                   <button type="button" class="btn border-0 p-1 text-danger" (click)="deleteEmpresa(e)">
                     <i class="bi bi-trash"></i>

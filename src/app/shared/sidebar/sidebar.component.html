@@ -11,7 +11,8 @@
     <li class="nav-item mb-2" *ngFor="let item of menuItems">
       <a class="nav-link d-flex flex-column align-items-center  justify-content-center" 
          [routerLink]="item.path"
-         routerLinkActive="active">
+         routerLinkActive="active"
+         href="{{ item.path }}">
         <i [class]="item.icon"></i>
         <span class="link-text mt-1" *ngIf="expanded">{{ item.label }}</span>
       </a>
@@ -26,7 +27,7 @@
   <ul class="nav flex-column m-0 p-1 text-center">
     <li class="nav-item mb-2" *ngFor="let item of menuItems">
       <a class="nav-link p-1 d-flex flex-column align-items-center justify-content-center"
-         [routerLink]="item.path"
+         [routerLink]="item.path" href="{{ item.path }}"
          routerLinkActive="active">
         <i [class]="item.icon" style="font-size: 1.3rem;"></i>
       </a>
