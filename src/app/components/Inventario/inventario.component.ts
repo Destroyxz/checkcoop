@@ -1,7 +1,7 @@
 //Importamos los componentes necesarios
 import { Component, OnInit } from '@angular/core';
 import { ProductoService, Producto } from '../../services/producto.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -42,7 +42,7 @@ export class InventarioComponent implements OnInit {
   imagenPreviewNuevo: string | null = null;
   imagenPreviewEditar: string | null = null;
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService) {}
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -56,13 +56,25 @@ export class InventarioComponent implements OnInit {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     const maxSize = 2 * 1024 * 1024; // 2MB
 
+    // Validar tipo de archivo
     if (!allowedTypes.includes(file.type)) {
-      alert('Solo se permiten imágenes JPG, PNG, WEBP o GIF.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Tipo de archivo no permitido',
+        text: 'Solo se permiten imágenes JPG, PNG, WEBP o GIF.',
+        confirmButtonText: 'Entendido',
+      });
       return;
     }
 
+    // Validar tamaño de archivo
     if (file.size > maxSize) {
-      alert('La imagen es demasiado grande. Máximo 2MB.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Imagen demasiado grande',
+        text: 'La imagen supera los 2 MB permitidos.',
+        confirmButtonText: 'Entendido',
+      });
       return;
     }
 
@@ -118,7 +130,13 @@ export class InventarioComponent implements OnInit {
 
     this.productoService.agregarProducto(formData).subscribe({
       next: () => {
-        alert('Producto creado correctamente');
+        Swal.fire({
+          icon: 'success',
+          title: '¡Listo!',
+          text: 'Producto creado correctamente.',
+          confirmButtonText: 'Aceptar',
+        });
+
         //Reseteamos los valores a los por defecto
         this.mostrarFormulario = false;
         this.nuevoProducto = {
@@ -135,7 +153,12 @@ export class InventarioComponent implements OnInit {
         this.cargarProductos();
       },
       error: (err) => {
-        alert('Error al crear producto');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al crear producto. Intenta de nuevo más tarde.',
+          confirmButtonText: 'Aceptar',
+        });
         console.error(err);
       },
     });
@@ -152,7 +175,7 @@ export class InventarioComponent implements OnInit {
     this.mostrarModal = false;
   }
 
-  //Funcion que permite guardar los cambios del  producto 
+  //Funcion que permite guardar los cambios del  producto
   guardarCambios(): void {
     const formData = new FormData();
     Object.entries(this.productoSeleccionado).forEach(([key, value]) => {
@@ -169,14 +192,25 @@ export class InventarioComponent implements OnInit {
       .actualizarProducto(this.productoSeleccionado.id!, formData)
       .subscribe({
         next: () => {
-          alert('Producto actualizado correctamente');
+          Swal.fire({
+            icon: 'success',
+            title: '¡Listo!',
+            text: 'Producto actualizado correctamente.',
+            confirmButtonText: 'Aceptar',
+          });
+
           this.mostrarModal = false;
           this.selectedFileEditar = null;
           this.imagenPreviewEditar = null;
           this.cargarProductos();
         },
         error: (err) => {
-          alert('Error al actualizar producto');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al actualizar producto.',
+            confirmButtonText: 'Aceptar',
+          });
           console.error(err);
         },
       });
@@ -191,11 +225,21 @@ export class InventarioComponent implements OnInit {
 
     this.productoService.eliminarProducto(producto.id!).subscribe({
       next: () => {
-        alert('Producto eliminado correctamente');
+        Swal.fire({
+          icon: 'success',
+          title: '¡Listo!',
+          text: 'Producto eliminado correctamente.',
+          confirmButtonText: 'Aceptar',
+        });
         this.cargarProductos();
       },
       error: (err) => {
-        alert('Error al eliminar producto');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al eliminar producto.',
+          confirmButtonText: 'Aceptar',
+        });
         console.error(err);
       },
     });
