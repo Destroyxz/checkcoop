@@ -3,7 +3,9 @@
   <div class="col-md-4">
     <div class="p-3 bg-light rounded">
       <h5 class="mb-1">Rol actual</h5>
-      <p class="text-muted small">Tu rol determina qué elementos puedes ver y modificar en el sistema</p>
+      <p class="text-muted small">
+        Tu rol determina qué elementos puedes ver y modificar en el sistema
+      </p>
 
       <div class="card">
         <div class="card-body">
@@ -17,10 +19,13 @@
                   <strong>SuperAdmin</strong>
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title text-primary">Acceso completo al sistema</h5>
+                  <h5 class="card-title text-primary">
+                    Acceso completo al sistema
+                  </h5>
                   <p class="card-text">
                     <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    Como Superadministrador, puedes gestionar usuarios, administradores y empresas.
+                    Como Superadministrador, puedes gestionar usuarios,
+                    administradores y empresas.
                   </p>
                   <div class="d-flex flex-wrap mt-3">
                     <span class="badge bg-success me-2 mb-2">Gestionar Usuarios</span>
@@ -40,10 +45,13 @@
                   <strong>Administrador</strong>
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title text-primary">Acceso de administración</h5>
+                  <h5 class="card-title text-primary">
+                    Acceso de administración
+                  </h5>
                   <p class="card-text">
                     <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                    Como Administrador, puedes crear y modificar usuarios. <br />
+                    Como Administrador, puedes crear y modificar usuarios.
+                    <br />
                     <small class="text-secondary">No tienes permiso para gestionar empresas.</small>
                   </p>
                   <div class="d-flex flex-wrap mt-3">
@@ -86,12 +94,14 @@
                   <h5 class="card-title text-warning">Rol no definido</h5>
                   <p class="card-text">
                     <i class="bi bi-question-circle-fill text-warning me-2"></i>
-                    No se ha asignado un rol a tu cuenta. Contacta con un administrador.
+                    No se ha asignado un rol a tu cuenta. Contacta con un
+                    administrador.
                   </p>
                   <div class="alert alert-warning mt-3" role="alert">
                     <small>
                       <i class="bi bi-info-circle-fill me-2"></i>
-                      Es posible que tengas acceso limitado al sistema hasta que se asigne un rol.
+                      Es posible que tengas acceso limitado al sistema hasta que
+                      se asigne un rol.
                     </small>
                   </div>
                 </div>
@@ -119,7 +129,9 @@
               </div>
             </div>
 
-            <p class="text-danger small">No se ha proporcionado información de usuario.</p>
+            <p class="text-danger small">
+              No se ha proporcionado información de usuario.
+            </p>
           </ng-template>
         </div>
       </div>
@@ -148,8 +160,6 @@
 
   <!-- Columna del Formulario: ocupa 2/3 -->
   <div class="col-md-8">
-
-
     <!-- Bloque específico para rol 'usuario' -->
     <!-- Bloque “Acceso restringido” para rol === 'usuario' -->
     <ng-container *ngIf="userData?.rol === 'usuario'">
@@ -159,8 +169,8 @@
             <i class="bi bi-exclamation-circle me-2"></i> Acceso Restringido
           </h4>
           <p class="card-text">
-            No tienes permisos para crear o modificar usuarios.
-            A continuación se muestran únicamente los usuarios que pertenecen a tu empresa:
+            No tienes permisos para crear o modificar usuarios. A continuación
+            se muestran únicamente los usuarios que pertenecen a tu empresa:
           </p>
 
           <!-- Tabla de Usuarios de la misma empresa (solo lectura) -->
@@ -181,20 +191,25 @@
                   <td>{{ u.email }}</td>
                   <td>
                     <span class="badge" [ngClass]="{
-                    'badge-superadmin': u.rol === 'superadmin',
-                    'badge-admin':      u.rol === 'admin',
-                    'badge-usuario':    u.rol === 'usuario'
-                  }">
-                      {{ u.rol === 'superadmin'
-                      ? 'Superadmin'
-                      : u.rol === 'admin'
-                      ? 'Administrador'
-                      : 'Usuario' }}
+                        'badge-superadmin': u.rol === 'superadmin',
+                        'badge-admin': u.rol === 'admin',
+                        'badge-usuario': u.rol === 'usuario'
+                      }">
+                      {{
+                      u.rol === "superadmin"
+                      ? "Superadmin"
+                      : u.rol === "admin"
+                      ? "Administrador"
+                      : "Usuario"
+                      }}
                     </span>
                   </td>
                   <td>
-                    <span class="badge" [ngClass]="{ 'bg-success': u.activo, 'bg-danger': !u.activo }">
-                      {{ u.activo ? 'Activo' : 'Inactivo' }}
+                    <span class="badge" [ngClass]="{
+                        'bg-success': u.activo,
+                        'bg-danger': !u.activo
+                      }">
+                      {{ u.activo ? "Activo" : "Inactivo" }}
                     </span>
                   </td>
                 </tr>
@@ -212,7 +227,8 @@
           <!-- Nota para el usuario -->
           <p class="mt-3 mb-0">
             <small>
-              Si necesitas modificar algún campo de tu cuenta, consulta con un administrador.
+              Si necesitas modificar algún campo de tu cuenta, consulta con un
+              administrador.
             </small>
           </p>
         </div>
@@ -242,16 +258,18 @@
     <!-- Si es ADMIN, forzamos siempre 'usuarios' como mode (ocultamos Empresas) -->
     <ng-container *ngIf="userData?.rol === 'admin'">
       <!-- Ocultamos las pestañas: directamente mostramos el bloque de usuarios -->
-      <ng-container *ngIf="(mode !== 'usuarios') && (mode !== 'empresas')">
+      <ng-container *ngIf="mode !== 'usuarios' && mode !== 'empresas'">
         <!-- Si no se ha seleccionado aún, establecemos por defecto usuarios -->
-        {{ switchMode('usuarios') }}
+        {{ switchMode("usuarios") }}
       </ng-container>
     </ng-container>
 
     <!-- Bloque CREAR USUARIO -->
-    <div *ngIf="mode === 'usuarios' 
-         && formulario === 'crear' 
-         && userData?.rol !== 'usuario'" class="mb-4">
+    <div *ngIf="
+        mode === 'usuarios' &&
+        formulario === 'crear' &&
+        userData?.rol !== 'usuario'
+      " class="mb-4">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">
@@ -307,7 +325,8 @@
                 </div>
               </div>
 
-              <!-- Empresa / Cooperativa (solo superadmin) -->
+              <!-- Empresa / Cooperativa -->
+              <!-- 1) Si es superadmin, muestro el <select> para elegir cualquier empresa. -->
               <div class="col-6" *ngIf="userData?.rol === 'superadmin'">
                 <label for="empresa" class="form-label">Empresa / Cooperativa</label>
                 <div class="input-group">
@@ -315,14 +334,37 @@
                     <i class="fa fa-building"></i>
                   </span>
                   <select id="empresa" formControlName="empresa" class="form-select">
-                    <option value="" disabled selected>Seleccione una empresa</option>
+                    <option value="" disabled selected>
+                      Seleccione una empresa
+                    </option>
                     <option *ngFor="let e of empresas" [value]="e.id">
                       {{ e.nombre }}
                     </option>
                   </select>
                 </div>
-                <div class="form-text">Empresa a la que pertenece el usuario</div>
+                <div class="form-text">
+                  Empresa a la que pertenece el usuario
+                </div>
               </div>
+
+              <!-- Bloque de “Empresa / Cooperativa” -->
+              <div class="col-6" [hidden]="userData?.rol !== 'superadmin'">
+                <label class="form-label">Empresa / Cooperativa</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fa fa-building"></i>
+                  </span>
+                  <!-- Mostramos el ID de la empresa actual como solo lectura -->
+                  <input type="text" class="form-control" [value]="userData?.empresa_id" disabled />
+                </div>
+                <!-- Input oculto para el FormControl “empresa” -->
+                <input type="hidden" formControlName="empresa" />
+                <div class="form-text">
+                  El nuevo usuario se creará en tu misma empresa.
+                </div>
+              </div>
+
+
 
               <!-- Contraseña -->
               <div class="col-6">
@@ -342,7 +384,7 @@
                   <input id="activo" formControlName="activo" class="form-check-input" type="checkbox" />
                   <label for="activo" class="form-check-label">Usuario activo</label>
                   <div class="form-text">
-                    Si está desactivado, el usuario no podrá iniciar sesión en el sistema
+                    Si está desactivado, el usuario no podrá iniciar sesión.
                   </div>
                 </div>
               </div>
@@ -355,7 +397,9 @@
                     <i class="fa fa-user-tag"></i>
                   </span>
                   <select id="rol" formControlName="rol" class="form-select">
-                    <option value="" disabled selected>Seleccione un rol</option>
+                    <option value="" disabled selected>
+                      Seleccione un rol
+                    </option>
                     <option value="usuario">Usuario</option>
                     <option value="admin">Administrador</option>
                   </select>
@@ -426,11 +470,12 @@
       </div>
     </div>
 
-
-
-
     <!-- Bloque CREAR EMPRESA (solo para superadmin) -->
-    <div *ngIf="mode === 'empresas' && formulario === 'crear' && userData?.rol === 'superadmin'" class="card">
+    <div *ngIf="
+        mode === 'empresas' &&
+        formulario === 'crear' &&
+        userData?.rol === 'superadmin'
+      " class="card">
       <div class="card-body">
         <h4 class="card-title">
           <i class="bi bi-building me-2"></i> Crear Empresa
@@ -514,8 +559,11 @@
     </div>
 
     <!-- Vista de modificar USUARIOS (admin + superadmin) -->
-    <div class="card"
-      *ngIf="mode === 'usuarios' && formulario === 'modificar' && (userData?.rol === 'admin' || userData?.rol === 'superadmin')">
+    <div class="card" *ngIf="
+        mode === 'usuarios' &&
+        formulario === 'modificar' &&
+        (userData?.rol === 'admin' || userData?.rol === 'superadmin')
+      ">
       <div class="card-body">
         <!-- Header: buscador, filtro y botón -->
         <div
@@ -523,9 +571,11 @@
           <div class="d-flex w-100 mb-2 mb-sm-0">
             <input type="text" class="form-control me-2" placeholder="Buscar por nombre o email..."
               [(ngModel)]="filterText" />
-            <select class="form-select" [(ngModel)]="selectedCompany">
+            <select class="form-select" [(ngModel)]="selectedCompany" *ngIf="userData?.rol === 'superadmin'">
               <option value="">Todas las empresas</option>
-              <option *ngFor="let c of empresas" [value]="c.id">{{ c.nombre }}</option>
+              <option *ngFor="let c of empresas" [value]="c.id">
+                {{ c.nombre }}
+              </option>
             </select>
           </div>
         </div>
@@ -547,7 +597,7 @@
             <tbody>
               <tr *ngFor="
                   let user of users
-                    | filterByText: filterText : ['nombre','email']
+                    | filterByText : filterText : ['nombre', 'email']
                     | filterByCompany : selectedCompany
                 ">
                 <!-- Avatar con inicial -->
@@ -578,19 +628,22 @@
                       'badge-usuario': user.rol === 'usuario'
                     }">
                     {{
-                    user.rol === 'superadmin'
-                    ? 'Superadmin'
-                    : user.rol === 'admin'
-                    ? 'Administrador'
-                    : 'Usuario'
+                    user.rol === "superadmin"
+                    ? "Superadmin"
+                    : user.rol === "admin"
+                    ? "Administrador"
+                    : "Usuario"
                     }}
                   </span>
                 </td>
 
                 <!-- Badge de estado -->
                 <td>
-                  <span class="badge" [ngClass]="{ 'bg-success': user.activo, 'bg-danger': !user.activo }">
-                    {{ user.activo ? 'Activo' : 'Inactivo' }}
+                  <span class="badge" [ngClass]="{
+                      'bg-success': user.activo,
+                      'bg-danger': !user.activo
+                    }">
+                    {{ user.activo ? "Activo" : "Inactivo" }}
                   </span>
                 </td>
 
@@ -610,12 +663,14 @@
           </table>
         </div>
       </div>
-
-
     </div>
 
     <!-- Vista de modificar EMPRESAS (solo superadmin) -->
-    <div class="card" *ngIf="mode === 'empresas' && formulario === 'modificar' && userData?.rol === 'superadmin'">
+    <div class="card" *ngIf="
+        mode === 'empresas' &&
+        formulario === 'modificar' &&
+        userData?.rol === 'superadmin'
+      ">
       <div class="card-body">
         <!-- Header: buscador y botón Nuevo -->
         <div
@@ -650,8 +705,10 @@
             <tbody>
               <tr *ngFor="
                   let e of empresas
-                    | filterByText: filterTextEmpresa : ['nombre','razon_social']
-                    | filterByText: filterTipoEmpresa : ['tipo']
+                    | filterByText
+                      : filterTextEmpresa
+                      : ['nombre', 'razon_social']
+                    | filterByText : filterTipoEmpresa : ['tipo']
                 ">
                 <!-- Avatar con inicial o logo -->
                 <td>
@@ -665,8 +722,12 @@
                 <td>{{ e.nif_cif }}</td>
                 <td>{{ e.direccion }}</td>
                 <td>
-                  <div><i class="bi bi-envelope me-1"></i>{{ e.email_contacto }}</div>
-                  <div><i class="bi bi-telephone me-1"></i>{{ e.telefono }}</div>
+                  <div>
+                    <i class="bi bi-envelope me-1"></i>{{ e.email_contacto }}
+                  </div>
+                  <div>
+                    <i class="bi bi-telephone me-1"></i>{{ e.telefono }}
+                  </div>
                 </td>
 
                 <!-- Conteo de usuarios -->

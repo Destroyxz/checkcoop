@@ -116,7 +116,6 @@ export class formulariosComponent implements OnInit {
           console.error('Error al cargar los usuarios', err);
         },
         () => {
-          console.log('Carga de usuarios completada');
         })
     } else {
       this.userService.getUsersByCompany(this.userData?.empresa_id).subscribe((users: any[]) => {
@@ -126,7 +125,6 @@ export class formulariosComponent implements OnInit {
           console.error('Error al cargar los usuarios', err);
         },
         () => {
-          console.log('Carga de usuarios completada');
         })
     }
 
@@ -136,55 +134,58 @@ export class formulariosComponent implements OnInit {
     this.mode = mode;
   }
 
-  // Enviar formulario de usuario
-  submit() {
-    if (this.userForm.valid) {
-      const f = this.userForm.value;
+  //Enviar formulario de usuario
+ submit() {
+  if (this.userForm.valid) {
+    const f = this.userForm.value;
 
-      const nuevoUsuario = {
-        nombre: f.nombre,
-        apellidos: f.apellidos,
-        email: f.email,
-        telefono: f.telefono,
-        rol: f.rol,
-        empresa_id: f.empresa,
-        password: f.password,
-        activo: f.activo,
-        horaInicio: f.horaInicio,
-        horaSalida: f.horaSalida,
-        turnoPartido: f.turnoPartido,
-        horaInicio2: f.turnoPartido ? f.horaInicio2 : undefined,
-        horaSalida2: f.turnoPartido ? f.horaSalida2 : undefined,
-      };
+    // Si f.empresa está vacío ("" o null o undefined), tomar userData.empresa_id
+    const empresaAEnviar = f.empresa || this.userData?.empresa_id;
 
-      this.userService.newUser(nuevoUsuario).subscribe({
-        next: (res) => {
-          Swal.fire({
-            icon: 'success',
-            title: '¡Usuario creado!',
-            text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
-            confirmButtonText: 'OK',
-          });
-          // resetea sólo los valores por defecto
-          this.userForm.reset({ activo: true, rol: 'usuario' });
-        },
-        error: (err) => {
-          console.error('Error al crear usuario', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: err?.error?.message || 'No se pudo crear el usuario. Compruebe que el email no esté duplicado o los campos no estén mal rellenados.',
-          });
-        },
-        complete: () => console.log('Petición de creación completada'),
-      });
-    } else {
-      this.userForm.markAllAsTouched();
-    }
+    const nuevoUsuario = {
+      nombre: f.nombre,
+      apellidos: f.apellidos,
+      email: f.email,
+      telefono: f.telefono,
+      rol: f.rol,
+      empresa_id: empresaAEnviar,
+      password: f.password,
+      activo: f.activo,
+      horaInicio: f.horaInicio,
+      horaSalida: f.horaSalida,
+      turnoPartido: f.turnoPartido,
+      horaInicio2: f.turnoPartido ? f.horaInicio2 : undefined,
+      horaSalida2: f.turnoPartido ? f.horaSalida2 : undefined,
+    };
 
-    this.loadusers()
-
+    this.userService.newUser(nuevoUsuario).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Usuario creado!',
+          text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
+          confirmButtonText: 'OK',
+        });
+        // Resetea sólo los valores por defecto
+        this.userForm.reset({ activo: true, rol: 'usuario', empresa: '' });
+      },
+      error: (err) => {
+        console.error('Error al crear usuario', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text:
+            err?.error?.message ||
+            'No se pudo crear el usuario. Compruebe que el email no esté duplicado o los campos no estén mal rellenados.',
+        });
+      },
+    });
+  } else {
+    this.userForm.markAllAsTouched();
   }
+
+  this.loadusers();
+}
   // Cambia el modo del formulario (crear/modificar)
   formMode(formulario: 'crear' | 'modificar'): void {
     this.formulario = formulario;
@@ -341,13 +342,11 @@ export class formulariosComponent implements OnInit {
       this.companyService.getAllEmpresas().subscribe({
         next: (empresas: any[]) => this.empresas = empresas,
         error: err => console.error('Error al cargar las empresas', err),
-        complete: () => console.log('Carga de empresas completada')
       });
     } else {
       this.companyService.getEmpresaById(this.userData?.empresa_id).subscribe({
         next: (empresas: any[]) => this.empresas = empresas,
         error: err => console.error('Error al cargar las empresas', err),
-        complete: () => console.log('Carga de empresas completada')
       });
     }
   }
