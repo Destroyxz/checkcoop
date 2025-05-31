@@ -1,33 +1,66 @@
 <div class="auth-page d-flex flex-column flex-md-row min-vh-100">
   <!-- Carrusel de fondo -->
   <div class="carousel-container w-100 w-md-66 d-none d-md-block">
-    <div id="bgCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-interval="5000">
+    <div
+      id="bgCarousel"
+      class="carousel slide carousel-fade h-100"
+      data-bs-ride="carousel"
+      data-bs-interval="5000"
+    >
       <div class="carousel-inner h-100">
         <div class="carousel-item active h-100">
-          <img src="assets/slide1.webp" class="d-block w-100 h-100 object-fit-cover" alt="Slide 1" />
+          <img
+            src="assets/slide1.webp"
+            class="d-block w-100 h-100 object-fit-cover"
+            alt="Slide 1"
+          />
         </div>
         <div class="carousel-item h-100">
-          <img src="assets/slide2.webp" class="d-block w-100 h-100 object-fit-cover" alt="Slide 2" />
+          <img
+            src="assets/slide2.webp"
+            class="d-block w-100 h-100 object-fit-cover"
+            alt="Slide 2"
+          />
         </div>
         <div class="carousel-item h-100">
-          <img src="assets/slide3.webp" class="d-block w-100 h-100 object-fit-cover" alt="Slide 3" />
+          <img
+            src="assets/slide3.webp"
+            class="d-block w-100 h-100 object-fit-cover"
+            alt="Slide 3"
+          />
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#bgCarousel" data-bs-slide="prev" aria-label="Previous">
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#bgCarousel"
+        data-bs-slide="prev"
+        aria-label="Previous"
+      >
         <span class="carousel-control-prev-icon"></span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#bgCarousel" data-bs-slide="next" aria-label="Next">
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#bgCarousel"
+        data-bs-slide="next"
+        aria-label="Next"
+      >
         <span class="carousel-control-next-icon"></span>
       </button>
     </div>
   </div>
 
   <!-- Card de login -->
-  <div class="login-container w-100 w-md-33 bg-white bg-opacity-75 p-4 scroll-mobile-only">
-    <div class="login-card card p-4 shadow w-100" style="max-width: 400px;">
+  <div
+    class="login-container w-100 w-md-33 bg-white bg-opacity-75 p-4 scroll-mobile-only"
+  >
+    <div class="login-card card p-4 shadow w-100" style="max-width: 400px">
       <div class="text-center mb-4">
         <img src="assets/logo-icon.png" alt="Logo" class="login-logo mb-2" />
-        <p class="text-muted small">Bienvenido de nuevo, por favor inicia sesión para continuar.</p>
+        <p class="text-muted small">
+          Bienvenido de nuevo, por favor inicia sesión para continuar.
+        </p>
       </div>
 
       <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" novalidate>
@@ -35,35 +68,72 @@
 
         <div class="mb-3">
           <label for="email" class="form-label">Usuario</label>
-          <input id="email" name="email" type="text" class="form-control" [(ngModel)]="email" #emailCtrl="ngModel"
-            required minlength="3" />
-          <div *ngIf="emailCtrl.invalid && emailCtrl.touched" class="text-danger small">
-            <div *ngIf="emailCtrl.errors?.['required']">El usuario es obligatorio.</div>
-            <div *ngIf="emailCtrl.errors?.['minlength']">Debe tener al menos 3 caracteres.</div>
+          <input
+            id="email"
+            name="email"
+            type="text"
+            class="form-control"
+            [(ngModel)]="email"
+            #emailCtrl="ngModel"
+            required
+            minlength="3"
+          />
+          <div
+            *ngIf="emailCtrl.invalid && emailCtrl.touched"
+            class="text-danger small"
+          >
+            <div *ngIf="emailCtrl.errors?.['required']">
+              El usuario es obligatorio.
+            </div>
+            <div *ngIf="emailCtrl.errors?.['minlength']">
+              Debe tener al menos 3 caracteres.
+            </div>
+            <div *ngIf="emailCtrl.errors?.['email']">
+              El formato del correo no es válido.
+            </div>
           </div>
         </div>
 
         <div class="mb-4">
           <label for="password" class="form-label">Contraseña</label>
-          <input id="password" name="password" type="password" class="form-control" [(ngModel)]="password"
-            #passCtrl="ngModel" required minlength="6" />
-          <div *ngIf="passCtrl.invalid && passCtrl.touched" class="text-danger small">
-            <div *ngIf="passCtrl.errors?.['required']">La contraseña es obligatoria.</div>
-            <div *ngIf="passCtrl.errors?.['minlength']">Debe tener al menos 6 caracteres.</div>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            class="form-control"
+            [(ngModel)]="password"
+            #passCtrl="ngModel"
+            required
+            minlength="6"
+          />
+          <div
+            *ngIf="passCtrl.invalid && passCtrl.touched"
+            class="text-danger small"
+          >
+            <div *ngIf="passCtrl.errors?.['required']">
+              La contraseña es obligatoria.
+            </div>
+            <div *ngIf="passCtrl.errors?.['minlength']">
+              Debe tener al menos 6 caracteres.
+            </div>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid || loading">
-          {{ loading ? 'Validando...' : 'Entrar' }}
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          [disabled]="loginForm.invalid || loading"
+        >
+          {{ loading ? "Validando..." : "Entrar" }}
         </button>
       </form>
-
-      
 
       <hr class="my-4" />
 
       <div class="text-center">
-        <small class="text-muted">&copy;CheckCoop, su aplicación gestora.</small>
+        <small class="text-muted"
+          >&copy;CheckCoop, su aplicación gestora.</small
+        >
       </div>
     </div>
   </div>

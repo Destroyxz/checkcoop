@@ -70,4 +70,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
+.swal2-styled.swal2-confirm {
+  background-color: #047857    !important; /* verde Bootstrap “success” */
+  border-color:     #047857    !important;
+  color:            #ffffff    !important;
+}
+
+/* Hover/focus del botón */
+.swal2-styled.swal2-confirm:hover,
+.swal2-styled.swal2-confirm:focus {
+  background-color: #68C7A0   !important; /* verde más oscuro */
+  border-color:     #68C7A0   !important;
+  color:            #ffffff   !important;
+}
+
+
 
