@@ -135,57 +135,57 @@ export class formulariosComponent implements OnInit {
   }
 
   //Enviar formulario de usuario
- submit() {
-  if (this.userForm.valid) {
-    const f = this.userForm.value;
+  submit() {
+    if (this.userForm.valid) {
+      const f = this.userForm.value;
 
-    // Si f.empresa está vacío ("" o null o undefined), tomar userData.empresa_id
-    const empresaAEnviar = f.empresa || this.userData?.empresa_id;
+      // Si f.empresa está vacío ("" o null o undefined), tomar userData.empresa_id
+      const empresaAEnviar = f.empresa || this.userData?.empresa_id;
 
-    const nuevoUsuario = {
-      nombre: f.nombre,
-      apellidos: f.apellidos,
-      email: f.email,
-      telefono: f.telefono,
-      rol: f.rol,
-      empresa_id: empresaAEnviar,
-      password: f.password,
-      activo: f.activo,
-      horaInicio: f.horaInicio,
-      horaSalida: f.horaSalida,
-      turnoPartido: f.turnoPartido,
-      horaInicio2: f.turnoPartido ? f.horaInicio2 : undefined,
-      horaSalida2: f.turnoPartido ? f.horaSalida2 : undefined,
-    };
+      const nuevoUsuario = {
+        nombre: f.nombre,
+        apellidos: f.apellidos,
+        email: f.email,
+        telefono: f.telefono,
+        rol: f.rol,
+        empresa_id: empresaAEnviar,
+        password: f.password,
+        activo: f.activo,
+        horaInicio: f.horaInicio,
+        horaSalida: f.horaSalida,
+        turnoPartido: f.turnoPartido,
+        horaInicio2: f.turnoPartido ? f.horaInicio2 : undefined,
+        horaSalida2: f.turnoPartido ? f.horaSalida2 : undefined,
+      };
 
-    this.userService.newUser(nuevoUsuario).subscribe({
-      next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Usuario creado!',
-          text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
-          confirmButtonText: 'OK',
-        });
-        // Resetea sólo los valores por defecto
-        this.userForm.reset({ activo: true, rol: 'usuario', empresa: '' });
-      },
-      error: (err) => {
-        console.error('Error al crear usuario', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text:
-            err?.error?.message ||
-            'No se pudo crear el usuario. Compruebe que el email no esté duplicado o los campos no estén mal rellenados.',
-        });
-      },
-    });
-  } else {
-    this.userForm.markAllAsTouched();
+      this.userService.newUser(nuevoUsuario).subscribe({
+        next: (res) => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Usuario creado!',
+            text: `El usuario "${res.nombre}" ha sido creado correctamente.`,
+            confirmButtonText: 'OK',
+          });
+          // Resetea sólo los valores por defecto
+          this.userForm.reset({ activo: true, rol: 'usuario', empresa: '' });
+        },
+        error: (err) => {
+          console.error('Error al crear usuario', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text:
+              err?.error?.message ||
+              'No se pudo crear el usuario. Compruebe que el email no esté duplicado o los campos no estén mal rellenados.',
+          });
+        },
+      });
+    } else {
+      this.userForm.markAllAsTouched();
+    }
+
+    this.loadusers();
   }
-
-  this.loadusers();
-}
   // Cambia el modo del formulario (crear/modificar)
   formMode(formulario: 'crear' | 'modificar'): void {
     this.formulario = formulario;

@@ -11,7 +11,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   // Controla si el sidebar está expandido o colapsado
   expanded = false;
-  
+
   constructor(
     private authService: AuthService,
     public router: Router

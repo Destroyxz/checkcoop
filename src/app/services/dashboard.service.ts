@@ -20,10 +20,10 @@ export class dashboardService {
   }
 
 
-    /**
-   * 1) Total de usuarios registrados.
-   *    GET /dashboard/usuarios/total
-   */
+  /**
+ * 1) Total de usuarios registrados.
+ *    GET /dashboard/usuarios/total
+ */
   getTotalUsuarios(): Observable<{ totalUsuarios: number }> {
     const url = `${this.baseUrl}/usuarios/total`;
     return this.http.get<{ totalUsuarios: number }>(url, this.getOptions());

@@ -16,7 +16,7 @@ interface UsuarioDia {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [ DatePipe ]
+  providers: [DatePipe]
 })
 export class DashboardComponentFinal implements OnInit {
   userData: any;
@@ -56,13 +56,13 @@ export class DashboardComponentFinal implements OnInit {
   colorSchemeUsuarios: Color = {
     name: 'usuariosScheme',
     selectable: true,
-    group: ScaleType.Ordinal,      
+    group: ScaleType.Ordinal,
     domain: ['#047857']
   };
   colorSchemeProductos: Color = {
     name: 'productosScheme',
     selectable: true,
-    group: ScaleType.Ordinal,      
+    group: ScaleType.Ordinal,
     domain: ['#03503a']
   };
 
@@ -70,7 +70,7 @@ export class DashboardComponentFinal implements OnInit {
     private userStorage: UserStorageService,
     private metricsService: dashboardService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userData = this.userStorage.getUser();
@@ -166,26 +166,26 @@ export class DashboardComponentFinal implements OnInit {
 
   // Convierte los datos de Usuarios por Día al formato 
 
-private transformUsuariosParaChart(): void {
-  let source: UsuarioDia[] = [];
-  if (this.userData?.rol === 'superadmin') {
-    source = this.usuariosPorDiaGlobal;
-  } else {
-    source = this.usuariosPorDiaEmpresa;
+  private transformUsuariosParaChart(): void {
+    let source: UsuarioDia[] = [];
+    if (this.userData?.rol === 'superadmin') {
+      source = this.usuariosPorDiaGlobal;
+    } else {
+      source = this.usuariosPorDiaEmpresa;
+    }
+
+    this.chartDataUsuarios = source.map(u => {
+
+      const formattedDate: string | null = this.datePipe.transform(u.fecha, 'dd/MM/yyyy');
+      return {
+        name: formattedDate || u.fecha,  
+        value: u.cantidad
+      };
+    });
   }
 
-  this.chartDataUsuarios = source.map(u => {
-   
-    const formattedDate: string | null = this.datePipe.transform(u.fecha, 'dd/MM/yyyy');
-    return {
-      name: formattedDate || u.fecha,  // si algo falla, mete el literal original
-      value: u.cantidad
-    };
-  });
-}
-
   // Convierte los datos de Productos con Stock al formato
-  
+
   private transformProductosParaChart(): void {
     this.chartDataProductos = this.productosBajoStock.map(p => ({
       name: p.nombre,
@@ -193,7 +193,7 @@ private transformUsuariosParaChart(): void {
     }));
   }
 
-  
+
 }
 
 

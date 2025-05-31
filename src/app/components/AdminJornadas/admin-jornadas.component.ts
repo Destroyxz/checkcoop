@@ -42,19 +42,19 @@ export class AdminJornadasComponent implements OnInit {
   constructor(
     private jornadaService: JornadaService,
     private userService: UserService,
-      private userStorage: UserStorageService
+    private userStorage: UserStorageService
 
   ) { }
 
   // Método que se ejecuta al cargar el componente
 
-ngOnInit(): void {
-  const user = this.userStorage.getUser();
-  this.isSuperAdmin = user?.rol === 'superadmin'
-  
-  this.cargarDatos();
-  this.cargarUsuarios();
-}
+  ngOnInit(): void {
+    const user = this.userStorage.getUser();
+    this.isSuperAdmin = user?.rol === 'superadmin'
+
+    this.cargarDatos();
+    this.cargarUsuarios();
+  }
 
   // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
@@ -66,15 +66,15 @@ ngOnInit(): void {
     });
 
     if (this.isSuperAdmin) {
-  this.userService.getAllUsers().subscribe((data) => {
-    this.trabajadores = data;
-  });
-} else {
-  const empresaId = Number(localStorage.getItem('empresa_id'));
-  this.userService.getUsersByCompany(empresaId).subscribe((data) => {
-    this.trabajadores = data;
-  });
-}
+      this.userService.getAllUsers().subscribe((data) => {
+        this.trabajadores = data;
+      });
+    } else {
+      const empresaId = Number(localStorage.getItem('empresa_id'));
+      this.userService.getUsersByCompany(empresaId).subscribe((data) => {
+        this.trabajadores = data;
+      });
+    }
 
   }
 

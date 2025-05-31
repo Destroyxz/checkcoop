@@ -25,33 +25,33 @@ export class SidebarComponent implements OnInit {
     const user = this.auth.getUser();
     const esAdmin = user && (user.rol === 'admin' || user.rol === 'superadmin');
 
-// En tu componente TS:
-this.menuItems = [
-  { 
-    label: 'Inicio', 
-    path: '/home', 
-    icon: 'fas fa-home', 
-    ariaLabel: 'Ir a Inicio' 
-  },
-  { 
-    label: 'Jornadas',
-    path: esAdmin ? '/adminjornadas' : '/jornada',
-    icon: 'fas fa-clock',
-    ariaLabel: esAdmin ? 'Ir a gestión de Jornadas (administrador)' : 'Ir a Jornadas'
-  },
-  { 
-    label: 'Tareas',
-    path: esAdmin ? '/admintareas' : '/tareas',
-    icon: 'fas fa-tasks',
-    ariaLabel: esAdmin ? 'Ir a gestión de Tareas (administrador)' : 'Ir a Tareas'
-  },
-  { 
-    label: 'Añadir',
-    path: '/new',
-    icon: 'fas fa-user',
-    ariaLabel: 'Crear nuevo usuario'
-  }
-];
+    // En tu componente TS:
+    this.menuItems = [
+      {
+        label: 'Inicio',
+        path: '/home',
+        icon: 'fas fa-home',
+        ariaLabel: 'Ir a Inicio'
+      },
+      {
+        label: 'Jornadas',
+        path: esAdmin ? '/adminjornadas' : '/jornada',
+        icon: 'fas fa-clock',
+        ariaLabel: esAdmin ? 'Ir a gestión de Jornadas (administrador)' : 'Ir a Jornadas'
+      },
+      {
+        label: 'Tareas',
+        path: esAdmin ? '/admintareas' : '/tareas',
+        icon: 'fas fa-tasks',
+        ariaLabel: esAdmin ? 'Ir a gestión de Tareas (administrador)' : 'Ir a Tareas'
+      },
+      {
+        label: 'Añadir',
+        path: '/new',
+        icon: 'fas fa-user',
+        ariaLabel: 'Crear nuevo usuario'
+      }
+    ];
 
 
     if (esAdmin) {

@@ -41,13 +41,13 @@ export class AdminTareasComponent implements OnInit {
     private tareaService: TareaService,
     private usuarioService: UserService,
     private authService: AuthService,
-          private userStorage: UserStorageService
+    private userStorage: UserStorageService
   ) { }
 
   // Se ejecuta al cargar el componente
   ngOnInit(): void {
-      const user = this.userStorage.getUser();
-  this.isSuperAdmin = user?.rol === 'superadmin'
+    const user = this.userStorage.getUser();
+    this.isSuperAdmin = user?.rol === 'superadmin'
     this.cargarTareas();
     this.cargarUsuarios();
   }

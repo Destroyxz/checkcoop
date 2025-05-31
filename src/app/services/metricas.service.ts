@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class MetricasService {
   private apiUrl = `http://localhost:3000/metricas`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getOptions(params?: HttpParams): { headers: HttpHeaders; withCredentials: boolean; params?: HttpParams } {
     const token = localStorage.getItem('token');
