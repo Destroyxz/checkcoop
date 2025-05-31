@@ -1,0 +1,10 @@
+.card-body {
+  /* Si deseas dar altura mínima a todo el card-body cuando hay canvas: */
+  min-height: 300px;
+}
+
+/* Cada canvas tomará el ancho completo de su contenedor y 200px de alto */
+canvas {
+  width: 100% !important;
+  height: 200px !important;
+}

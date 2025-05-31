@@ -74,7 +74,7 @@ export class LoginComponent {
           });
 
           // Redirigir al dashboard una vez autenticado
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         });
 
 

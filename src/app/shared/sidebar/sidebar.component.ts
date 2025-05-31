@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
 this.menuItems = [
   { 
     label: 'Inicio', 
-    path: '/dashboard', 
+    path: '/home', 
     icon: 'fas fa-home', 
     ariaLabel: 'Ir a Inicio' 
   },

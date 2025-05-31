@@ -14,7 +14,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { InventarioComponent } from './components/Inventario/inventario.component';
 import { AdminTareasComponent } from './components/AdminTareas/admin-tareas.component';
 import { TareasUsuarioComponent } from './components/TareasUsuario/tareas-usuario.component';
-
+import { DashboardComponentFinal } from './components/dashboardfinal/dashboard.component';
+import { Chart } from 'chart.js';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //Componentes
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/Dashboard/dashboard.component';
@@ -52,6 +55,8 @@ import { FixEncodingPipe } from '../pipes/fixencoding.pipe';
     AdminTareasComponent,
     InventarioComponent,
     TareasUsuarioComponent,
+    DashboardComponentFinal,
+
     //Shared componentes
     SidebarComponent,
     HeaderComponent,
@@ -70,7 +75,8 @@ import { FixEncodingPipe } from '../pipes/fixencoding.pipe';
     MatMenuModule,
     MatButtonModule,
     CommonModule,
-
+    NgxChartsModule,
+    BrowserAnimationsModule,
     ModalModule.forRoot(),
 
   ],
