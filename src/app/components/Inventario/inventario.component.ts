@@ -156,7 +156,7 @@ export class InventarioComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Error al crear producto. Intenta de nuevo más tarde.',
+          text: 'Error al crear producto. Compruebe que los campos se hayan rellenado correctamente.',
           confirmButtonText: 'Aceptar',
         });
         console.error(err);

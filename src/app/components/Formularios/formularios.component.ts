@@ -173,7 +173,7 @@ export class formulariosComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: err?.error?.message || 'No se pudo crear el usuario.',
+            text: err?.error?.message || 'No se pudo crear el usuario. Compruebe que el email no esté duplicado o los campos no estén mal rellenados.',
           });
         },
         complete: () => console.log('Petición de creación completada'),
