@@ -6,8 +6,9 @@
     <div class="col-md-4">
       <label class="form-label">Filtrar por trabajador</label>
       <select class="form-select" [(ngModel)]="filtroTrabajador" (change)="filtrar()">
-        <option value="">Todos</option>
-        <option *ngFor="let user of trabajadores" [value]="user.id">{{ user.nombre }}</option>
+          <option value="">Todos</option>
+  <option *ngFor="let user of usuarios" [value]="user.id">{{ user.nombre }}</option>
+
       </select>
     </div>
     <div class="col-md-3">
@@ -43,7 +44,7 @@
             <span class="badge px-3 py-2 text-uppercase" [ngClass]="{
                 'bg-success': j.estado === 'Completada',
                 'bg-danger': j.estado === 'Incompleta',
-                'bg-warning text-dark': j.estado === 'Con retraso'
+                'bg-warning text-dark': j.estado === 'No completada'
               }">{{ j.estado }}</span>
           </td>
           <td>
@@ -79,13 +80,29 @@
             <p><strong>Tipo de Jornada:</strong> {{ jornadaSeleccionada.tipo_jornada }}</p>
             <p><strong>Entrada:</strong> {{ jornadaSeleccionada.hora_entrada || 'No registrada' }}</p>
             <p><strong>Salida:</strong> {{ jornadaSeleccionada.hora_salida || 'En curso' }}</p>
-            <p><strong>Estado:</strong>
+            <p><strong>Estado: </strong>
               <span class="badge" [ngClass]="{
                   'bg-success': jornadaSeleccionada.estado === 'Completada',
                   'bg-danger': jornadaSeleccionada.estado === 'Incompleta',
-                  'bg-warning text-dark': jornadaSeleccionada.estado === 'Con retraso'
+                  'bg-warning text-dark': jornadaSeleccionada.estado === 'No completada'
                 }">{{ jornadaSeleccionada.estado }}</span>
             </p>
+<!-- Tiempo trabajado -->
+<p><strong>Tiempo trabajado:</strong>
+  {{ formatearMinutosComoTexto(jornadaSeleccionada.totalMinutos) }}
+</p>
+
+<p><strong>Tiempo esperado:</strong>
+  {{ formatearMinutosComoTexto(jornadaSeleccionada.minutosEsperados) }}
+</p>
+
+
+
+<p><strong>Llegó tarde: </strong>
+  <span class="text-danger fw-bold" *ngIf="jornadaSeleccionada.llegoTarde">Sí</span>
+  <span class="text-success fw-bold" *ngIf="!jornadaSeleccionada.llegoTarde">No</span>
+</p>
+
           </div>
 
           <!-- Edición de tramos -->

@@ -7,10 +7,12 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-admin-jornadas',
   templateUrl: './admin-jornadas.component.html',
+  
 })
 export class AdminJornadasComponent implements OnInit {
   // Lista de todas las jornadas laborales
   jornadas: any[] = [];
+  usuarios: any[] = [];
 
   // Lista de jornadas filtradas por trabajador o fecha
   jornadasFiltradas: any[] = [];
@@ -20,6 +22,7 @@ export class AdminJornadasComponent implements OnInit {
 
   // Valores de los filtros
   filtroTrabajador: string = '';
+
   filtroFecha: string = '';
 
   // Jornada actualmente seleccionada
@@ -42,13 +45,16 @@ export class AdminJornadasComponent implements OnInit {
   // Método que se ejecuta al cargar el componente
   ngOnInit(): void {
     this.cargarDatos();
+        this.cargarUsuarios();
   }
 
   // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
   this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
+   
     this.jornadas = data;
-    this.jornadasFiltradas = [...data];
+
+       this.filtrar(); 
   });
 
   const empresaId = Number(localStorage.getItem('empresa_id'));
@@ -57,20 +63,32 @@ export class AdminJornadasComponent implements OnInit {
   });
 }
 
-
-
-  // Filtra las jornadas según el trabajador y/o la fecha seleccionados
-  filtrar(): void {
-    this.jornadasFiltradas = this.jornadas.filter((j) => {
-      const coincideTrabajador = this.filtroTrabajador
-        ? j.usuario_id == this.filtroTrabajador
-        : true;
-      const coincideFecha = this.filtroFecha
-        ? j.fecha === this.filtroFecha
-        : true;
-      return coincideTrabajador && coincideFecha;
+  cargarUsuarios(): void {
+    this.userService.getAllUsers().subscribe({
+      next: (data) => (this.usuarios = data),
+      error: (err) => console.error('Error cargando usuarios:', err),
     });
   }
+
+
+filtrar(): void {
+  this.jornadasFiltradas = this.jornadas.filter((j) => {
+    const coincideTrabajador =
+      this.filtroTrabajador === '' || j.usuario_id ==this.filtroTrabajador;
+
+
+    const coincideFecha =
+      this.filtroFecha === '' || new Date(j.fecha).toISOString().slice(0, 10) === this.filtroFecha;
+
+    return coincideTrabajador && coincideFecha;
+  });
+}
+
+
+
+
+
+
 
   // Visualiza los tramos de una jornada en un modal (modo solo lectura)
   verTramos(jornada: any): void {
@@ -187,4 +205,16 @@ export class AdminJornadasComponent implements OnInit {
   eliminarTramo(index: number): void {
     this.tramosEditables.splice(index, 1);
   }
+ formatearMinutosComoTexto(minutos: number): string {
+  const h = Math.floor(minutos / 60);
+  const m = minutos % 60;
+  let resultado = '';
+
+  if (h > 0) resultado += `${h}h`;
+  if (m > 0) resultado += (h > 0 ? ' ' : '') + `${m}min`;
+  if (resultado === '') resultado = '0min';
+
+  return resultado;
+}
+
 }
