@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
 import { UserService } from '../../services/user.service';
-
+import { UserStorageService } from '../../services/UserStorage.service';
 @Component({
   selector: 'app-admin-jornadas',
   templateUrl: './admin-jornadas.component.html',
@@ -37,16 +37,24 @@ export class AdminJornadasComponent implements OnInit {
   // Bandera que indica si estamos en modo edición de tramos
   modoEdicionTramos: boolean = false;
 
+  isSuperAdmin: boolean = false;
+
   constructor(
     private jornadaService: JornadaService,
-    private userService: UserService
+    private userService: UserService,
+      private userStorage: UserStorageService
+
   ) { }
 
   // Método que se ejecuta al cargar el componente
-  ngOnInit(): void {
-    this.cargarDatos();
-    this.cargarUsuarios();
-  }
+
+ngOnInit(): void {
+  const user = this.userStorage.getUser();
+  this.isSuperAdmin = user?.rol === 'superadmin'
+  
+  this.cargarDatos();
+  this.cargarUsuarios();
+}
 
   // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
@@ -57,10 +65,17 @@ export class AdminJornadasComponent implements OnInit {
       this.filtrar();
     });
 
-    const empresaId = Number(localStorage.getItem('empresa_id'));
-    this.userService.getUsersByCompany(empresaId).subscribe((data) => {
-      this.trabajadores = data;
-    });
+    if (this.isSuperAdmin) {
+  this.userService.getAllUsers().subscribe((data) => {
+    this.trabajadores = data;
+  });
+} else {
+  const empresaId = Number(localStorage.getItem('empresa_id'));
+  this.userService.getUsersByCompany(empresaId).subscribe((data) => {
+    this.trabajadores = data;
+  });
+}
+
   }
 
   //Metodo que carga los usuarios

@@ -22,6 +22,8 @@
     <table class="table table-striped table-hover align-middle mb-0">
       <thead class="table-light">
         <tr class="text-center">
+          <th *ngIf="isSuperAdmin">Empresa</th>
+
           <th>Trabajador</th>
           <th>Fecha</th>
           <th>Entrada</th>
@@ -33,6 +35,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let j of jornadasFiltradas" class="text-center">
+          <td *ngIf="isSuperAdmin">{{ j.empresa }}</td>
+
           <td>{{ j.nombre }}</td>
           <td>{{ j.fecha | date:'dd MMMM yyyy ' }}</td>
 
@@ -75,6 +79,8 @@
         <div class="modal-body" *ngIf="jornadaSeleccionada">
           <!-- Datos generales -->
           <div class="mb-3">
+            <p *ngIf="isSuperAdmin"><strong>Empresa:</strong> {{ jornadaSeleccionada.empresa }}</p>
+
             <p><strong>Trabajador:</strong> {{ jornadaSeleccionada.nombre }}</p>
             <p><strong>Fecha:</strong> {{ jornadaSeleccionada.fecha }}</p>
             <p><strong>Tipo de Jornada:</strong> {{ jornadaSeleccionada.tipo_jornada }}</p>
