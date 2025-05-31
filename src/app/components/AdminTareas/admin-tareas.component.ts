@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TareaService } from '../../services/tarea.service';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { UserStorageService } from '../../services/UserStorage.service';
 
 @Component({
   selector: 'app-admin-tareas',
@@ -31,6 +32,7 @@ export class AdminTareasComponent implements OnInit {
   filtroBusqueda: string = '';
   filtroTrabajador: string = '';
   filtroFecha: string = '';
+  isSuperAdmin: boolean = false;
 
   // Tareas filtradas que se muestran en la tabla
   tareasFiltradas: any[] = [];
@@ -38,11 +40,14 @@ export class AdminTareasComponent implements OnInit {
   constructor(
     private tareaService: TareaService,
     private usuarioService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+          private userStorage: UserStorageService
   ) { }
 
   // Se ejecuta al cargar el componente
   ngOnInit(): void {
+      const user = this.userStorage.getUser();
+  this.isSuperAdmin = user?.rol === 'superadmin'
     this.cargarTareas();
     this.cargarUsuarios();
   }

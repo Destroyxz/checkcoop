@@ -32,6 +32,7 @@
     <table class="table table-striped table-hover align-middle mb-0">
       <thead class="table-light">
         <tr class="text-center">
+              <th *ngIf="isSuperAdmin">Empresa</th>
           <th>Usuario</th>
 
           <th>Título</th>
@@ -45,6 +46,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let tarea of tareasFiltradas" class="text-center">
+                    <td *ngIf="isSuperAdmin">{{ tarea.empresa }}</td>
 
           <td>{{ tarea.asignadoNombre }}</td>
 
