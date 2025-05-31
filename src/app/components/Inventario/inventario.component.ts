@@ -1,7 +1,9 @@
-//Importamos los componentes necesarios
+// Importamos los componentes necesarios
 import { Component, OnInit } from '@angular/core';
 import { ProductoService, Producto } from '../../services/producto.service';
 import Swal from 'sweetalert2';
+import { UserStorageService } from '../../services/UserStorage.service';
+
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -12,43 +14,80 @@ export class InventarioComponent implements OnInit {
   filtroBusqueda: string = '';
   mostrarFormulario = false;
   mostrarModal: boolean = false;
-  //Modelo de ejemplo de cuando creas un producto
-  nuevoProducto: Producto = {
-    numEmpresa: 1,
-    nombre: '',
-    descripcion: '',
-    cantidad: 0,
-    unidad: 'kg',
-    categoria: '',
-    precio: 0,
-    imagen: '',
-  };
 
-  //Modelo de ejemplo de cuando actualizas un producto (para inicizalizar las variables si no los pilla bien)
-  productoSeleccionado: Producto = {
-    id: 0,
-    numEmpresa: 1,
-    nombre: '',
-    descripcion: '',
-    cantidad: 0,
-    unidad: '',
-    categoria: '',
-    precio: 0,
-    imagen: '',
-  };
+  userData: any; // Almacena los datos del usuario actual
+
+  // Declaramos nuevoProducto sin inicializarlo aún
+  nuevoProducto!: Producto;
+
+  // Modelo para cuando actualizas un producto. Se inicializa con valores genéricos,
+  // pero asignamos numEmpresa desde userData cuando cargamos el usuario.
+  productoSeleccionado!: Producto;
+
   selectedFileNuevo: File | null = null;
   selectedFileEditar: File | null = null;
 
   imagenPreviewNuevo: string | null = null;
   imagenPreviewEditar: string | null = null;
 
-  constructor(private productoService: ProductoService) {}
+  constructor(
+    private productoService: ProductoService,
+    private userStorageService: UserStorageService
+  ) {}
 
   ngOnInit(): void {
+    this.cargarEmpresa();
     this.cargarProductos();
   }
 
-  //Esta funcion permite subir imagenes y limitar su formato
+
+  cargarEmpresa(): void {
+    this.userData = this.userStorageService.getUser();
+
+    // Validamos que userData exista y tenga numEmpresa
+    if (!this.userData || this.userData.empresa_id == null) {
+      console.warn(
+        'No se encontraron datos de usuario o numEmpresa. Se asignará 0 por defecto.'
+      );
+    }
+
+    // Inicializamos ambos modelos usando el numEmpresa obtenido (o 0 si no existe)
+    this.inicializarNuevoProducto();
+    this.inicializarProductoSeleccionado();
+  }
+
+  //Inializa el payload del nuevo producto
+  inicializarNuevoProducto(): void {
+    const numEmp = this.userData?.empresa_id ?? 0;
+    this.nuevoProducto = {
+      numEmpresa: numEmp,
+      nombre: '',
+      descripcion: '',
+      cantidad: 0,
+      unidad: 'kg',
+      categoria: '',
+      precio: 0,
+      imagen: '',
+    };
+  }
+
+  //Inicializa el payload del producto a editar
+  inicializarProductoSeleccionado(): void {
+    const numEmp = this.userData?.empresa_id ?? 0;
+    this.productoSeleccionado = {
+      id: 0,
+      numEmpresa: numEmp,
+      nombre: '',
+      descripcion: '',
+      cantidad: 0,
+      unidad: 'kg',
+      categoria: '',
+      precio: 0,
+      imagen: '',
+    };
+  }
+
+  // Muestra el formulario para agregar un nuevo producto
   onFileSelected(event: any, tipo: 'nuevo' | 'editar'): void {
     const file: File = event.target.files[0];
     if (!file) return;
@@ -91,35 +130,43 @@ export class InventarioComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  //Funcion que obtiene los productos
+  // Carga los productos desde el servicio y los asigna a la variable productos.
   cargarProductos(): void {
     this.productoService.obtenerProductos().subscribe((data) => {
       this.productos = data;
     });
   }
 
-  //Filtra los productos segun su busqueda
+  // Filtra los productos según el texto de búsqueda ingresado.
   productosFiltrados(): Producto[] {
     return this.productos.filter((p) =>
       p.nombre.toLowerCase().includes(this.filtroBusqueda.toLowerCase())
     );
   }
 
-  //Establece el estado del producto segun su cantidad
+  // Devuelve el texto del estado del stock según la cantidad del producto.
   getEstadoTexto(p: Producto): string {
     if (p.cantidad === 0) return 'Agotado';
     if (p.cantidad <= 25) return 'Por Vencer';
     return 'Disponible';
   }
 
-  //Establece una clase o otra de bootstrap segun su cantidad
+  // Devuelve la clase CSS correspondiente al estado del producto según su cantidad.
   getEstadoClase(p: Producto): string {
     if (p.cantidad === 0) return 'badge-danger';
     if (p.cantidad <= 25) return 'badge-warning text-dark';
     return 'badge-dark';
   }
-  //Funcion que permite agregar productos
+
+  // Abre el formulario para agregar un nuevo producto.
   agregarProducto(): void {
+    // Antes de crear, podemos verificar numEmpresa:
+    if (this.nuevoProducto.numEmpresa === 0) {
+      console.warn(
+        'Intentando guardar con numEmpresa = 0. Revisa userData o iniciar sesión de nuevo.'
+      );
+    }
+
     const formData = new FormData();
     Object.entries(this.nuevoProducto).forEach(([key, value]) => {
       formData.append(key, value as string);
@@ -137,17 +184,9 @@ export class InventarioComponent implements OnInit {
           confirmButtonText: 'Aceptar',
         });
 
-        //Reseteamos los valores a los por defecto
+        // Reseteamos formulario y volvemos a inicializar nuevoProducto
         this.mostrarFormulario = false;
-        this.nuevoProducto = {
-          numEmpresa: 1,
-          nombre: '',
-          descripcion: '',
-          cantidad: 0,
-          unidad: 'kg',
-          categoria: '',
-          precio: 0,
-        };
+        this.inicializarNuevoProducto();
         this.selectedFileNuevo = null;
         this.imagenPreviewNuevo = null;
         this.cargarProductos();
@@ -156,7 +195,7 @@ export class InventarioComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Error al crear producto. Compruebe que los campos se hayan rellenado correctamente.',
+          text: 'Error al crear producto. Comprueba que los campos estén completos.',
           confirmButtonText: 'Aceptar',
         });
         console.error(err);
@@ -164,19 +203,35 @@ export class InventarioComponent implements OnInit {
     });
   }
 
-  //Funcion que abre el modal de el producto seleccionado
+  // Abre el modal para editar un producto seleccionado.
   abrirModal(producto: Producto): void {
     this.productoSeleccionado = { ...producto };
     this.mostrarModal = true;
   }
 
-  //Funcion que permite cerrar el modal del producto
+  // Cierra el modal de edición y resetea los campos.
   cerrarModal(): void {
     this.mostrarModal = false;
+    this.selectedFileEditar = null;
+    this.imagenPreviewEditar = null;
+    // Después de cerrar, volvemos a resetear a valores por defecto (si así se desea)
+    this.inicializarProductoSeleccionado();
   }
 
-  //Funcion que permite guardar los cambios del  producto
+  // Guarda los cambios del producto editado.
   guardarCambios(): void {
+    if (!this.productoSeleccionado.id) {
+      console.error('El producto seleccionado no tiene ID válido');
+      return;
+    }
+
+    // Validamos que numEmpresa no se haya perdido
+    if (this.productoSeleccionado.numEmpresa === 0) {
+      console.warn(
+        'Intentando actualizar con numEmpresa = 0. Revisa userData o recarga la página.'
+      );
+    }
+
     const formData = new FormData();
     Object.entries(this.productoSeleccionado).forEach(([key, value]) => {
       formData.append(key, value as string);
@@ -189,7 +244,7 @@ export class InventarioComponent implements OnInit {
     }
 
     this.productoService
-      .actualizarProducto(this.productoSeleccionado.id!, formData)
+      .actualizarProducto(this.productoSeleccionado.id, formData)
       .subscribe({
         next: () => {
           Swal.fire({
@@ -203,6 +258,8 @@ export class InventarioComponent implements OnInit {
           this.selectedFileEditar = null;
           this.imagenPreviewEditar = null;
           this.cargarProductos();
+
+          this.inicializarProductoSeleccionado();
         },
         error: (err) => {
           Swal.fire({
@@ -216,14 +273,19 @@ export class InventarioComponent implements OnInit {
       });
   }
 
-  //Funcion que permite eliminar el producto seleccionado
+  // Elimina un producto después de confirmar la acción.
   eliminarProducto(producto: Producto): void {
     const confirmar = confirm(
       `¿Seguro que deseas eliminar el producto "${producto.nombre}"?`
     );
     if (!confirmar) return;
 
-    this.productoService.eliminarProducto(producto.id!).subscribe({
+    if (!producto.id) {
+      console.error('El producto a eliminar no tiene ID válido');
+      return;
+    }
+
+    this.productoService.eliminarProducto(producto.id).subscribe({
       next: () => {
         Swal.fire({
           icon: 'success',
