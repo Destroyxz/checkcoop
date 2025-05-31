@@ -139,10 +139,13 @@ export class InventarioComponent implements OnInit {
 
   // Filtra los productos según el texto de búsqueda ingresado.
   productosFiltrados(): Producto[] {
-    return this.productos.filter((p) =>
-      p.nombre.toLowerCase().includes(this.filtroBusqueda.toLowerCase())
-    );
-  }
+  const empresaId = this.userData?.empresa_id;
+
+  return this.productos
+    .filter(p => p.nombre.toLowerCase().includes(this.filtroBusqueda.toLowerCase()))
+    .filter(p => this.userData?.rol === 'superadmin' || p.numEmpresa === empresaId);
+}
+
 
   // Devuelve el texto del estado del stock según la cantidad del producto.
   getEstadoTexto(p: Producto): string {
