@@ -1,0 +1,109 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Dashboard de Métricas</h2>
+
+  <div class="row">
+    <!-- TOTAL Usuarios -->
+    <div class="col-md-6">
+      <div class="card text-center mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Total de Usuarios</h5>
+          <div *ngIf="loadingUsuariosTotal" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <div *ngIf="!loadingUsuariosTotal">
+            <ng-container *ngIf="userData?.rol === 'superadmin'; else usuarioNoSuper">
+              <h2>{{ totalUsuariosGlobal }}</h2>
+              <small class="text-muted">Usuarios en todo el sistema</small>
+            </ng-container>
+            <ng-template #usuarioNoSuper>
+              <h2>{{ totalUsuariosEmpresa }}</h2>
+              <small class="text-muted">Usuarios en tu empresa (ID: {{ userData?.empresa_id }})</small>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOTAL Empresas (solo para superadmin) -->
+    <div class="col-md-6" *ngIf="userData?.rol === 'superadmin'">
+      <div class="card text-center mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Total de Empresas</h5>
+          <div *ngIf="loadingEmpresasTotal" class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <div *ngIf="!loadingEmpresasTotal">
+            <h2>{{ totalEmpresas }}</h2>
+            <small class="text-muted">Empresas registradas</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!--  Usuarios por Día (Gráfico responsivo)  -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">
+        Usuarios por Día
+        <small *ngIf="userData?.rol !== 'superadmin'" class="text-muted">
+          (Empresa ID: {{ userData?.empresa_id }})
+        </small>
+      </h5>
+
+      <!-- Spinner mientras carga -->
+      <div *ngIf="loadingUsuariosPorDia" class="text-center py-3">
+        <div class="spinner-border text-info" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+
+      <!-- Cuando ya no esté cargando, renderizamos ngx-charts-bar-vertical sin [view] -->
+      <div *ngIf="!loadingUsuariosPorDia" class="chart-wrapper-vertical">
+        <ngx-charts-bar-vertical
+          [scheme]="colorSchemeUsuarios"
+          [results]="chartDataUsuarios"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="'Fecha'"
+          [yAxisLabel]="'Usuarios'"
+          [animations]="true">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+  </div>
+
+  <!--  Productos con Stock < 100 (Gráfico horizontal responsivo)  -->
+  <div *ngIf="userData?.rol !== 'usuario'" class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Productos con Stock < 100</h5>
+
+      <!-- Spinner mientras carga -->
+      <div *ngIf="loadingProductosBajoStock" class="text-center py-3">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+
+      <!-- Cuando ya no esté cargando, renderizamos ngx-charts-bar-horizontal sin [view] -->
+      <div *ngIf="!loadingProductosBajoStock" class="chart-wrapper-horizontal">
+        <ngx-charts-bar-horizontal
+          [scheme]="colorSchemeProductos"
+          [results]="chartDataProductos"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="'Cantidad'"
+          [yAxisLabel]="'Producto'"
+          [animations]="true">
+        </ngx-charts-bar-horizontal>
+      </div>
+    </div>
+  </div>
+</div>

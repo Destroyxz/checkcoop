@@ -11,12 +11,14 @@ import { AdminJornadasComponent } from './components/AdminJornadas/admin-jornada
 import { formulariosComponent } from './components/Formularios/formularios.component';
 import { InventarioComponent } from './components/Inventario/inventario.component';
 import { TareasUsuarioComponent } from './components/TareasUsuario/tareas-usuario.component';
+import { DashboardComponentFinal } from './components/dashboardfinal/dashboard.component';
 //import { PerfilComponent } from './components/Perfil/perfil.component';
 
 //Hacemos que nuestra constante guarde las rutas de los componentes con los nombre que pusimos
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: DashboardComponentFinal, canActivate: [AuthGuard] },
   { path: 'inventario', component: InventarioComponent, canActivate: [AuthGuard] },
   { path: 'jornada', component: JornadaComponent, canActivate: [AuthGuard] },
   { path: 'adminjornadas', component: AdminJornadasComponent, canActivate: [AuthGuard] },
@@ -26,8 +28,8 @@ const routes: Routes = [
   { path: 'new', component: formulariosComponent, canActivate: [AuthGuard] },
 
   //  { path: 'perfil', component: PerfilComponent},
-  { path: '*', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+  { path: '*', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({
