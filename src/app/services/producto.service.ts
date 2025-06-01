@@ -12,6 +12,7 @@ export interface Producto {
   categoria: string;
   precio: number;
   imagen?: string;
+  empresa: string;
 }
 
 

@@ -1,13 +1,13 @@
-//Importamos los componentes necesarios 
+//Importamos los componentes necesarios
 import { Component, OnInit } from '@angular/core';
 import { JornadaService } from '../../services/jornada.service';
 import { Modal } from 'bootstrap';
 import { UserService } from '../../services/user.service';
 import { UserStorageService } from '../../services/UserStorage.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-jornadas',
   templateUrl: './admin-jornadas.component.html',
-
 })
 export class AdminJornadasComponent implements OnInit {
   // Lista de todas las jornadas laborales
@@ -17,7 +17,7 @@ export class AdminJornadasComponent implements OnInit {
   // Lista de jornadas filtradas por trabajador o fecha
   jornadasFiltradas: any[] = [];
 
-  // Lista de trabajadores disponibles para el filtro   
+  // Lista de trabajadores disponibles para el filtro
   trabajadores: any[] = [];
 
   // Valores de los filtros
@@ -43,14 +43,13 @@ export class AdminJornadasComponent implements OnInit {
     private jornadaService: JornadaService,
     private userService: UserService,
     private userStorage: UserStorageService
-
-  ) { }
+  ) {}
 
   // Método que se ejecuta al cargar el componente
 
   ngOnInit(): void {
     const user = this.userStorage.getUser();
-    this.isSuperAdmin = user?.rol === 'superadmin'
+    this.isSuperAdmin = user?.rol === 'superadmin';
 
     this.cargarDatos();
     this.cargarUsuarios();
@@ -59,7 +58,6 @@ export class AdminJornadasComponent implements OnInit {
   // Carga todas las jornadas y trabajadores desde el servidor
   cargarDatos(): void {
     this.jornadaService.obtenerTodasLasJornadas().subscribe((data) => {
-
       this.jornadas = data;
 
       this.filtrar();
@@ -75,7 +73,6 @@ export class AdminJornadasComponent implements OnInit {
         this.trabajadores = data;
       });
     }
-
   }
 
   //Metodo que carga los usuarios
@@ -92,9 +89,9 @@ export class AdminJornadasComponent implements OnInit {
       const coincideTrabajador =
         this.filtroTrabajador === '' || j.usuario_id == this.filtroTrabajador;
 
-
       const coincideFecha =
-        this.filtroFecha === '' || new Date(j.fecha).toISOString().slice(0, 10) === this.filtroFecha;
+        this.filtroFecha === '' ||
+        new Date(j.fecha).toISOString().slice(0, 10) === this.filtroFecha;
 
       return coincideTrabajador && coincideFecha;
     });
@@ -137,7 +134,12 @@ export class AdminJornadasComponent implements OnInit {
 
     this.jornadaService.actualizarTramos(payload).subscribe({
       next: () => {
-        alert('Tramos actualizados');
+        Swal.fire({
+          icon: 'success',
+          title: '¡Hecho!',
+          text: 'Tramos actualizados',
+          confirmButtonText: 'Cerrar',
+        });
         this.modoEdicionTramos = false;
         this.cargarDatos();
       },
@@ -228,5 +230,4 @@ export class AdminJornadasComponent implements OnInit {
 
     return resultado;
   }
-
 }

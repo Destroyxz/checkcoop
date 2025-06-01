@@ -1,23 +1,28 @@
-<div class="container mt-4">
-  <h2 class="mb-4">Dashboard de Métricas</h2>
+<div class="container-fluid px-2 py-3">
+  <div class="row mb-2">
+    <div class="col-12 d-flex align-items-center">
+      <i class="fa-solid fa-chart-line text-primary me-2" style="font-size: 1.5rem;"></i>
+      <h2 class="text-primary">Dashboard de Métricas</h2>
+    </div>
 
-  <div class="row">
+  </div>
+
+  <div class="row mb-3 gx-2">
     <!-- TOTAL Usuarios -->
-    <div class="col-md-6">
-      <div class="card text-center mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Total de Usuarios</h5>
+    <div class="col-12 col-md-6">
+      <div class="card text-center h-100">
+        <div class="card-body py-2">
+          <h5 class="card-title mb-2">Total de Usuarios</h5>
           <div *ngIf="loadingUsuariosTotal" class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Cargando...</span>
           </div>
           <div *ngIf="!loadingUsuariosTotal">
             <ng-container *ngIf="userData?.rol === 'superadmin'; else usuarioNoSuper">
-              <h2>{{ totalUsuariosGlobal }}</h2>
-              <small class="text-muted">Usuarios en todo el sistema</small>
+              <h2 class="mb-1">{{ totalUsuariosGlobal }}</h2>
+              <small class="text-muted d-block">Usuarios en todo el sistema</small>
             </ng-container>
             <ng-template #usuarioNoSuper>
-              <h2>{{ totalUsuariosEmpresa }}</h2>
-              <small class="text-muted">Usuarios en tu empresa (ID: {{ userData?.empresa_id }})</small>
+              <h2 class="mb-1">{{ totalUsuariosEmpresa }}</h2>
             </ng-template>
           </div>
         </div>
@@ -25,54 +30,61 @@
     </div>
 
     <!-- TOTAL Empresas (solo para superadmin) -->
-    <div class="col-md-6" *ngIf="userData?.rol === 'superadmin'">
-      <div class="card text-center mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Total de Empresas</h5>
+    <div class="col-12 col-md-6" *ngIf="userData?.rol === 'superadmin'">
+      <div class="card text-center h-100">
+        <div class="card-body py-2">
+          <h5 class="card-title mb-2">Total de Empresas</h5>
           <div *ngIf="loadingEmpresasTotal" class="spinner-border text-secondary" role="status">
             <span class="visually-hidden">Cargando...</span>
           </div>
           <div *ngIf="!loadingEmpresasTotal">
-            <h2>{{ totalEmpresas }}</h2>
-            <small class="text-muted">Empresas registradas</small>
+            <h2 class="mb-1">{{ totalEmpresas }}</h2>
+            <small class="text-muted d-block">Empresas registradas</small>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Segunda fila: Usuarios por Día -->
+  <div class="row mb-3 gx-2">
+    <div class="col-12">
+      <div class="card h-100">
+        <div class="card-body py-2">
+          <div class="d-flex justify-content-between align-items-end mb-2">
+            <h5 class="card-title mb-0">
+              Usuarios por Día
+              <small *ngIf="userData?.rol !== 'superadmin'" class="text-muted">
+                (Empresa ID: {{ userData?.empresa_id }})
+              </small>
+            </h5>
+          </div>
 
-  <!--  Usuarios por Día (Gráfico responsivo)  -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">
-        Usuarios por Día
-        <small *ngIf="userData?.rol !== 'superadmin'" class="text-muted">
-          (Empresa ID: {{ userData?.empresa_id }})
-        </small>
-      </h5>
+          <!-- Spinner mientras carga -->
+          <div *ngIf="loadingUsuariosPorDia" class="text-center py-3">
+            <div class="spinner-border text-info" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
 
-      <!-- Spinner mientras carga -->
-      <div *ngIf="loadingUsuariosPorDia" class="text-center py-3">
-        <div class="spinner-border text-info" role="status">
-          <span class="visually-hidden">Cargando...</span>
+          <!-- Gráfico -->
+          <div *ngIf="!loadingUsuariosPorDia" class="chart-wrapper-vertical">
+            <ngx-charts-bar-vertical [scheme]="colorSchemeUsuarios" [results]="chartDataUsuarios" [xAxis]="showXAxis"
+              [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="'Fecha'" [yAxisLabel]="'Usuarios'" [animations]="true">
+            </ngx-charts-bar-vertical>
+          </div>
         </div>
-      </div>
-
-      <!-- Cuando ya no esté cargando, renderizamos ngx-charts-bar-vertical sin [view] -->
-      <div *ngIf="!loadingUsuariosPorDia" class="chart-wrapper-vertical">
-        <ngx-charts-bar-vertical [scheme]="colorSchemeUsuarios" [results]="chartDataUsuarios" [xAxis]="showXAxis"
-          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="'Fecha'" [yAxisLabel]="'Usuarios'" [animations]="true">
-        </ngx-charts-bar-vertical>
       </div>
     </div>
   </div>
 
-  <!--  Productos con Stock < 100 (Gráfico horizontal responsivo)  -->
-  <div *ngIf="userData?.rol !== 'usuario'" class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Productos con Stock < 100</h5>
+  <!-- Tercera fila (solo para rol distinto a “usuario”): Productos con Stock < 100 -->
+  <div class="row gx-2" *ngIf="userData?.rol !== 'usuario'">
+    <div class="col-12">
+      <div class="card h-100">
+        <div class="card-body py-2">
+          <h5 class="card-title mb-2">Productos con Stock &lt; 100</h5>
 
           <!-- Spinner mientras carga -->
           <div *ngIf="loadingProductosBajoStock" class="text-center py-3">
@@ -81,13 +93,15 @@
             </div>
           </div>
 
-          <!-- Cuando ya no esté cargando, renderizamos ngx-charts-bar-horizontal sin [view] -->
+          <!-- Gráfico: barra horizontal -->
           <div *ngIf="!loadingProductosBajoStock" class="chart-wrapper-horizontal">
             <ngx-charts-bar-horizontal [scheme]="colorSchemeProductos" [results]="chartDataProductos"
               [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
               [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="'Cantidad'" [yAxisLabel]="'Producto'" [animations]="true">
             </ngx-charts-bar-horizontal>
           </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

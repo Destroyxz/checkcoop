@@ -33,13 +33,12 @@ export class InventarioComponent implements OnInit {
   constructor(
     private productoService: ProductoService,
     private userStorageService: UserStorageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cargarEmpresa();
     this.cargarProductos();
   }
-
 
   cargarEmpresa(): void {
     this.userData = this.userStorageService.getUser();
@@ -68,6 +67,7 @@ export class InventarioComponent implements OnInit {
       categoria: '',
       precio: 0,
       imagen: '',
+      empresa: ''
     };
   }
 
@@ -84,6 +84,7 @@ export class InventarioComponent implements OnInit {
       categoria: '',
       precio: 0,
       imagen: '',
+      empresa: ''
     };
   }
 
@@ -142,10 +143,13 @@ export class InventarioComponent implements OnInit {
     const empresaId = this.userData?.empresa_id;
 
     return this.productos
-      .filter(p => p.nombre.toLowerCase().includes(this.filtroBusqueda.toLowerCase()))
-      .filter(p => this.userData?.rol === 'superadmin' || p.numEmpresa === empresaId);
+      .filter((p) =>
+        p.nombre.toLowerCase().includes(this.filtroBusqueda.toLowerCase())
+      )
+      .filter(
+        (p) => this.userData?.rol === 'superadmin' || p.numEmpresa === empresaId
+      );
   }
-
 
   // Devuelve el texto del estado del stock según la cantidad del producto.
   getEstadoTexto(p: Producto): string {
@@ -278,35 +282,48 @@ export class InventarioComponent implements OnInit {
 
   // Elimina un producto después de confirmar la acción.
   eliminarProducto(producto: Producto): void {
-    const confirmar = confirm(
-      `¿Seguro que deseas eliminar el producto "${producto.nombre}"?`
-    );
-    if (!confirmar) return;
+    // Reemplazamos el confirm() clásico por un Swal de confirmación
+    Swal.fire({
+      title: `¿Seguro que deseas eliminar el producto "${producto.nombre}"?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      focusCancel: true,
+    }).then((result) => {
+      // Si el usuario no confirma, detenemos la ejecución
+      if (!result.isConfirmed) {
+        return;
+      }
 
-    if (!producto.id) {
-      console.error('El producto a eliminar no tiene ID válido');
-      return;
-    }
+      // Validación de ID antes de llamar al servicio
+      if (!producto.id) {
+        console.error('El producto a eliminar no tiene ID válido');
+        return;
+      }
 
-    this.productoService.eliminarProducto(producto.id).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Listo!',
-          text: 'Producto eliminado correctamente.',
-          confirmButtonText: 'Aceptar',
-        });
-        this.cargarProductos();
-      },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Error al eliminar producto.',
-          confirmButtonText: 'Aceptar',
-        });
-        console.error(err);
-      },
+      // Llamada al servicio para eliminar el producto
+      this.productoService.eliminarProducto(producto.id).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Listo!',
+            text: 'Producto eliminado correctamente.',
+            confirmButtonText: 'Aceptar',
+          });
+          this.cargarProductos();
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al eliminar producto.',
+            confirmButtonText: 'Aceptar',
+          });
+          console.error(err);
+        },
+      });
     });
   }
 }
