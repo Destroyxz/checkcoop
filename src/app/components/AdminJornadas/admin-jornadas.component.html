@@ -65,13 +65,13 @@
     </table>
   </div>
 
-  <!-- Modal Detalles + Edición -->
+  <!-- Modal Detalles + Edición con iconos -->
   <div class="modal fade" id="modalDetalleJornada" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content shadow">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title" id="modalDetalleLabel">
-            <i class="bi bi-clock-history me-2"></i>Detalles de la Jornada
+            <i class="bi bi-clock-history me-2"></i> Detalles de la Jornada
           </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
@@ -79,60 +79,89 @@
         <div class="modal-body" *ngIf="jornadaSeleccionada">
           <!-- Datos generales -->
           <div class="mb-3">
-            <p *ngIf="isSuperAdmin"><strong>Empresa:</strong> {{ jornadaSeleccionada.empresa }}</p>
+            <p *ngIf="isSuperAdmin">
+              <i class="bi bi-buildings me-1"></i>
+              <strong>Empresa:</strong> {{ jornadaSeleccionada.empresa }}
+            </p>
 
-            <p><strong>Trabajador:</strong> {{ jornadaSeleccionada.nombre }}</p>
-            <p><strong>Fecha:</strong> {{ jornadaSeleccionada.fecha }}</p>
-            <p><strong>Tipo de Jornada:</strong> {{ jornadaSeleccionada.tipo_jornada }}</p>
-            <p><strong>Entrada:</strong> {{ jornadaSeleccionada.hora_entrada || 'No registrada' }}</p>
-            <p><strong>Salida:</strong> {{ jornadaSeleccionada.hora_salida || 'En curso' }}</p>
-            <p><strong>Estado: </strong>
+            <p>
+              <i class="bi bi-person-workspace me-1"></i>
+              <strong>Trabajador:</strong> {{ jornadaSeleccionada.nombre }}
+            </p>
+            <p>
+              <i class="bi bi-calendar-date me-1"></i>
+              <strong>Fecha:</strong> {{ jornadaSeleccionada.fecha }}
+            </p>
+            <p>
+              <i class="bi bi-list-check me-1"></i>
+              <strong>Tipo de Jornada:</strong> {{ jornadaSeleccionada.tipo_jornada }}
+            </p>
+            <p>
+              <i class="bi bi-door-open me-1"></i>
+              <strong>Entrada:</strong> {{ jornadaSeleccionada.hora_entrada || 'No registrada' }}
+            </p>
+            <p>
+              <i class="bi bi-door-closed me-1"></i>
+              <strong>Salida:</strong> {{ jornadaSeleccionada.hora_salida || 'En curso' }}
+            </p>
+            <p>
+              <i class="bi bi-check-circle me-1"></i>
+              <strong>Estado:</strong>
               <span class="badge" [ngClass]="{
-                  'bg-success': jornadaSeleccionada.estado === 'Completada',
-                  'bg-danger': jornadaSeleccionada.estado === 'Incompleta',
-                  'bg-warning text-dark': jornadaSeleccionada.estado === 'No completada'
-                }">{{ jornadaSeleccionada.estado }}</span>
+                'bg-success': jornadaSeleccionada.estado === 'Completada',
+                'bg-danger': jornadaSeleccionada.estado === 'Incompleta',
+                'bg-warning text-dark': jornadaSeleccionada.estado === 'No completada'
+              }">
+                {{ jornadaSeleccionada.estado }}
+              </span>
             </p>
             <!-- Tiempo trabajado -->
-            <p><strong>Tiempo trabajado:</strong>
+            <p>
+              <i class="bi bi-hourglass-split me-1"></i>
+              <strong>Tiempo trabajado:</strong>
               {{ formatearMinutosComoTexto(jornadaSeleccionada.totalMinutos) }}
             </p>
 
-            <p><strong>Tiempo esperado:</strong>
+            <p>
+              <i class="bi bi-clock-history me-1"></i>
+              <strong>Tiempo esperado:</strong>
               {{ formatearMinutosComoTexto(jornadaSeleccionada.minutosEsperados) }}
             </p>
 
-
-
-            <p><strong>Llegó tarde: </strong>
-              <span class="text-danger fw-bold" *ngIf="jornadaSeleccionada.llegoTarde">Sí</span>
-              <span class="text-success fw-bold" *ngIf="!jornadaSeleccionada.llegoTarde">No</span>
+            <p>
+              <i class="bi bi-alarm me-1"></i>
+              <strong>Llegó tarde:</strong>
+              <span class="text-danger fw-bold" *ngIf="jornadaSeleccionada.llegoTarde"><i
+                  class="bi bi-exclamation-circle-fill me-1"></i>Sí</span>
+              <span class="text-success fw-bold" *ngIf="!jornadaSeleccionada.llegoTarde"><i
+                  class="bi bi-check-circle-fill me-1"></i>No</span>
             </p>
-
           </div>
 
           <!-- Edición de tramos -->
           <div *ngIf="modoEdicionTramos">
             <form (ngSubmit)="guardarCambiosTramos()">
-              <div *ngFor="let tramo of tramosEditables; let i = index"
-                class="mb-4 p-3 border rounded bg-light position-relative">
+              <div *ngFor="
+                let tramo of tramosEditables;
+                let i = index
+              " class="mb-4 p-3 border rounded bg-light position-relative">
                 <h6 class="text-secondary d-flex justify-content-between align-items-center">
                   <span><i class="bi bi-clock me-2"></i>Tramo {{ i + 1 }}</span>
                   <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminarTramo(i)"
                     *ngIf="tramosEditables.length > 1">
-                    <i class="bi bi-x-circle"></i> Eliminar
+                    <i class="bi bi-trash-fill me-1"></i> Eliminar
                   </button>
                 </h6>
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label class="form-label">Inicio</label>
+                    <label class="form-label"><i class="bi bi-door-open me-1"></i>Inicio</label>
                     <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].inicio"
-                      name="inicio{{i}}" required>
+                      name="inicio{{ i }}" required />
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label">Fin</label>
+                    <label class="form-label"><i class="bi bi-door-closed me-1"></i>Fin</label>
                     <input type="datetime-local" class="form-control" [(ngModel)]="tramosEditables[i].fin"
-                      name="fin{{i}}">
+                      name="fin{{ i }}" />
                   </div>
                 </div>
               </div>
@@ -150,38 +179,47 @@
                   <i class="bi bi-check-circle me-1"></i> Guardar Cambios
                 </button>
                 <button type="button" class="btn btn-outline-secondary ms-2" (click)="modoEdicionTramos = false">
-                  Cancelar
+                  <i class="bi bi-x-circle me-1"></i> Cancelar
                 </button>
               </div>
             </form>
           </div>
 
-
           <!-- Visualización de tramos -->
           <div *ngIf="!modoEdicionTramos">
-            <h6 class="mt-4">Tramos trabajados</h6>
+            <h6 class="mt-4">
+              <i class="bi bi-clock-history me-1"></i>Tramos trabajados
+            </h6>
             <ul class="list-group mb-3">
               <li *ngFor="let t of tramosSeleccionados"
                 class="list-group-item d-flex justify-content-between align-items-center">
                 <span>
+                  <i class="bi bi-stopwatch me-1"></i>
                   {{ t.inicio | date:'shortTime' }} -
                   {{ t.fin ? (t.fin | date:'shortTime') : 'En curso' }}
                 </span>
-                <span *ngIf="t.fin" class="badge bg-secondary">{{ calcularDuracionTramo(t.inicio, t.fin) }}</span>
+                <span *ngIf="t.fin" class="badge bg-secondary">
+                  {{ calcularDuracionTramo(t.inicio, t.fin) }}
+                </span>
               </li>
             </ul>
-            <p *ngIf="!tramosSeleccionados.length" class="text-muted">No hay tramos registrados.</p>
+            <p *ngIf="!tramosSeleccionados.length" class="text-muted">
+              <i class="bi bi-info-circle me-1"></i> No hay tramos registrados.
+            </p>
           </div>
         </div>
 
         <!-- Footer con acciones -->
         <div class="modal-footer">
           <button *ngIf="!modoEdicionTramos" class="btn btn-outline-primary" (click)="activarEdicionTramos()">
-            <i class="bi bi-pencil-square"></i> Editar Tramos
+            <i class="bi bi-pencil-square me-1"></i> Editar Tramos
           </button>
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i> Cerrar
+          </button>
         </div>
       </div>
     </div>
   </div>
+
 </div>
