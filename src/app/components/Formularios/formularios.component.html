@@ -178,6 +178,7 @@
             <table class="table table-hover align-middle">
               <thead class="table-light">
                 <tr>
+                  <th scope="col">Avatar</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Email</th>
                   <th scope="col">Rol</th>
@@ -187,6 +188,15 @@
               <tbody>
                 <!-- Si el arreglo usuarios ya viene filtrado por empresa, aquí se recorre directamente -->
                 <tr *ngFor="let u of users">
+                  <td>
+                    <div class="avatar" [ngClass]="{
+                      'avatar-superadmin': u.rol === 'superadmin',
+                      'avatar-admin': u.rol === 'admin',
+                      'avatar-usuario': u.rol === 'usuario'
+                    }">
+                      {{ u.nombre.charAt(0) }}
+                    </div>
+                  </td>
                   <td>{{ u.nombre }} {{ u.apellidos }}</td>
                   <td>{{ u.email }}</td>
                   <td>

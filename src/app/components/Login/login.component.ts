@@ -53,7 +53,7 @@ export class LoginComponent {
           // Guardar los datos del usuario en el localStorage
           if (user) {
             localStorage.setItem('user', JSON.stringify({
-              id: user?.["sub"],
+              id: user?.["id"],
               empresa_id: user?.["empresa_id"],
               exp_Token: user?.["exp"],  // si quieres guardar fecha de expiración del token
               nombre: user?.["nombre"],

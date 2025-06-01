@@ -34,12 +34,10 @@
         <tr class="text-center">
           <th *ngIf="isSuperAdmin">Empresa</th>
           <th>Usuario</th>
-
           <th>Título</th>
           <th>Descripción</th>
           <th>Estado</th>
           <th>Prioridad</th>
-
           <th>Fecha</th>
           <th>Acciones</th>
         </tr>
@@ -47,18 +45,32 @@
       <tbody>
         <tr *ngFor="let tarea of tareasFiltradas" class="text-center">
           <td *ngIf="isSuperAdmin">{{ tarea.empresa }}</td>
-
           <td>{{ tarea.asignadoNombre }}</td>
-
           <td>{{ tarea.titulo }}</td>
           <td>{{ tarea.descripcion }}</td>
-          <td><span class="badge bg-secondary">{{ tarea.estado | uppercase }}</span></td>
-          <td><span class="badge" [ngClass]="{
-            'bg-danger': tarea.prioridad === 'alta',
-            'bg-warning text-dark': tarea.prioridad === 'media',
-            'bg-success': tarea.prioridad === 'baja'
-          }">{{ tarea.prioridad | uppercase }}</span></td>
-          <td>{{ tarea.fecha | date:'dd MMMM yyyy '}}</td>
+
+          <!-- Badge de “Estado” con mapeo entre valores reales y clases CSS -->
+          <td>
+            <span class="status-badge" [ngClass]="{
+              'status-por-vencer': tarea.estado === 'pendiente' || tarea.estado === 'en progreso',
+              'status-disponible': tarea.estado === 'completada',
+              'status-agotado':   tarea.estado === 'cancelada'
+            }">
+              {{ tarea.estado | titlecase }}
+            </span>
+          </td>
+
+          <td>
+            <span class="priority-badge" [ngClass]="{
+      'priority-alta': tarea.prioridad === 'alta',
+      'priority-media': tarea.prioridad === 'media',
+      'priority-baja': tarea.prioridad === 'baja'
+    }">
+              {{ tarea.prioridad | uppercase }}
+            </span>
+          </td>
+
+          <td>{{ tarea.fecha | date: 'dd MMMM yyyy' }}</td>
           <td>
             <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#modalTarea"
               (click)="editarTarea(tarea)">
@@ -72,6 +84,7 @@
       </tbody>
     </table>
   </div>
+
 </div>
 
 <!-- Modal para editar/ Agregar tareas  -->

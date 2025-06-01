@@ -150,13 +150,32 @@ export class AdminJornadasComponent implements OnInit {
   }
 
   // Elimina una jornada del sistema (tras confirmación)
-  eliminarJornada(id: number): void {
-    if (confirm('¿Eliminar esta jornada?')) {
-      this.jornadaService.eliminarJornada(id).subscribe(() => {
-        this.cargarDatos();
-      });
+eliminarJornada(id: number): void {
+  Swal.fire({
+    title: '¿Eliminar esta jornada?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true,
+    focusCancel: true
+  }).then(result => {
+    if (!result.isConfirmed) {
+      return;
     }
-  }
+    // Si el usuario confirma, llamamos al servicio
+    this.jornadaService.eliminarJornada(id).subscribe(() => {
+      this.cargarDatos();
+      // Opcional: mostrar un breve mensaje de éxito
+      Swal.fire({
+        icon: 'success',
+        title: 'Jornada eliminada',
+        showConfirmButton: false,
+        timer: 1200
+      });
+    });
+  });
+}
 
   // Abre el modal de edición para modificar los tramos de una jornada
   editarJornada(jornada: any): void {

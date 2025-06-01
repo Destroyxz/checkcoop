@@ -46,7 +46,7 @@
 
         <!-- Jornada Activa -->
         <div *ngIf="jornadaIniciada" class="mt-4">
-          <div class="alert alert-info text-start">
+          <div class="alert alert-success text-start">
             <strong>Jornada en curso</strong><br>
             <span><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</span><br>
 
@@ -63,22 +63,39 @@
         <div *ngIf="horaSalida" class="mt-4 text-start">
           <div class="row">
             <div class="col-md-6">
-              <p><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</p>
-              <p><strong>Salida:</strong> {{ horaSalida | date:'shortTime' }}</p>
-              <p><strong>Duración total:</strong> {{ duracion }}</p>
+              <p>
+                <i class="fa-solid fa-sign-in-alt me-2 text-primary"></i>
+                <strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}
+              </p>
+              <p>
+                <i class="fa-solid fa-sign-out-alt me-2 text-primary"></i>
+                <strong>Salida:</strong> {{ horaSalida | date:'shortTime' }}
+              </p>
+              <p>
+                <i class="fa-solid fa-clock me-2 text-secondary"></i>
+                <strong>Duración total:</strong> {{ duracion }}
+              </p>
             </div>
             <div class="col-md-6">
-              <p><strong>Jornada completa:</strong>
+              <p>
+                <i class="fa-solid fa-calendar-check me-2"
+                  [ngClass]="cumplioJornada ? 'text-success' : 'text-warning'"></i>
+                <strong>Jornada completa:</strong>
                 <span [class]="cumplioJornada ? 'text-success' : 'text-warning'">
                   {{ cumplioJornada ? 'Sí' : 'No' }}
                 </span>
               </p>
-              <p><strong>Llegó tarde:</strong>
+              <p>
+                <i class="fa-solid fa-triangle-exclamation me-2"
+                  [ngClass]="llegoTarde ? 'text-danger' : 'text-success'"></i>
+                <strong>Llegó tarde:</strong>
                 <span [class]="llegoTarde ? 'text-danger' : 'text-success'">
                   {{ llegoTarde ? 'Sí' : 'No' }}
                 </span>
               </p>
-              <p><strong>Partida:</strong>
+              <p>
+                <i class="fa-solid fa-door-open me-2" [ngClass]="esPartida ? 'text-info' : 'text-muted'"></i>
+                <strong>Partida:</strong>
                 <span [class]="esPartida ? 'text-info' : 'text-muted'">
                   {{ esPartida ? 'Sí' : 'No' }}
                 </span>
@@ -97,6 +114,7 @@
 
           <!-- Botón para abrir modal -->
           <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#detalleJornadaModal">
+            <i class="fa-solid fa-info-circle me-2"></i>
             Ver Detalles Completos
           </button>
         </div>
@@ -105,39 +123,73 @@
   </div>
 </div>
 
-<!-- Modal Detalles Jornada -->
+<!-- Modal para ver detalles de la jornada con iconos -->
 <div class="modal fade" id="detalleJornadaModal" tabindex="-1" aria-labelledby="detalleJornadaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="detalleJornadaLabel">Detalles de la jornada</h5>
+        <h5 class="modal-title" id="detalleJornadaLabel">
+          <i class="bi bi-calendar-week me-1"></i> Detalles de la jornada
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body text-start">
-        <p><strong>Fecha:</strong> {{ fechaActual }}</p>
-        <p><strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}</p>
-        <p><strong>Salida:</strong> {{ horaSalida ? (horaSalida | date:'shortTime') : 'En curso' }}</p>
-        <p><strong>Duración total:</strong> {{ duracion }}</p>
-        <p><strong>Jornada completa:</strong> {{ cumplioJornada ? 'Sí' : 'No' }}</p>
-        <p><strong>Llegó tarde:</strong> {{ llegoTarde ? 'Sí' : 'No' }}</p>
-        <p><strong>Jornada partida:</strong> {{ esPartida ? 'Sí' : 'No' }}</p>
-        <hr>
-        <h6>Tramos trabajados</h6>
+        <p>
+          <i class="bi bi-calendar-date me-1"></i>
+          <strong>Fecha:</strong> {{ fechaActual }}
+        </p>
+        <p>
+          <i class="bi bi-door-open me-1"></i>
+          <strong>Entrada:</strong> {{ horaEntrada | date:'shortTime' }}
+        </p>
+        <p>
+          <i class="bi bi-door-closed me-1"></i>
+          <strong>Salida:</strong>
+          {{ horaSalida ? (horaSalida | date:'shortTime') : 'En curso' }}
+        </p>
+        <p>
+          <i class="bi bi-hourglass-split me-1"></i>
+          <strong>Duración total:</strong> {{ duracion }}
+        </p>
+        <p>
+          <i class="bi bi-check2-circle me-1"></i>
+          <strong>Jornada completa:</strong> {{ cumplioJornada ? 'Sí' : 'No' }}
+        </p>
+        <p>
+          <i class="bi bi-alarm me-1"></i>
+          <strong>Llegó tarde:</strong> {{ llegoTarde ? 'Sí' : 'No' }}
+        </p>
+        <p>
+          <i class="bi bi-layout-split me-1"></i>
+          <strong>Jornada partida:</strong> {{ esPartida ? 'Sí' : 'No' }}
+        </p>
+        <hr />
+        <h6>
+          <i class="bi bi-clock-history me-1"></i> Tramos trabajados
+        </h6>
         <ul *ngIf="tramos.length > 0; else sinTramos" class="list-group">
           <li *ngFor="let tramo of tramos" class="list-group-item d-flex justify-content-between align-items-center">
-            {{ tramo.inicio | date:'shortTime' }} - {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
+            <span>
+              <i class="bi bi-stopwatch me-1"></i>
+              {{ tramo.inicio | date:'shortTime' }}
+              –
+              {{ tramo.fin ? (tramo.fin | date:'shortTime') : 'En curso' }}
+            </span>
             <span *ngIf="tramo.fin" class="badge bg-secondary">
               {{ calcularDuracionTramo(tramo.inicio, tramo.fin) }}
             </span>
           </li>
         </ul>
         <ng-template #sinTramos>
-          <p class="text-muted">Aún no has registrado ningún tramo hoy.</p>
+          <p class="text-muted">
+            <i class="bi bi-info-circle me-1"></i> Aún no has registrado ningún tramo hoy.
+          </p>
         </ng-template>
-
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-1"></i> Cerrar
+        </button>
       </div>
     </div>
   </div>

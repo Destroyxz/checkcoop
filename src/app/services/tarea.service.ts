@@ -14,7 +14,7 @@ export class TareaService {
     return this.http.get<any[]>(`${this.API_URL}`);
   }
 
-  getPorUsuario(userId: number): Observable<any[]> {
+  getPorUsuario(userId: any): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/usuario/${userId}`);
   }
 

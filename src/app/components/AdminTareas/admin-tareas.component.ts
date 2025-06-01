@@ -4,10 +4,11 @@ import { TareaService } from '../../services/tarea.service';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { UserStorageService } from '../../services/UserStorage.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-tareas',
   templateUrl: './admin-tareas.component.html',
+  styleUrls: ['./admin-tareas.component.scss'],
 })
 export class AdminTareasComponent implements OnInit {
   // Lista de tareas y usuarios
@@ -42,12 +43,12 @@ export class AdminTareasComponent implements OnInit {
     private usuarioService: UserService,
     private authService: AuthService,
     private userStorage: UserStorageService
-  ) { }
+  ) {}
 
   // Se ejecuta al cargar el componente
   ngOnInit(): void {
     const user = this.userStorage.getUser();
-    this.isSuperAdmin = user?.rol === 'superadmin'
+    this.isSuperAdmin = user?.rol === 'superadmin';
     this.cargarTareas();
     this.cargarUsuarios();
   }
@@ -109,11 +110,33 @@ export class AdminTareasComponent implements OnInit {
     }
   }
 
-  //Elimina la tarea si confirmas 
+  //Elimina la tarea si confirmas
+
   eliminarTarea(id: number): void {
-    if (confirm('¿Eliminar esta tarea?')) {
-      this.tareaService.eliminar(id).subscribe(() => this.cargarTareas());
-    }
+    Swal.fire({
+      title: '¿Eliminar esta tarea?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      focusCancel: true,
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      }
+      // Si el usuario confirma, llamamos al servicio
+      this.tareaService.eliminar(id).subscribe(() => {
+        this.cargarTareas();
+        // Opcional: mostrar un breve mensaje de éxito
+        Swal.fire({
+          icon: 'success',
+          title: 'Tarea eliminada',
+          showConfirmButton: false,
+          timer: 1200,
+        });
+      });
+    });
   }
 
   // Filtra tareas según búsqueda y trabajador

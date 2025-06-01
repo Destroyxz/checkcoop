@@ -44,6 +44,10 @@ $mi-app-theme: mat.define-light-theme((
   --color-primario-hover: #68C7A0;
 
   --color-primario-focus: #03503a;
+
+  --bs-btn-hover-bg: #68C7A0;
+  
+  --bs-btn-active-bg: #68C7A0;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -70,6 +74,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
+.btn-outline-primary{
+      border-color: var(--color-primario) !important;
+      color: var(--color-primario) !important;
+}
+
+.btn-outline-primary:hover{
+      border-color: var(--color-primario-hover) !important;
+      color: #fff !important;
+      background-color: var(--color-primario-hover) !important;
+}
 .swal2-styled.swal2-confirm {
   background-color: #047857    !important; /* verde Bootstrap “success” */
   border-color:     #047857    !important;

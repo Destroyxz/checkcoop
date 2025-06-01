@@ -282,7 +282,6 @@ export class InventarioComponent implements OnInit {
 
   // Elimina un producto después de confirmar la acción.
   eliminarProducto(producto: Producto): void {
-    // Reemplazamos el confirm() clásico por un Swal de confirmación
     Swal.fire({
       title: `¿Seguro que deseas eliminar el producto "${producto.nombre}"?`,
       icon: 'warning',
