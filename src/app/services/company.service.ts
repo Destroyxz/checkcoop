@@ -52,7 +52,7 @@ export class CompanyService {
   // Eliminar empresa
   deleteEmpresa(id: number): Observable<void> {
     return this.http
-      .delete<void>(`${this.baseUrl}/${id}`)
+      .delete<void>(`${this.baseUrl}/company/empresas/${id}`)
       .pipe(catchError(err => throwError(() => err)));
   }
 

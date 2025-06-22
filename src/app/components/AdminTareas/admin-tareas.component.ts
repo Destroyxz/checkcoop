@@ -50,7 +50,7 @@ export class AdminTareasComponent implements OnInit {
     const user = this.userStorage.getUser();
     this.isSuperAdmin = user?.rol === 'superadmin';
     this.cargarTareas();
-    this.cargarUsuarios();
+    this.cargarUsuarios(user);
   }
 
   // Carga todas las tareas
@@ -65,8 +65,8 @@ export class AdminTareasComponent implements OnInit {
   }
 
   // Carga los usuarios para asignar tareas
-  cargarUsuarios(): void {
-    this.usuarioService.getAllUsers().subscribe({
+  cargarUsuarios(user: any): void {
+    this.usuarioService.getUsersByCompany(user.empresa_id).subscribe({
       next: (data) => (this.usuarios = data),
       error: (err) => console.error('Error cargando usuarios:', err),
     });

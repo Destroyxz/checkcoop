@@ -1,26 +1,34 @@
-//Importamos los módulos necesarios
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { Observable } from 'rxjs';
-import { tap, take } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private router: Router) {}
 
-  // Método que se ejecuta al intentar acceder a una ruta protegida
   canActivate(
     _route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.auth.isLogged$.pipe(
-      take(1),
-      tap(isLogged => {
-        if (!isLogged) {
-          this.router.navigate(['/login']);
-        }
-      })
-    );
+  ): boolean {
+    const token = localStorage.getItem('ERP_TOKEN');
+    const user  = localStorage.getItem('user');
+
+    if (token && user) {
+      // Tiene ambos → permitimos acceso
+      return true;
+    }
+
+    // Falta token o user → redirigimos primero...
+    this.router.navigate(['/login']).then(() => {
+      // ...y al completarse la navegación mostramos la alerta
+      Swal.fire({
+        icon: 'warning',
+        title: 'Acceso denegado',
+        text: 'No tienes permisos para entrar en esta sección.',
+        confirmButtonText: 'Ok'
+      });
+    });
+
+    return false;
   }
 }

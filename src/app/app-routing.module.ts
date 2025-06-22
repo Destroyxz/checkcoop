@@ -28,8 +28,8 @@ const routes: Routes = [
   { path: 'new', component: formulariosComponent, canActivate: [AuthGuard] },
 
   //  { path: 'perfil', component: PerfilComponent},
-  { path: '*', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '*', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({

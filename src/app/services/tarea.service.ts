@@ -13,6 +13,10 @@ export class TareaService {
   getTodas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}`);
   }
+  
+  getPorEmpresa(id: any):Observable<any[]>{
+    return this.http.get<any[]>(`${this.API_URL}/empresa/${id}`)
+  }
 
   getPorUsuario(userId: any): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/usuario/${userId}`);

@@ -184,7 +184,7 @@ export class formulariosComponent implements OnInit {
       this.userForm.markAllAsTouched();
     }
 
-    this.loadusers();
+    setTimeout(this.loadusers, 1500)
   }
   // Cambia el modo del formulario (crear/modificar)
   formMode(formulario: 'crear' | 'modificar'): void {
@@ -211,11 +211,12 @@ export class formulariosComponent implements OnInit {
             'success'
           );
           this.companyForm.reset();
+          this.loadEmpresas()
         },
         error: (err) => {
           Swal.fire(
             'Error',
-            err?.error?.message || 'No se pudo crear empresa',
+            err?.error?.message || 'No se pudo crear la empresa. Verifique que su CIF sea válido',
             'error'
           );
         },

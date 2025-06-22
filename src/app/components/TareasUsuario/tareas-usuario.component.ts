@@ -6,6 +6,7 @@
   @Component({
     selector: 'app-tareas-usuario',
     templateUrl: './tareas-usuario.component.html',
+    styleUrls: ['./tareas-usuario.component.scss']
   })
   export class TareasUsuarioComponent implements OnInit {
     tareas: any[] = [];

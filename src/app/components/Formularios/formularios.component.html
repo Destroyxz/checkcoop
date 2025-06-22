@@ -337,7 +337,7 @@
 
               <!-- Empresa / Cooperativa -->
               <!-- 1) Si es superadmin, muestro el <select> para elegir cualquier empresa. -->
-              <div class="col-6" *ngIf="userData?.rol === 'superadmin'">
+              <!--<div class="col-6" *ngIf="userData?.rol === 'superadmin'">
                 <label for="empresa" class="form-label">Empresa / Cooperativa</label>
                 <div class="input-group">
                   <span class="input-group-text">
@@ -355,7 +355,7 @@
                 <div class="form-text">
                   Empresa a la que pertenece el usuario
                 </div>
-              </div>
+              </div>-->
 
               <!-- Bloque de “Empresa / Cooperativa” -->
               <div class="col-6" [hidden]="userData?.rol !== 'superadmin'">
